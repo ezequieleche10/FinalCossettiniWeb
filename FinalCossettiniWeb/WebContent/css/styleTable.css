@@ -1,0 +1,71 @@
+body{
+  padding:20px 20px;
+}
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px; 
+  color:#ccc;
+}
+.styleEze
+{
+ background-color:blue;
+  font-size:large;
+  text-align:center;
+  color:white;
+}
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 15px;
+}
+
+.tipoLinked a:active {
+    color: green;
+}
+.franja-Cursos {
+	background-color:blue;
+	height:30px;
+	text-align:center;
+	color:white;
+	font-size:20px;
+}
+.badgeTam {height:50px;
+width:100px;
+font-size:40px;
+background-color:black;}
+.textoSocioPago{
+	font-size:18px;
+	text-align:center;
+	
+}
+.compr{
+	font-family: "Comic Sans MS", "Comic Sans", cursive;
+	font-size:16px;
+}
+.ezeq{margin-left: 62px;
+    width: 190px;}
+.cajaStyle{text-align:center;
+font-family: "Arial", "Comic Sans", cursive;}
+#lblValuePadron {
+	color:green;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:18px;
+}
+#claveCambio{padding-left:35px;}
+#btnVistaPreliminar{margin-top:10px;
+margin-left:225px;}
+#lblInfoPadron{font-size:12px;}
