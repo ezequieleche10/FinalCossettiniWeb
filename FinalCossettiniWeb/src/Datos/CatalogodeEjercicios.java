@@ -154,7 +154,6 @@ public class CatalogodeEjercicios extends DBConexion_1 {
              
             }
         	
-        	JOptionPane.showMessageDialog(null, "Las notas para "+e.getNombre()+" han sido cargadas.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
         	this.Desconectar();
 	
         	
@@ -192,7 +191,7 @@ public class CatalogodeEjercicios extends DBConexion_1 {
                      String nombre= resu.getString("ejercicio.nombre");
                      
                     
-                   alej.add(new AlumnoEnEjercicio(new Ejercicio(codig,nombre,cant_items,porcentaje),c2,c3));
+                   alej.add(new AlumnoEnEjercicio(new Ejercicio(codig,nombre,cant_items,porcentaje),c2,c3,al));
                    
                }
              this.Desconectar();
@@ -227,8 +226,7 @@ public class CatalogodeEjercicios extends DBConexion_1 {
         	upd2.setInt(2, alen.get(0).getAlumno().getDni());
         	upd2.setInt(3, cod);
         	upd2.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Las notas para "+alen.get(1).getAlumno().getNombre()+" han sido cargadas.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-        	this.Desconectar();
+          	this.Desconectar();
 	
         	
         }

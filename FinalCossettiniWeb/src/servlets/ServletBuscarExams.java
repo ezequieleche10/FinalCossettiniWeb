@@ -55,7 +55,7 @@ public class ServletBuscarExams extends HttpServlet {
 		JsonElement resp =null;
 		try{
 			//write some code
-			int cod_profesor=3;
+			int cod_profesor=4;
 			ArrayList<Examen> exams = new ArrayList<Examen>();
 			exams= cont.buscarExamenes(cod_profesor);
 			myObj.add("exams", gson.toJsonTree(exams));

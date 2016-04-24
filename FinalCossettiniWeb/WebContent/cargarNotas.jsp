@@ -303,9 +303,9 @@
                                     <form class="form-horizontal tasi-form" method="get">
                                       <div class="form-inline">
                                           <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Examen a cargar:</label>
-                                          <div class="col-lg-10">
-                                             <input type="text" id="codSeleccionado" readonly class="col-lg-5 form-control" placeholder="Codigo Examen"/>
-                                             <input type="text" id="tipoSeleccionado" readonly class="col-lg-5 form-control" placeholder="Tipo Examen" style="padding-bottom:5px;"/>
+                                          <div class="col-lg-10" style="margin-bottom:12px">
+                                             <input type="text" id="codSeleccionado" readonly class="col-lg-2 form-control" placeholder="Codigo Examen"/>
+                                             <input type="text" id="tipoSeleccionado" readonly class="col-lg-2 form-control" placeholder="Tipo Examen" />
                                              
                                              </div>
                                       </div>
@@ -321,33 +321,87 @@
                                               </select>
                                           </div>
                                       </div>
+                                       <div class="form-group">
+                                          <label id="lblEj" class="col-sm-2 control-label col-lg-2" for="inputNombre" style="display:none">Seleccionar Ejercicio</label>
+                                          <div class="col-lg-10">
+                                            <select id="ejercicioSelect" class="form-control m-b-10"  data-bind="options: ejAlumnos, 
+                        					value: selectedEjercicio,
+                       						optionsText: 'nombre', 
+                       optionsCaption: 'Seleccione un ejercicio...'" style="display:none"></select> 
+                                          </div>
+                                      </div>
+                                         <div class="form-group">
+                                          <label id="lblAl" class="col-sm-2 control-label col-lg-2" for="inputNombre" style="display:none">Seleccionar Alumno</label>
+                                          <div class="col-lg-10">
+                                            <select id="alumnoSelect" class="form-control m-b-10"  data-bind="options: alumnos, 
+                        					value: selectedAlumno,
+                       						optionsText: 'nombre', 
+                       optionsCaption: 'Seleccione un alumno...'" style="display:none"></select> 
+                                          </div>
+                                      </div>
 									 <div class="row">
-					
+									 <div class="col-lg-12">
+									  <div id="divOptions" class="form-inline" style="display:none">
+                                    <input type="text" id="txtCantItems" readonly class="col-lg-2 form-control" placeholder="Cant Items" data-bind="value: selectedEjercicio() ? selectedEjercicio().cant_items : ''" style="display:none"/>
+									<input type="text" id="txtPorcentaje" readonly class="col-lg-2 form-control" placeholder="Porcentaje" data-bind="value: selectedEjercicio() ? selectedEjercicio().porcentaje : ''" style="display:none"/>  
+                                      </div>
+									</div>
+                                             
 									<div class="col-lg-12">
-								  <table class="table table-hover table-bordered results">
+								  <div data-bind="if: selectedEjercicio()">
+								  <table id="tablexEjercicios" class="table table-hover table-bordered results" >
 								  <thead>
 									<tr>
-									  <th>#</th>
-					 				 <th class="col-md-4 col-xs-4">Name / Surname</th>
-							    	 <th class="col-md-4 col-xs-4">Job</th>
-					 				 <th class="col-md-3 col-xs-3">City</th>
-								     <th class="col-md-1 col-xs-1">Nota</th>
+					
+					 				 <th class="col-md-4 col-xs-4">DNI</th>
+							    	 <th class="col-md-4 col-xs-4">Apellido</th>
+					 				 <th class="col-md-3 col-xs-3">Nombre</th>
+								     <th class="col-md-1 col-xs-1">Resultado</th>
 									</tr>
 								 </thead>
-							  <tbody>
+							  <tbody data-bind=" foreach: selectedEjercicio().listaAlumnos   ">
 								<tr>
-								  <th scope="row">1</th>
-								  <td>Vatanay Özbeyli</td>
-								  <td>UI & UX</td>
-								  <td>Istanbul</td>
+								  <td data-bind="text: alumno.dni"></td>
+								  <td data-bind="text: alumno.apellido"></td>
+								  <td data-bind="text: alumno.nombre"></td>
 								  <td>
-									<input type="text" name="txtNota" class="form-control"/>
+									<input type="text" name="txtNota" class="form-control" data-bind="value: resultado "/>
 								  </td>
 								</tr>
 								
 							  </tbody>
 				</table>
+				</div>
 				
+				<div data-bind="if: selectedAlumno()">
+								  <table id="tablexAlumno" class="table table-hover table-bordered results" >
+								  <thead>
+									<tr>
+					
+					 				 <th class="col-md-4 col-xs-4">Codigo</th>
+							    	 <th class="col-md-4 col-xs-4">Nombre</th>
+					 				 <th class="col-md-3 col-xs-3">Nota Parcial</th>
+								     <th class="col-md-1 col-xs-1">Porcentaje</th>
+					 				 <th class="col-md-3 col-xs-3">Cant Items</th>
+								     <th class="col-md-1 col-xs-1">Resultado</th>
+									</tr>
+								 </thead>
+							  <tbody data-bind="foreach: alumEnEj">
+								<tr>
+								
+								  <td data-bind="text: ejer.cod_ejercicio"></td>
+								  <td data-bind="text: ejer.nombre"></td>
+								  <td data-bind="text: nota_parcial, attr: { id: 'prefix_' + $index()}"></td>
+								  <td data-bind="text: ejer.porcentaje, attr: { id: 'porcent_' + $index()}"></td>
+								  <td data-bind="text: ejer.cant_items, attr: { id: 'item_' + $index()}"></td>
+								  <td>
+									<input type="text" name="txtNota" class="form-control" data-bind="value: resultado, attr: {id: $index()}" onblur="actualizarTabla(id)" />
+								  </td>
+								</tr>
+								
+							  </tbody>
+				</table>
+				</div>
 				</div>
 				<!--/.class -->
                      
@@ -357,7 +411,7 @@
                 <!-- /.row -->
 				<div class="row">
 				<div  class="col-lg-12">
-				<button type="button" class="btn-md btn-primary pull-right" aria-label="Left Align">&nbsp;&nbsp;Guardar&nbsp;</button>
+				<button type="button" class="btn-md btn-primary pull-right" aria-label="Left Align" onclick="guardarCarga()">&nbsp;&nbsp;Guardar&nbsp;</button>
 				</div>
 				</div>
 							
@@ -388,13 +442,54 @@
 $(document).ready(function() {
 	viewModel=
     {	
-    	exams: ko.observableArray([])
+    	exams: ko.observableArray([]),
+    	ejAlumnos:ko.observableArray([]),
+    	alumnos:ko.observableArray([]),
+    	selectedEjercicio:ko.observable(),
+    	selectedAlumno:ko.observable(),
+    	alumEnEj:ko.observableArray([]),
+    	
     };
+	
+	/// viewModel.selectedEjercicio({"cant_items":"","porcentaje":""});
+	
+	viewModel.selectedAlumno.subscribe(function () {
+		 var codigo=$('#codSeleccionado').val();
+		 var ruta= "ServletAlumnoEnEjercicio";
+			$.ajax({
+					async: false,
+					url: ruta,
+					type: "POST",
+					dataType: "json",
+					data: {mydata: JSON.stringify(viewModel.selectedAlumno()),codigo: JSON.stringify(codigo)},
+					success: function(datos)
+					{ 
+						if(datos.respInfo=="OK")
+							{
+							viewModel.alumEnEj(datos.alumEnEj);
+							}
+						else
+							{
+							alert("Ha ocurrido un error, reintente");
+							}
+						
+					},
+					error: function(datos) {
+				        //AJAX request not completed
+				       alert("There was an error");
+				    }
+				
+			});
+       
+    	
+    });
 	viewModel.mostrarPaneles= function(examen)
     {
 		$('#codSeleccionado').val(examen.cod_examen);
 		$('#tipoSeleccionado').val(examen.tipo_examen);
 	};
+	
+		
 	 ko.applyBindings(viewModel);
 	//llamada ajax que devuelve el examen y carga el modelo con knockout
 	 var ruta= "ServletBuscarExams";
@@ -454,8 +549,23 @@ function buscarCarga()
 				{ 
 					if(datos.respInfo=="OK")
 						{
-						viewModel.examen(datos.examen);
-						viewModel.alumnos(datos.alumnos);
+						if(el.options.selectedIndex == 1)
+						{
+							viewModel.alumnos(datos.alumnos);
+							$('#alumnoSelect').css({"display": ''});
+							$('#lblAl').css({"display": ''});
+						}
+						else
+						{
+						viewModel.ejAlumnos(datos.ejAlumnos);
+						$('#ejercicioSelect').css({"display": ''});
+						$('#lblEj').css({"display": ''});
+						$('#txtCantItems').css({"display": ''});
+						$('#txtPorcentaje').css({"display": ''});
+						$('#divOptions').css({"display": ''});
+						//$('#tablexEjercicios').css({"display": 'block'});
+						}
+						
 						}
 					else
 						{
@@ -470,6 +580,84 @@ function buscarCarga()
 			
 		});
 	
+}
+function actualizarTabla(index)
+{
+	var elem= "prefix_" + index;
+	//var element =document.getElementById(elem)
+	var indexres= index;
+	var cantItems= "item_" + index;
+	var porcentaje= "porcent_"+ index;
+	
+	var result= document.getElementById(indexres).value;
+	var porcen=document.getElementById(porcentaje).innerHTML;
+	var cantI = document.getElementById(cantItems).innerHTML;
+	
+	document.getElementById(elem).innerHTML= (result*porcen)/(cantI *10);
+}
+function guardarCarga(){
+	var el= document.getElementById("modoBusca");
+	var codigo=$('#codSeleccionado').val();
+	if(el.options.selectedIndex == 2)
+	{
+	var ruta= "ServletCargarNotaxEj";
+
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				data: {ejercicio: JSON.stringify(viewModel.selectedEjercicio())},
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+						alert("Notas cargadas exitosamente");
+						
+						}
+					else
+						{
+						alert("No se pudo cargar nota, reintente");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
+	}
+	if(el.options.selectedIndex == 1)
+		{//alumnos
+		var ruta= "ServletCargarNotaxAl";
+	
+			$.ajax({
+					async: false,
+					url: ruta,
+					type: "POST",
+					dataType: "json",
+					data: {alenj: JSON.stringify(viewModel.alumEnEj()),codigo: JSON.stringify(codigo)},
+					success: function(datos)
+					{ 
+						if(datos.respInfo=="OK")
+							{
+							alert("Notas cargadas exitosamente");
+							
+							}
+						else
+							{
+							alert("No se pudo cargar nota, reintente");
+							}
+						
+					},
+					error: function(datos) {
+				        //AJAX request not completed
+				       alert("There was an error");
+				    }
+				
+			});
+		}
 }
 </script>
 	

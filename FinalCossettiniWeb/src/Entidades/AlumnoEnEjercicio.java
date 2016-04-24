@@ -29,11 +29,12 @@ public class AlumnoEnEjercicio {
 		this.resultado = resultado;
 		this.nota_parcial = nota_parcial;
 	}
-public AlumnoEnEjercicio(Ejercicio ej, int resultado, float nota_parcial) {
+public AlumnoEnEjercicio(Ejercicio ej, int resultado, float nota_parcial, Alumno al) {
 		
 		this.ejer = ej;
 		this.resultado = resultado;
 		this.nota_parcial = nota_parcial;
+		this.alumno= al;
 	}
 public AlumnoEnEjercicio() {
 		
@@ -45,6 +46,7 @@ public AlumnoEnEjercicio() {
 	}
 
 	public void setNota_parcial(float nota_parcial) {
+	
 		this.nota_parcial = nota_parcial;
 	}
 

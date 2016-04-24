@@ -12,25 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
-import Entidades.Alumno;
+import Entidades.Comision;
 import Entidades.Ejercicio;
 import Entidades.Examen;
+import Entidades.Profesor;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletCargaModo
+ * Servlet implementation class ServletCargarNotaxEj
  */
-@WebServlet("/ServletCargaModo")
-public class ServletCargaModo extends HttpServlet {
+@WebServlet("/ServletCargarNotaxEj")
+public class ServletCargarNotaxEj extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletCargaModo() {
+    public ServletCargarNotaxEj() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,44 +48,38 @@ public class ServletCargaModo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
+		//recupero el json y lo convierto a entidades
+		Ejercicio ejer=gson.fromJson(request.getParameter("ejercicio"), Ejercicio.class);
+		
+		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
-		int modo = gson.fromJson(request.getParameter("mydata"),Integer.class);
-		int codigo = gson.fromJson(request.getParameter("codigo"),Integer.class);
 		response.setContentType("application/json;charset=UTF-8");
+		
 		PrintWriter out = response.getWriter();
-		JsonElement resp =null;
 		try{
-			if(modo==1){
-				ArrayList<Alumno> alums= new ArrayList<Alumno>();
-				 alums= cont.getAlumnosenExamen(codigo);
-				 myObj.addProperty("success", true);
-				myObj.add("alumnos", gson.toJsonTree(alums));
-				myObj.add("respInfo", gson.toJsonTree("OK"));
-			}
-			if(modo==2){
-				ArrayList<Ejercicio> ejs= new ArrayList<Ejercicio>();
-			   	ejs= cont.getAllEjercicios(codigo);
-			   	myObj.addProperty("success", true);
-				myObj.add("ejAlumnos", gson.toJsonTree(ejs));
-				myObj.add("respInfo", gson.toJsonTree("OK"));
-			}
-			if(modo==0){
-				myObj.addProperty("success", false);
-				myObj.add("respInfo", gson.toJsonTree(""));
-			}
+			
+			cont.cargarNotas(ejer);
+			myObj.addProperty("success", true);
+			myObj.add("respInfo", gson.toJsonTree("OK"));
+			out.println(myObj.toString());
+			
+
 		}
 		catch(Exception e)
 		{
 			myObj.addProperty("success", false);
-			
-		}finally
-		{
-			out.println(myObj.toString());
-			out.close();
 		}
+		finally
+		{
+			out.close();
+			
+		}
+		
 	}
 
 }

@@ -294,8 +294,12 @@ public class Controlador {
 
 	public void agregarNotasEnEjercicios(ArrayList<AlumnoEnEjercicio> alen, int cod) {
 		float nota=0;
+		
 		for(int i=0;i<alen.size();++i){
-			nota+=alen.get(i).getNota_parcial();
+			float num= alen.get(i).getResultado()* alen.get(i).getEjer().getPorcentaje();
+			float den= alen.get(i).getEjer().getCant_items()*10;
+			alen.get(i).setNota_parcial((num/den));
+			nota+=num/den;
 		}
 		cdej.agregarNotasEnEjercicio(alen,nota,cod);
 		
