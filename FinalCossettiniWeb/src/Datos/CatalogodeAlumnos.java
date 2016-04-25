@@ -117,5 +117,39 @@ public class CatalogodeAlumnos extends DBConexion_1{
 		else cod=2;
 		return cod;
 	}
-    
+
+	 public ArrayList<Alumno> buscarAlumnosID() throws Exception
+    {	
+        try 
+        {
+        	this.Conectar();
+        	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+        	PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM alumno WHERE ingreso_directo=?");
+        	consulta.setString(1, "SI");
+             resu = consulta.executeQuery();
+             while(resu.next())
+               {
+                    int dniAl = resu.getInt("dni" );
+                    String nomAl = resu.getString("nombre");
+                    String apeAl = resu.getString("apellido");
+                    String mailAl = resu.getString("mail");
+                    String ingdiAl = resu.getString("ingreso_directo");
+                    String tuelAl = resu.getString("turno_eleccion");
+                    String nombreC= getNombreCarrera(resu.getInt("cod_carrera"));
+                    
+                    Alumno al = new Alumno(dniAl, nomAl, apeAl, mailAl, tuelAl, ingdiAl,nombreC); 
+                    alumnos.add(al); 
+                    
+               }
+             this.Desconectar();
+            return alumnos;
+
+        }
+        catch (Exception ex)
+        {
+            System.err.println("SQLException: " + ex.getMessage());
+            return null;            
+        }
+      
+    }
 }

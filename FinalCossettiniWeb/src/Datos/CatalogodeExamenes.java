@@ -319,19 +319,18 @@ public class CatalogodeExamenes extends DBConexion_1{
 	        	for (int i =0; i<exa.getListaNotaExamenAlumno().size(); i++)
 	            {
 	        		
-	           	  PreparedStatement upd = Cone.prepareStatement("UPDATE alumno_en_examen SET nota= ? AND estado ? WHERE dni= ? AND cod_examen=?");
+	           	  PreparedStatement upd = Cone.prepareStatement("UPDATE alumno_en_examen SET nota= ?, estado='cargado' WHERE dni= ? AND cod_examen=?");
 	           	  upd.setFloat(1, exa.getListaNotaExamenAlumno().get(i).getNota());
-	           	  upd.setString(2, "cargado");
-	           	  upd.setInt(3, exa.getListaNotaExamenAlumno().get(i).getAlumno().getDni());
-	           	  upd.setInt(4, exa.getCod_examen());
+	           	  upd.setInt(2, exa.getListaNotaExamenAlumno().get(i).getAlumno().getDni());
+	           	  upd.setInt(3, exa.getCod_examen());
 	              upd.executeUpdate();  
-	       
+	           
 	             
 	            }
 	        	PreparedStatement upd2= Cone.prepareStatement("UPDATE examen SET estado='cerrado' where cod_examen=?");
 	        	upd2.setInt(1, exa.getCod_examen());
 	        	upd2.executeUpdate();  
-	        	JOptionPane.showMessageDialog(null, "Examen cerrado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+	        	
 	        	this.Desconectar();
 		
 	        	

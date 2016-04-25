@@ -191,6 +191,9 @@
 							<li>
                                 <a href="verNotas.jsp"><i class="fa fa-fw fa-search-plus fa-lg" style="color:red"></i>Ver Notas</a>
                             </li>
+                            <li>
+                             <a href="listaFinal.jsp"><i class="fa fa-fw fa-check fa-lg" style="color:red"></i>ListaFinal</a>
+                             </li>
                         </ul>
                     </li>
                    
@@ -306,7 +309,7 @@
                                           <div class="col-lg-10" style="margin-bottom:12px">
                                              <input type="text" id="codSeleccionado" readonly class="col-lg-2 form-control" placeholder="Codigo Examen"/>
                                              <input type="text" id="tipoSeleccionado" readonly class="col-lg-2 form-control" placeholder="Tipo Examen" />
-                                             
+                                             <button type="button" class="btn-xs btn-success" onclick="cerrarNotas()" style="margin-top:5px;margin-left:5px;">Cerrar Notas</button>
                                              </div>
                                       </div>
                                       
@@ -658,6 +661,36 @@ function guardarCarga(){
 				
 			});
 		}
+}
+function cerrarNotas(){
+	var codigo=$('#codSeleccionado').val();
+	var ruta= "ServletCerrarNota";
+	alert("esta seguro de cerrar las notas? s/n");
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: {codigo: JSON.stringify(codigo)},
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Notas cerradas");
+					
+					}
+				else
+					{
+					alert("No se pudo cerrar nota, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
 }
 </script>
 	

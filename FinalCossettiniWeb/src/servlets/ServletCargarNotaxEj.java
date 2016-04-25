@@ -56,6 +56,7 @@ public class ServletCargarNotaxEj extends HttpServlet {
 		//recupero el json y lo convierto a entidades
 		Ejercicio ejer=gson.fromJson(request.getParameter("ejercicio"), Ejercicio.class);
 		
+		
 		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");

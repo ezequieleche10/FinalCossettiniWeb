@@ -179,12 +179,12 @@ public class Controlador {
         
     }
     
-    public void cargarNotas (Ejercicio e){
+    public void cargarNotas (Ejercicio e) {
     	
     	
     	e.calcularNotaParcial();
     	cdej.cargarNotas(e);
-        
+    	
     }
     
     public void agregarExamen (String tipo_examen, int año, String descripcion) throws Exception
@@ -292,7 +292,7 @@ public class Controlador {
 		return cdej.getAlumnosenEjercicio(cod, al);
 	}
 
-	public void agregarNotasEnEjercicios(ArrayList<AlumnoEnEjercicio> alen, int cod) {
+	public void agregarNotasEnEjercicios(ArrayList<AlumnoEnEjercicio> alen, int cod) throws Exception {
 		float nota=0;
 		
 		for(int i=0;i<alen.size();++i){
@@ -302,6 +302,7 @@ public class Controlador {
 			nota+=num/den;
 		}
 		cdej.agregarNotasEnEjercicio(alen,nota,cod);
+		
 		
 	}
 
@@ -397,6 +398,63 @@ public class Controlador {
 			}
 		}
 	}
+
+	public ArrayList<Alumno> buscarListaFinal(int anio) {
+		// TODO Auto-generated method stub
+		//logic!!
+		ArrayList<Alumno> alumnos= new ArrayList<Alumno>();
+		Examen e= new Examen();
+		Examen ex= new Examen();
+		try {
+			e= cde.buscarExamen("C", anio);
+			if(e!=null){
+			ArrayList<NotaExamenAlumno> notasEx = new ArrayList<NotaExamenAlumno>();
+			notasEx= cne.listarNotaExamenAlumno(e.getCod_examen());
+			for(int i=0;i<notasEx.size();++i){
+			
+				if(notasEx.get(i).getNota()>=6){
+				alumnos.add(notasEx.get(i).getAlumno());
+				}
+			
+			}
+			}
+			ex=cde.buscarExamen("B",anio);
+			String s= "Profesorado de ingles";
+			if(ex!=null){
+				ArrayList<NotaExamenAlumno> notasExB = new ArrayList<NotaExamenAlumno>();
+				notasExB= cne.listarNotaExamenAlumno(ex.getCod_examen());
+				for(int i=0;i<notasExB.size();++i){
+				if(notasExB.get(i).getAlumno().getNombre_Carrera().equals(s)){	
+						if(notasExB.get(i).getNota()>=6){
+							alumnos.add(notasExB.get(i).getAlumno());
+						}
+				}
+				}
+			}
+		    ArrayList<Alumno> alums= new ArrayList<Alumno>();
+		    alums=cda.buscarAlumnosID();
+		    for (int j=0; j<alums.size();++j){
+		    	alumnos.add(alums.get(j));
+		    }
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return alumnos;
+	}
+
+	public Examen traerExamen(int codigo) {
+		// TODO Auto-generated method stub
+		try {
+			return cde.buscaExamen(codigo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
 	
     
 }

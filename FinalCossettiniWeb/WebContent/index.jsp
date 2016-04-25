@@ -196,6 +196,9 @@
 							<li>
                                 <a href="verNotas.jsp"><i class="fa fa-fw fa-search-plus fa-lg" style="color:red"></i>Ver Notas</a>
                             </li>
+                            <li>
+                             <a href="listaFinal.jsp"><i class="fa fa-fw fa-check fa-lg" style="color:red"></i>ListaFinal</a>
+                             </li>
                         </ul>
                     </li>
                    
