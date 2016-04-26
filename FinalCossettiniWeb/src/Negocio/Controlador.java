@@ -9,15 +9,18 @@ import Datos.CatalogodeAlumnos;
 import Datos.CatalogodeComisiones;
 import Datos.CatalogodeEjercicios;
 import Datos.CatalogodeProfesores;
+import Datos.CatalogodeSocios;
 import Datos.CatalogodeUsuarios;
 import Entidades.Alumno;
 import Entidades.AlumnoEnEjercicio;
+import Entidades.Cargo;
 import Entidades.Carrera;
 import Entidades.Comision;
 import Entidades.Ejercicio;
 import Entidades.Examen;
 import Entidades.NotaExamenAlumno;
 import Entidades.Profesor;
+import Entidades.Socio;
 import Entidades.Usuario;
 import Negocio.Controlador;
 //import Negocio.String;
@@ -46,7 +49,7 @@ public class Controlador {
     private CatalogodeEjercicios cdej;
     private CatalogodeUsuarios cdeu;
     private CatalogoNotasExamen cne;
-   
+    private CatalogodeSocios cdeso;
     public Controlador() {
         cde = new CatalogodeExamenes();
         cdc = new CatalogodeCarreras();
@@ -56,7 +59,7 @@ public class Controlador {
         cdej = new CatalogodeEjercicios();
         cdeu=new CatalogodeUsuarios();
         cne=new CatalogoNotasExamen();
-       
+        cdeso= new CatalogodeSocios();
         }
     
      public ArrayList<Carrera> buscarCarreras() throws Exception{
@@ -453,7 +456,43 @@ public class Controlador {
 			return null;
 		}
 	}
-
+	public void agregarSocio(Socio s, ArrayList<Cargo> cargos){
+		try {
+			cdeso.agregarSocio(s, cargos);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<Socio> listarSocios() throws Exception{
+		return cdeso.listarSocios();
+	}
+	public void actualizarSocio(Socio s){
+		try {
+			cdeso.actualizarSocio(s);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void eliminarSocio(Socio s){
+		try {
+			cdeso.eliminarSocio(s);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void registrarPagoSocio(int cod_socio,double importe){
+		try {
+			cdeso.registrarPago(cod_socio, importe);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}
+	}
+	
 
 	
     
