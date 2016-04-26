@@ -46,7 +46,6 @@ public class CatalogodeSocios extends DBConexion_1{
         try 
         {   this.Conectar();
         ArrayList<Socio> socios = new ArrayList<Socio>();
-        int codigoPrueba=0;
     	String cons="SELECT * FROM socio s";
     	PreparedStatement consulta= Cone.prepareStatement(cons);
          resu = consulta.executeQuery();
@@ -62,7 +61,7 @@ public class CatalogodeSocios extends DBConexion_1{
                 
            }
          for (int i=0;i< socios.size();++i){
-        	 String consultar = "SELECT * FROM cargo_socio cs WHERE cs.cod_socio  = ? ";
+        	 String consultar = "SELECT * FROM cargo_socio cs INNER JOIN cargo c on c.cod_cargo=cs.cod_cargo WHERE cs.cod_socio  = ? ";
              PreparedStatement consultar2= Cone.prepareStatement(consultar);
              consultar2.setInt(1, socios.get(i).getCod_socio());
              resu2 = consultar2.executeQuery();
@@ -71,8 +70,8 @@ public class CatalogodeSocios extends DBConexion_1{
          {	  
               Cargo c= new Cargo();
       	 	
-              c.setCod_cargo(resu2.getInt("s.cod_cargo" ));
-              c.setTipo_cargo(resu2.getString("s.tipo_cargo"));
+              c.setCod_cargo(resu2.getInt("c.cod_cargo" ));
+              c.setTipo_cargo(resu2.getString("c.tipo_cargo"));
               cargosSocio.add(c);
               
          } 
@@ -114,7 +113,7 @@ public class CatalogodeSocios extends DBConexion_1{
         		String actu2 = "INSERT INTO cargo_socio (cod_cargo,cod_socio) VALUES (?,?)";
             	PreparedStatement inse2 = Cone.prepareStatement(actu2);
                 inse2.setInt(1, cargos.get(i).getCod_cargo());
-                inse2.setInt(1, cod_socio);
+                inse2.setInt(2, cod_socio);
                 inse2.executeUpdate();   
             }
             this.Desconectar();
@@ -146,7 +145,7 @@ public class CatalogodeSocios extends DBConexion_1{
             	String actu2 = "INSERT INTO cargo_socio (cod_cargo,cod_socio) VALUES (?,?)";
               	PreparedStatement inse2 = Cone.prepareStatement(actu2);
                   inse2.setInt(1, socio.getCargos().get(i).getCod_cargo());
-                  inse2.setInt(1, socio.getCod_socio());
+                  inse2.setInt(2, socio.getCod_socio());
                   inse2.executeUpdate();
               }
               

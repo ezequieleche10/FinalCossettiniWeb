@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Socios</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -17,7 +17,7 @@
 	<link href="css/build.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
-
+	<script src="js/knockout-3.4.0.js"></script>
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.css"/>
@@ -254,7 +254,7 @@
 				
                 <div class="row">
 				<div class="col-lg-12">
-					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel1" onclick="showPanel();">Click aquí para agregar Socio</a>
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#panel1" onclick="showPanel();">Click aqu� para agregar Socio</a>
 					<div class="form-group pull-right">
 					<input type="text" id="filter" class="search form-control" placeholder="Filtrar">
 					</div>
@@ -262,91 +262,35 @@
 				<table class="table table-hover table-bordered results">
 				  <thead>
 					<tr>
-					  <th>#</th>
-					  <th class="col-md-4 col-xs-4">Name / Surname</th>
-					  <th class="col-md-3 col-xs-3">Job</th>
-					  <th class="col-md-3 col-xs-3">City</th>
+					  <th class="col-md-4 col-xs-4">Dni</th>
+					  <th class="col-md-3 col-xs-3">Apellido</th>
+					  <th class="col-md-3 col-xs-3">Nombre</th>
 					  <th class="col-md-2 col-xs-2"></th>
 					</tr>
 					<tr class="warning no-result">
-					  <td colspan="5"><i class="fa fa-warning"></i> No result</td>
+					  <td colspan="4"><i class="fa fa-warning"></i> No result</td>
 					</tr>
 				  </thead>
-							  <tbody>
+							  <tbody data-bind="foreach: socios">
 								<tr>
-								  <th scope="row">1</th>
-								  <td>Vatanay Özbeyli</td>
-								  <td>UI & UX</td>
-								  <td>Istanbul</td>
+								 
+								  <td data-bind="text: dni"></td>
+								  <td data-bind="text: apellido"></td>
+								  <td data-bind="text: nombre"></td>
 								  <td align="center">
-								  <button type="button" class="btn-md btn-success" aria-label="Left Align" onclick="setModalPago()" data-toggle="modal"
+								  <button type="button" class="btn-md btn-success glyphicon glyphicon-usd" aria-label="Left Align" data-bind="click: $parent.setModalPago" data-toggle="modal"
 								  data-target="#myModalPago">
-									<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								   </button>
-								  <button type="submit" class="btn-md btn-info" onclick="editarModal()" >
-								   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 								  </button>
-								  <button type="submit" class="btn-md btn-danger" onclick="confirmaEliminar()">
-								   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								  <button type="button" class="btn-md btn-info glyphicon glyphicon-pencil" aria-label="Left Align" data-bind="click: $parent.setModalEditar" data-toggle="modal"  
+								  data-target="#myModalEditar">
+								  
+								  </button>
+								  <button type="button" class="btn-md btn-danger glyphicon glyphicon-remove" data-bind="click: $parent.eliminarSocio" >
+								   
 								  </button>
 								 </td>
 								</tr>
-								
-								<tr>
-								  <th scope="row">2</th>
-								  <td>Burak Özkan</td>
-								  <td>Software Developer</td>
-								  <td>Istanbul</td>
-								  <td align="center">
-								  <button type="button" class="btn-md btn-success" aria-label="Left Align" onclick="setModalPago()" data-toggle="modal"
-								  data-target="#myModalPago">
-									<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								   </button>
-								  <button type="submit" class="btn-md btn-info" onclick="editarModal()" >
-								   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								  </button>
-								  <button type="submit" class="btn-md btn-danger" onclick="confirmaEliminar()">
-								   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-								  </button>
-								 </td>
-								</tr>
-								<tr>
-								  <th scope="row">3</th>
-								  <td>Egemen Özbeyli</td>
-								  <td>Purchasing</td>
-								  <td>Kocaeli</td>
-								   <td align="center">
-								  <button type="button" class="btn-md btn-success" aria-label="Left Align" onclick="setModalPago()" data-toggle="modal"
-								  data-target="#myModalPago">
-									<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								   </button>
-								  <button type="submit" class="btn-md btn-info" onclick="editarModal()" >
-								   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								  </button>
-								  <button type="submit" class="btn-md btn-danger" onclick="confirmaEliminar()">
-								   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-								  </button>
-								 </td>
-								</tr>
-								<tr>
-								  <th scope="row">4</th>
-								  <td>Engin Kızıl</td>
-								  <td>Sales</td>
-								  <td>Bozuyük</td>
-								 <td align="center">
-								  <button type="button" class="btn-md btn-success" aria-label="Left Align" onclick="setModalPago()" data-toggle="modal"
-								  data-target="#myModalPago">
-									<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
-								   </button>
-								  <button type="submit" class="btn-md btn-info" onclick="editarModal()" >
-								   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-								  </button>
-								  <button type="submit" class="btn-md btn-danger" onclick="confirmaEliminar()">
-								   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-								  </button>
-								 </td>
-								</tr>
-							  </tbody>
+							</tbody>
 				</table>
 				</div>
 				<!--/.class -->
@@ -366,11 +310,16 @@
                                  Datos socio
                                 </header>
                                 <div class="panel-body">
-                                    <form class="form-horizontal tasi-form" method="get">
+                                    <div class="form-group">
+                                          <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
+                                          <div class="col-lg-10">
+                                             <input type="text" name="txtNombre" id="txtDni"  class="form-control"/>
+                                          </div>
+                                      </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtNombreSocio">Nombre</label>
                                           <div class="col-lg-10">
-                                             <input type="text" name="txtNombre" id="txtNombreSocio" class="form-control"/>
+                                             <input type="text" name="txtNombre" id="txtNombre" class="form-control"/>
                                           </div>
                                       </div>
 									  <div class="form-group">
@@ -382,30 +331,34 @@
 									 <div class="form-group">
 										<label class="col-sm-2 control-label col-lg-2">Cargos Socio</label>
 										<div class="col-lg-10 checkbox-circle">
-										   
+										   <fieldset id="checkCargo">
 											<div class="checkbox-inline checkbox-circle">
-											<input type="checkbox">Profesor/a
+											<input id="checkP" type="checkbox" class="groupi">Profesor
 											</div>
 											<div class="checkbox-inline checkbox-circle">
-											<input type="checkbox">Secretaria
+											<input id="checkS" type="checkbox" class="groupi">Secretaria
 											</div>
 											<div class="checkbox-inline checkbox-success checkbox-circle">
-											<input type="checkbox">Alumno
+											<input id="checkA" type="checkbox" class="groupi">Alumno
 											</div>
+											<div class="checkbox-inline checkbox-success checkbox-circle">
+											<input id="checkO" type="checkbox" class="groupi">Otro
+											</div>
+											</fieldset>
 										</div>
 									</div>
 									 <div class="form-group">
 									 <div class="col-lg-offset-6">
-										<button type='submit' name='seach' id='search-btn' class="btn-md btn-info">Agregar</button>
+										<button id='search-btn' class="btn-md btn-info" onclick="agregarSocio()">Agregar</button>
 									</div>
 									</div>
 
 									
 									</div>
 
-                                  </form>
+                                     </section> 
                               </div>
-                            </section>
+                        
 						</div>
 						</div>
 				
@@ -426,8 +379,8 @@
 
     </div>
     <!-- /#wrapper -->
-<!-- Modal Modificar -->
-
+    
+<!-- Modal Pago -->
 
 <div class="modal fade" id="myModalPago" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -445,28 +398,29 @@
                 </a>
             </div>
 			<div class="col-md-7 textoSocioPago">
-               <p><b><i>Instituto  de educación superior N° 28 Olga Cossetini</b></i></p>
+               <p><b><i>Instituto  de educaci�n superior N� 28 Olga Cossettini</b></i></p>
             </div>
 			<div class="col-md-2">
              <i>Comprobante</i>
 			 </br>
-			 N°XXXXXX
+			 <input class="col-md-1" type="text" value="N�001"/>
 			</div>
 		</div>
 		<div class="row">
 		<div class="col-md-offset-2 col-md-3 compr">
-		<p>Fecha de emisión:</p>
+		<p>Fecha de emisi�n:</p>
 		</div>
 		<div class="col-md-offset-5">
-		FECHA ACTUAL
+		<input id="fechaActual" readonly/>
 		</div>
 		</div>
 		<div class="row">
 		<div class="col-md-offset-2 col-md-3 compr">
-		<p>Recibí de:</p>
+		<p>Recib� de:</p>
+		<input type="hidden" id="cod_socio"/>
 		</div>
 		<div class="col-md-offset-5">
-		NOMBRE + APELLIDO SOCIO
+		<input id="lblNombreApe" readonly/>
 		</div>
 		</div>
 		<div class="row">
@@ -482,7 +436,7 @@
 		<p>La suma de:</p>
 		</div>
 		<div class="col-md-offset-5">
-		Importe en pesos
+		$<input id="importe" />
 		</div>
 		</div>
 		<div class="row">
@@ -498,8 +452,63 @@
        </form> 
         </div>
        <div class="modal-footer">
+          <button id="btnRegistrar" type="button" onclick="registrarPago()" class="btn btn-primary" data-dismiss="modal" >Registrar Pago</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+<!-- Modal Editar -->
+
+<div class="modal fade" id="myModalEditar" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Editar Socio</h4>
+        </div>
+        <div class="modal-body">
+		   <div class="form-group">
+             <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
+             <div class="col-lg-10">
+             <input type="text" name="txtNombre" class="form-control" id="txtDniE" />
+             </div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label col-lg-2" for="txtNombreSocio">Nombre</label>
+            <div class="col-lg-10">
+            <input type="text" name="txtNombre" class="form-control" id="txtNombreE"/>
+            </div>
+          </div>
+		  <div class="form-group">
+           <label class="col-sm-2 control-label col-lg-2" for="txtApellido">Apellido</label>
+           <div class="col-lg-10">
+           <input type="text" name="txtApellido" class="form-control" id="txtApellidoE"/>
+            </div>
+           </div>
+			<div class="form-group">
+			<label class="col-sm-2 control-label col-lg-2">Cargos Socio</label>
+			<div class="col-lg-10 checkbox-circle">
+			<fieldset id="checkCargo">
+			<div class="checkbox-inline checkbox-circle">
+			<input id="checkPE" type="checkbox" class="group">Profesor
+			</div>
+			<div class="checkbox-inline checkbox-circle">
+			<input id="checkSE" type="checkbox" class="group">Secretaria
+			</div>
+			<div class="checkbox-inline checkbox-success checkbox-circle">
+			<input id="checkAE" type="checkbox" class="group">Alumno
+			</div>
+			<div class="checkbox-inline checkbox-success checkbox-circle">
+			<input id="checkOE" type="checkbox" class="group">Otro
+			</div>
+			</fieldset>
+			</div>
+			</div>
+        </div>
+       <div class="modal-footer">
          
-          <button id ="btnModific" type="button" onclick="registrarPago()" class="btn btn-primary" data-dismiss="modal" >Registrar Pago</button>
+          <button id ="btnEditar" type="button" onclick="editarSocio()" class="btn btn-primary" data-dismiss="modal" >Editar</button>
         </div>
        
       </div>
@@ -516,7 +525,115 @@
 <script type="text/javascript">
 $( document ).ready(function() {
   $('#panelShow').hide();  
-});
+ 
+		viewModel=
+	    {	
+	    	socios: ko.observableArray([]),
+	    	selectedSocio:ko.observable(),
+	    	cargos:ko.observableArray([]),
+	    	cargosI:ko.observableArray([])
+	    	
+	    };
+		viewModel.setModalPago= function(socio)
+	    {	var nya= socio.apellido + socio.nombre;
+	    	var today= new Date();
+	    	$('#cod_socio').val(socio.cod_socio);
+			$('#lblNombreApe').val(nya);	
+			$('#fechaActual').val(today);	
+		};
+		
+		viewModel.eliminarSocio= function(socioe)
+	    {	
+			//go to servlet and eliminarlo del modelo
+	    	var ruta= "ServletEliminarSocio";
+	    	$.ajax({
+	    			async: false,
+	    			url: ruta,
+	    			type: "POST",
+	    			dataType: "json",
+	    			data: "socio="+JSON.stringify(socioe),
+	    			success: function(datos)
+	    			{ 
+	    				if(datos.respInfo=="OK")
+	    					{
+	    					alert("Socio Eliminado Correctamente");
+	    					viewModel.socios.remove(socioe);
+	    					
+	    					}
+	    				else
+	    					{
+	    					alert("Ha ocurrido un error, reintente");
+	    					}
+	    				
+	    			},
+	    			error: function(datos) {
+	    		        //AJAX request not completed
+	    		       alert("There was an error");
+	    		    }
+	    		
+	    	});
+
+			
+		};
+		viewModel.setModalEditar= function(socio)
+	    {	viewModel.selectedSocio=socio;
+			$('#txtDniE').val(socio.dni);	
+			$('#txtNombreE').val(socio.nombre);	
+			$('#txtApellidoE').val(socio.apellido);	
+			var longi =socio.cargos.length;
+			for(var i=0; i< longi;i++){
+				switch(socio.cargos[i].cod_cargo){
+				case 1: 
+					//check select;
+					$('#checkPE').prop("checked",true);
+					break;
+				case 2: 
+					$('#checkAE').prop("checked",true);
+					break;
+				case 3: 
+					$('#checkPE').prop("checked",true);
+					break;
+				default : 
+					$('#checkOE').prop("checked",true);
+					
+				}
+			}
+		};
+		 ko.applyBindings(viewModel);
+		//llamada ajax que devuelve el examen y carga el modelo con knockout
+		 var ruta= "ServletBuscarSocios";
+			$.ajax({
+					async: false,
+					url: ruta,
+					type: "POST",
+					dataType: "json",
+					success: function(datos)
+					{ 
+						if(datos.respInfo=="OK")
+							{
+							viewModel.socios(datos.socios);
+						
+							}
+						else
+							{
+							alert("Ha ocurrido un error cargando socios, reintente logueandose");
+							}
+						
+					},
+					error: function(datos) {
+				        //AJAX request not completed
+				       alert("There was an error");
+				    }
+				
+			});
+
+	  
+	  
+	    
+	   
+	    
+	});
+
 
 function showPanel(){
 $('#panelShow').show();
@@ -524,20 +641,156 @@ $('#panelShow').show();
         scrollTop: $("#accordion").offset().top},
         'slow');
 }
-function setModalPago()
-{///datos al modal;
-}
-function regirtrarPago()
-{
-alert("se tiene que preguntar si quiere imprimir comprobante");
-}
-function editarModal()
-{
-alert("El modal editar se tiene que abrir");
-}
+
 function confirmaEliminar()
 {
 alert("Va a eliminarlo");
+}
+function agregarSocio(){
+	var dniI=$('#txtDni').val();
+	var nombreI=$('#txtNombre').val();
+	var apellidoI=$('#txtApellido').val();
+	var socio= {"dni": dniI,"nombre":nombreI,"apellido":apellidoI};
+	//Manejo los cargos
+	var ids= $('input:checkbox:checked.groupi').map(function(){return this.id;}).get()
+	for(i=0;i<ids.length;++i){
+		switch(ids[i]){
+		case 'checkPE': 
+			var cargo={cod_cargo:1,tipo_cargo:'Profesor'};
+				break;
+		case 'checkAE':
+			var cargo={cod_cargo:2,tipo_cargo:'Alumno'};
+			break;
+		case 'checkSE': 
+			var cargo={cod_cargo:3,tipo_cargo:'Secretaria'};
+			break;
+		default : 
+			var cargo={cod_cargo:4,tipo_cargo:'Otro'};
+			
+		}
+		viewModel.cargosI.push(cargo);
+	}
+	var ruta= "ServletAgregarSocio";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: {"socio":JSON.stringify(socio),"cargos":JSON.stringify(viewModel.cargosI())},
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Socio Agregado Correctamente");
+					viewModel.socios.push(socio);
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+	
+}
+function editarSocio(){
+	//recupero elementos y creo el socio con su cargo
+	viewModel.selectedSocio.dni= $('#txtDniE').val();	
+	viewModel.selectedSocio.nombre=$('#txtNombreE').val();
+	viewModel.selectedSocio.apellido=$('#txtApellidoE').val();
+	//Manejo los cargos
+	var ids= $('input:checkbox:checked.group').map(function(){return this.id;}).get()
+	for(i=0;i<ids.length;++i){
+		switch(ids[i]){
+		case 'checkPE': 
+			var cargo={cod_cargo:1,tipo_cargo:'Profesor'};
+				break;
+		case 'checkAE':
+			var cargo={cod_cargo:2,tipo_cargo:'Alumno'};
+			break;
+		case 'checkSE': 
+			var cargo={cod_cargo:3,tipo_cargo:'Secretaria'};
+			break;
+		default : 
+			var cargo={cod_cargo:4,tipo_cargo:'Otro'};
+			
+		}
+		viewModel.cargos.push(cargo);
+		
+	
+	
+	}
+	viewModel.selectedSocio.cargos=viewModel.cargos();
+	var ruta= "ServletEditarSocio";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: "socios="+JSON.stringify(viewModel.selectedSocio),
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Socio Modificado Correctamente");
+					window.location.href="socios.jsp";
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+
+}
+function registrarPago(){
+	var importe= $('#importe').val();
+	var cod_socio=$('#cod_socio').val();
+	var ruta= "ServletRegistrarPago";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: {"importe":JSON.stringify(importe),"cod_socio":JSON.stringify(cod_socio)},
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					$('#importe').val('');
+					alert("Pago realizado, desea imprimir si o no?");
+					
+				
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+
+	
+	
 }
 </script>
 <script type="text/javascript">
