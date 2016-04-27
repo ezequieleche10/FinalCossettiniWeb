@@ -7,6 +7,7 @@ package Negocio;
 import Datos.CatalogoNotasExamen;
 import Datos.CatalogodeAlumnos;
 import Datos.CatalogodeComisiones;
+import Datos.CatalogodeEgresos;
 import Datos.CatalogodeEjercicios;
 import Datos.CatalogodeProfesores;
 import Datos.CatalogodeSocios;
@@ -18,15 +19,19 @@ import Entidades.Carrera;
 import Entidades.Comision;
 import Entidades.Ejercicio;
 import Entidades.Examen;
+import Entidades.Ingreso;
+import Entidades.Egreso;
 import Entidades.NotaExamenAlumno;
 import Entidades.Profesor;
 import Entidades.Socio;
+import Entidades.TipoIngresoEgreso;
 import Entidades.Usuario;
 import Negocio.Controlador;
 //import Negocio.String;
 //IGNORE NEGOCIO.String
 import Datos.CatalogodeCarreras;
 import Datos.CatalogodeExamenes;
+import Datos.CatalogodeIngresos;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -490,6 +495,51 @@ public class Controlador {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
+		}
+	}
+
+	public ArrayList<Ingreso> listarIngresos() throws Exception {
+		// TODO Auto-generated method stub
+		CatalogodeIngresos cdei= new CatalogodeIngresos();
+		return cdei.listarIngresos();
+
+	}
+
+	public ArrayList<Egreso> listarEgresos() throws Exception {
+		// TODO Auto-generated method stub
+		CatalogodeEgresos cdee= new CatalogodeEgresos();
+		return cdee.listarEgresos();
+		
+	}
+
+	public ArrayList<TipoIngresoEgreso> listarTiposIngreso() throws Exception {
+		CatalogodeIngresos cdei= new CatalogodeIngresos();
+		return cdei.listarTiposIngreso();
+	}
+
+	public ArrayList<TipoIngresoEgreso> listarTiposEgreso() throws Exception {
+		CatalogodeEgresos cdee= new CatalogodeEgresos();
+		return cdee.listarTiposEgreso();
+	}
+
+	public void agregarIngreso(Ingreso i) {
+		// TODO Auto-generated method stub
+		CatalogodeIngresos cdei= new CatalogodeIngresos();
+		try {
+			cdei.agregarIngreso(i);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void agregarEgreso(Egreso eg) {
+		// TODO Auto-generated method stub
+		CatalogodeEgresos cdee= new CatalogodeEgresos();
+		try {
+			cdee.agregarEgreso(eg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

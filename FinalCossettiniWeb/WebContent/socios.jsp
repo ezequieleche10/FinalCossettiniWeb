@@ -17,7 +17,12 @@
 	<link href="css/build.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
+   
 	<script src="js/knockout-3.4.0.js"></script>
+	
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.css"/>
@@ -27,7 +32,29 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<style>
+	@media screen {
+  #printSection {
+      display: none;
+  }
+}
 
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute;
+    left:0;
+    top:0;
+    text-align: justify;
+  }
+}
+	
+	</style>
 </head>
 
 <body>
@@ -389,67 +416,72 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Registrar Pago</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="printThis">
 		<form id="registroPago">
-		<div class="row">
+		
+		<div class="row" style="margin-bottom:20px;">
 			<div class="col-md-3">
                 <a href="#">
                     <img class="img-responsive" src="img/socioPago.jpg" alt="">
                 </a>
             </div>
-			<div class="col-md-7 textoSocioPago">
+			<div class="col-md-9 textoSocioPago">
                <p><b><i>Instituto  de educación superior N° 28 Olga Cossettini</b></i></p>
             </div>
-			<div class="col-md-2">
-             <i>Comprobante</i>
-			 </br>
-			 <input class="col-md-1" type="text" value="N°001"/>
-			</div>
-		</div>
-		<div class="row">
-		<div class="col-md-offset-2 col-md-3 compr">
-		<p>Fecha de emisión:</p>
-		</div>
-		<div class="col-md-offset-5">
-		<input id="fechaActual" readonly/>
-		</div>
-		</div>
-		<div class="row">
-		<div class="col-md-offset-2 col-md-3 compr">
-		<p>Recibí de:</p>
-		<input type="hidden" id="cod_socio"/>
-		</div>
-		<div class="col-md-offset-5">
-		<input id="lblNombreApe" readonly/>
-		</div>
-		</div>
-		<div class="row">
-		<div class="col-md-offset-2 col-md-3 compr">
-		<p>En concepto por:</p>
-		</div>
-		<div class="col-md-offset-5">
-		COOPERADORA
-		</div>
-		</div>
-		<div class="row">
-		<div class="col-md-offset-2 col-md-3 compr">
-		<p>La suma de:</p>
-		</div>
-		<div class="col-md-offset-5">
-		$<input id="importe" />
-		</div>
-		</div>
-		<div class="row">
-		<div class="col-md-offset-2 col-md-2 compr">
-		<p>Firma:</p>
-		</div>
-		<div class="col-md-2">
-		<div class="ezeq">
-		<hr style="border:1px dotted black;" />
-		</div>
-		</div>
-		</div>
-       </form> 
+         </div>
+       		<table class="col-md-offset-3">
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr" style="margin-bottom:20px;">
+             <p>Comprobante</p>
+			</td>
+			 <td class="col-md-offset-5">
+			 <input type="text" value="N°001"/>
+			 </td>
+			</tr>
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr">
+			<p>Fecha de emisión:</p>
+			</td>
+			<td class="col-md-offset-5">
+			<input type="text" id="fechaActual" readonly/>
+			</td>
+			</tr>
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr">
+			<p>Recibí de:</p>
+			<input type="hidden" id="cod_socio"/>
+			</td>
+			<td class="col-md-offset-5">
+			<input id="lblNombreApe" readonly/>
+			</td>
+			</tr>
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr">
+			<p>En concepto por:</p>
+			</td>
+			<td class="col-md-offset-5">
+			<input type="text" value="COOPERADORA" readonly />
+			</td>
+			</td>
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr">
+			<p>La suma de: $</p>
+			</td>
+			<td class="col-md-offset-5">
+			<input type="text" id="importe" />
+			</td>
+			</tr>
+			<tr class="row">
+			<td class="col-md-offset-2 col-md-3 compr">
+			<p>Firma:</p>
+			</td>
+			<td class="col-md-offset-5">
+			<input type="text" id="firma" />
+			</td>
+			</tr>
+			
+			</table>
+       	</form> 
         </div>
        <div class="modal-footer">
           <button id="btnRegistrar" type="button" onclick="registrarPago()" class="btn btn-primary" data-dismiss="modal" >Registrar Pago</button>
@@ -518,7 +550,7 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+    <script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/tableFilter.js"></script>
@@ -770,10 +802,7 @@ function registrarPago(){
 			{ 
 				if(datos.respInfo=="OK")
 					{
-					$('#importe').val('');
-					alert("Pago realizado, desea imprimir si o no?");
-					
-				
+					imprimirPago();
 					
 					}
 				else
@@ -792,6 +821,50 @@ function registrarPago(){
 	
 	
 }
+function imprimirPago(){
+	$('<div></div>').appendTo('body')
+    .html('<div><h5>Desea imprimir comprobante?</h5></div>')
+    .dialog({
+        modal: true,
+        title: 'Imprimir',
+        zIndex: 10000,
+        autoOpen: true,
+        width: 'auto',
+        resizable: false,
+        buttons: {
+            Yes: function () {
+                // $(obj).removeAttr('onclick');                                
+                // $(obj).parents('.Parent').remove();
+				 printElement(document.getElementById("printThis"));
+    			 window.print();
+    			 $('#importe').val('');
+                $(this).dialog("close");
+            },
+            No: function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function (event, ui) {
+            $(this).remove();
+        }
+    });
+}
+function printElement(elem) {
+    var domClone = elem.cloneNode(true);
+    
+    var $printSection = document.getElementById("printSection");
+    
+    if (!$printSection) {
+        var $printSection = document.createElement("div");
+        $printSection.id = "printSection";
+        document.body.appendChild($printSection);
+    }
+    
+    $printSection.innerHTML = "";
+    
+    $printSection.appendChild(domClone);
+}
+
 </script>
 <script type="text/javascript">
 function justNumbers(e)

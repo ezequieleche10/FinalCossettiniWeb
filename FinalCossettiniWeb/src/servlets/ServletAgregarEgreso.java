@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,24 +12,22 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import Entidades.Cargo;
-import Entidades.Profesor;
-import Entidades.Socio;
+import Entidades.Egreso;
+import Entidades.Ingreso;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletAgregarSocio
+ * Servlet implementation class ServletAgregarEgreso
  */
-@WebServlet("/ServletAgregarSocio")
-public class ServletAgregarSocio extends HttpServlet {
+@WebServlet("/ServletAgregarEgreso")
+public class ServletAgregarEgreso extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAgregarSocio() {
+    public ServletAgregarEgreso() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,8 +48,7 @@ public class ServletAgregarSocio extends HttpServlet {
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
 		//recupero el json y lo convierto a entidades
-		Socio socio= gson.fromJson(request.getParameter("socio"), Socio.class);
-		ArrayList<Cargo> cargos = gson.fromJson(request.getParameter("cargos"), new TypeToken<ArrayList<Cargo>>() { }.getType());
+		Egreso eg= gson.fromJson(request.getParameter("egreso"), Egreso.class);
 		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
@@ -60,7 +56,7 @@ public class ServletAgregarSocio extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 			
-			cont.agregarSocio(socio, cargos);
+			cont.agregarEgreso(eg);
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
@@ -76,7 +72,6 @@ public class ServletAgregarSocio extends HttpServlet {
 			out.close();
 			
 		}
-		
 	}
 
 }

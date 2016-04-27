@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Caja</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,14 +22,22 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
+   
+	<script src="js/knockout-3.4.0.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+	<style>
+	.cajaClass{ border-style: solid;
+    			border-color: gray;
+    			}
+	</style>
 </head>
 
 <body>
@@ -37,7 +45,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -46,10 +54,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Instituto Olga Cossettini</a>
+                <a class="navbar-brand" href="index.jsp">Home</a>
             </div>
             <!-- Top Menu Items -->
+  
             <ul class="nav navbar-right top-nav">
+              <% 
+   String usuario ="";                        
+    try{ 
+    if(session.getAttribute("usuario") != null)
+    {
+        usuario = (String)"<b>"+session.getAttribute("usuario")+"</b>";
+  	%>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu message-dropdown">
@@ -60,7 +76,7 @@
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>Usuario</strong>
+                                        <h5 class="media-heading"><strong><%=usuario %></strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
@@ -75,7 +91,7 @@
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading"><strong><%=usuario %></strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
                                         <p>Lorem ipsum dolor sit amet, consectetur...</p>
@@ -131,7 +147,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><%= usuario %><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -144,68 +160,85 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="ServletLogOut"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
+                <%  
+                }
+   				 else
+   					 { 
+					%>    	
+					<a class="navbar-brand" href="nuevologin.jsp">Login</a>
+					<% 
+    }
+    }catch(NullPointerException ex){} 
+%>       
             </ul>
-              <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-             
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
+                        <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 					 <li>
-                        <a href="cargaAlumnos.html"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
+                        <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
 					<li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Ex√°menes <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Ex·menes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-list fa-lg" style="color:red"></i>Lista de alumnos en condiciones</a>
+                                <a href="agregarExamen.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:red"></i>Alta Ex·men</a>
                             </li>
                             <li>
-                                <a href="agregarExamen.html"><i class="fa fa-fw fa-plus fa-lg" style="color:red"></i>Alta Ex√°men</a>
+                                <a href="listaRendir.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:red"></i>Lista de alumnos en condiciones</a>
+                            </li>
+                           	<li>
+                                <a href="generarExamen.jsp"><i class="fa fa-fw fa-magic fa-lg" style="color:red"></i>Generar Ex·men</a>
                             </li>
 							<li>
-                                <a href="generarExamen.html"><i class="fa fa-fw fa-magic fa-lg" style="color:red"></i>Generar Ex√°men</a>
+                                <a href="cargarNotas.jsp"><i class="fa fa-fw fa-upload fa-lg" style="color:red"></i>Cargar Notas</a>
                             </li>
 							<li>
-                                <a href="cargarNotas.html"><i class="fa fa-fw fa-upload fa-lg" style="color:red"></i>Cargar Notas</a>
+                                <a href="verNotas.jsp"><i class="fa fa-fw fa-search-plus fa-lg" style="color:red"></i>Ver Notas</a>
                             </li>
-							<li>
-                                <a href="verNotas.html"><i class="fa fa-fw fa-search-plus fa-lg" style="color:red"></i>Ver Notas</a>
-                            </li>
+                            <li>
+                             <a href="listaFinal.jsp"><i class="fa fa-fw fa-check fa-lg" style="color:red"></i>ListaFinal</a>
+                             </li>
                         </ul>
                     </li>
                    
                    
                     <li>
-                        <a href="profesores.html"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
+                        <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                     <li>
-                        <a href="cursos.html"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
                     <li class="active">
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
                             <li>
-                                <a href="socios.html"><i class="fa fa-fw fa-dollar fa-lg" style="color:green"></i>Socios</a>
+                                <a href="socios.jsp"><i class="fa fa-fw fa-dollar fa-lg" style="color:green"></i>Socios</a>
                             </li>
                             <li>
-                                <a href="caja.html"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
+                                <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
                             </li>
 							<li>
-                                <a href="padronElectoral.html"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padr√≥n Electoral</a>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padr√≥n Electoral</a>
                             </li>
 							
                         </ul>
                     </li>
-               </ul>
+					 <li>
+                        <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
+                    </li>
+                    
+                    
+                </ul>
             </div>
             <!-- /.navbar-collapse -->
-        </nav>
+        </nav>  
 
         <div id="page-wrapper">
 
@@ -227,48 +260,39 @@
                 <!-- /.row -->
 			<div class="row">
 			<div class="col-lg-6">
-			<div class="cajaStyle"><h4>Per√≠odo actual</h4></div>
+			<div class="cajaStyle"><h4>PerÌodo actual</h4></div>
 			</br>
 			<div class="row">
 			<div class="col-lg-6">
-			<label>Fecha desde:</label><label class="col-lg-offset-1" id="lblFechaDesde">MesInicial</label>
-			</div>
-			<div class="col-lg-6">
-			<label>Fecha hasta:</label><label class="col-lg-offset-1" id="lblFechaHasta">MesFinal</label>
+			
 			</div>
 			</div>
 			<div class="row" align="center">
 			<table class="table table-bordered">
-				  <thead>
-					<tr>
-					  <th class="col-md-4 col-xs-4">Fecha</th>
-					  <th class="col-md-4 col-xs-4">Monto</th>
-					  <th class="col-md-4 col-xs-4">Tipo</th>
-					</tr>
-					
-				  </thead>
-							  <tbody>
+				  <thead><tr><th colspan="3">Ultimos ingresos</th></tr></thead>
+							  <tbody data-bind="foreach: ingresos">
 								<tr>
 								  
-								  <td>Fecha tal</td>
-								  <td>Monto</td>
-								  <td class="td-success">Ingreso</td>
+								  <td class="col-md-3" data-bind="text: fecha_ingreso"></td>
+								  <td class="col-md-4" data-bind="text: cantidad"></td>
+								  <td class="col-md-5" data-bind="text: tipo_ingreso" class="td-success"></td>
 								  
-								</tr>
-								<tr>
-								 <td>Fecha tal</td>
-								  <td>Monto</td>
-								  <td class="td-danger">Egreso</td>
-								</tr>
-								
-								<tr>
-								<td align="center" colspan="3">
-								<button type="button" class="btn-lg btn-success" aria-label="Left Align" data-toggle="modal" data-target="#myModalIngresos">Ingresos</button>
-								<button type="button" class="btn-lg btn-danger" aria-label="Left Align"  data-toggle="modal" data-target="#myModalEgresos">Egresos</button>
-								</td>
 								</tr>
 								</tbody>
-			</table>
+					</table>
+					<table class="table table-bordered">
+					<thead><tr><th colspan="3">Ultimos egresos</th></tr></thead>
+					<tbody data-bind="foreach: egresos">
+								<tr>
+								  <td class="col-md-3" data-bind="text: fecha_egreso"></td>
+								  <td class="col-md-4" data-bind="text: cantidad"></td>
+								  <td class="col-md-5" data-bind="text: tipo_egreso" class="td-danger"></td>
+								</tr>
+								</tbody>
+							
+					</table>
+			<button type="button" class="btn-lg btn-success" aria-label="Left Align" data-toggle="modal" data-target="#myModalIngresos" onclick="setModalIngresos()">Ingresos</button>
+			<button type="button" class="btn-lg btn-danger" aria-label="Left Align"  data-toggle="modal" data-target="#myModalEgresos" onclick="setModalEgresos()">Egresos</button>
 					</div>
 			</div>
 			
@@ -278,8 +302,20 @@
 			</div>
 			
 			</div>
-			
-            
+			</br>
+			<div class="row">
+			<div class="col-lg-6">
+			<div class="row">
+			<div align="center" class="col-lg-12" style="font-size:12px;">Caja Actual= Ingresos(Generales + Cursos + Cooperadora)-Egresos</div>
+			</div>
+            <div align="center" class="col-lg-12">
+            <button class="btn-sm btn-default" onclick="hacerCaja()">Hacer caja</button>
+            </div>
+            <div align="center" class="col-lg-12 cajaClass">
+            <label id="cajaValor">El valor sera indicado aquÌ</label>
+            </div>
+            </div>
+           </div>
             
              
 
@@ -293,76 +329,84 @@
     <!-- /#wrapper -->
 	
 <!-- Modal Ingresos -->
+
 <div class="modal fade" id="myModalIngresos" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modificar</h4>
+          <h4 class="modal-title">Alta Ingresos</h4>
         </div>
         <div class="modal-body">
-		<form id="comentario">
-		<input id="cod_auto" name="cod_auto" hidden />      
-        <div class="form-group">
-      
-	   <label for="inputUsername" class="sr-only">Nombre de Usuario</label>
-        <input type="text" name ="inputUsernameM" id="inputUsernameM" class="form-control" placeholder="Username" autofocus="" readonly>
-		 <label for="inputUsername" class="sr-only">Nombre</label>
-        <input type="text" name ="inputNombreM" id="inputNombreM" class="form-control" placeholder="Nombre" required="" autofocus="">
-        <label for="inputUsername" class="sr-only">Apellido</label>
-        <input type="text" name ="inputApellidoM" id="inputApellidoM" class="form-control" placeholder="Apellido" required="" autofocus="">
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" name ="inputEmailM" id="inputEmailM" class="form-control" placeholder="Email" required="" autofocus="">
-		<label for="inputRol" class="sr-only">Rol</label>
-		<select class="form-control" id="inputRolM">
-		<option>1</option>
-		<option>2</option>
-		</select>
-		 </div>
 		   
-         </form> 
+            <div class="form-group">
+           <label id="lbltipo" class="col-sm-2 control-label col-lg-2" for="inputNombre">Tipo Ingreso</label>
+                                          <div class="col-lg-10">
+                                            <select id="tipoSelect" class="form-control m-b-10"  data-bind="options: tipos, 
+                        					value: selectedTipoI,
+                       						optionsText: 'tipo_codigo', 
+                       optionsCaption: 'Seleccione un tipo...'"></select> 
+                                          </div>
+                                      </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
+            <div class="col-lg-10">
+            <input type="text" name="txtNombre" class="form-control" id="txtMontoI"/>
+            </div>
+          </div>
+		  <div class="form-group">
+           <label class="col-sm-2 control-label col-lg-2" for="txtObservaciones">Observaciones</label>
+           <div class="col-lg-10">
+           <input type="text" name="txtApellido" class="form-control" id="txtObservacionesI"/>
+            </div>
+           </div>
+	
         </div>
        <div class="modal-footer">
-          <button id ="btnModific" type="button" onclick="validateEmail(inputEmailM.value)" class="btn btn-primary" data-dismiss="modal" >Modificar</button>
+         
+          <button id ="btnEditar" type="button" onclick="altaIngreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
         </div>
        
       </div>
     </div>
-  </div>	
-  
-  <!-- Modal Egresos -->
+  </div>
+ <!-- Modal Egresos -->
 
 <div class="modal fade" id="myModalEgresos" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Elimina el auto seleccionado</h4>
+          <h4 class="modal-title">Alta Egresos</h4>
         </div>
         <div class="modal-body">
-		<form id="comentario">
-		<input id="cod_auto" name="cod_auto" hidden />      
-        <div class="form-group">
-      
-      <label for="EliminaAuto">¬øEsta seguro que desea eliminar el usuario seleccionado??</label>
-	  <label for="inputUsername" class="sr-only">Nombre de Usuario</label>
-        <input type="text" name ="inputUsername" id="inputUsernameE" class="form-control" placeholder="Username" autofocus="" readonly>
-		 <label for="inputUsername" class="sr-only">Nombre</label>
-        <input type="text" name ="inputNombre" id="inputNombreE" class="form-control" placeholder="Nombre" required="" autofocus="" readonly>
-        <label for="inputUsername" class="sr-only">Apellido</label>
-        <input type="text" name ="inputApellido" id="inputApellidoE" class="form-control" placeholder="Apellido" required="" autofocus="" readonly>
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="text" name ="inputEmail" id="inputEmailE" class="form-control" placeholder="Email" required="" autofocus="" readonly>
-		<label for="inputRol" class="sr-only">Rol</label>
-        <input type="text" name ="inputRol" id="inputRolE" class="form-control" placeholder="Rol" required="" autofocus="" readonly>
-        </div>
 		   
-         </form> 
+            <div class="form-group">
+           <label id="lbltipo" class="col-sm-2 control-label col-lg-2" for="inputNombre">Tipo Egreso</label>
+                                          <div class="col-lg-10">
+                                            <select id="tipoSelect" class="form-control m-b-10"  data-bind="options: tipos, 
+                        					value: selectedTipoE,
+                       						optionsText: 'tipo_codigo', 
+                       optionsCaption: 'Seleccione un tipo...'"></select> 
+                                          </div>
+                                      </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
+            <div class="col-lg-10">
+            <input type="text" name="txtNombre" class="form-control" id="txtMontoE"/>
+            </div>
+          </div>
+		  <div class="form-group">
+           <label class="col-sm-2 control-label col-lg-2" for="txtObservaciones">Observaciones</label>
+           <div class="col-lg-10">
+           <input type="text" name="txtApellido" class="form-control" id="txtObservacionesE"/>
+            </div>
+           </div>
+	
         </div>
        <div class="modal-footer">
          
-          <button id ="btnConfirma" type="button" onclick="eliminar()" class="btn btn-primary" data-dismiss="modal" >Confirmar</button>
-          <button id ="btnCancela" type="button" onclick="this.close()" class="btn btn-primary" data-dismiss="modal" >Cancelar</button>
+          <button id ="btnEgreso" type="button" onclick="altaEgreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
         </div>
        
       </div>
@@ -374,33 +418,246 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="js/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
    
    
     
 <script>
-// A $( document ).ready().
-$(function () {
-    $('#container').highcharts({
-
-        xAxis: {
-            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-        },
-		title: {
-                text: 'Ingresos en el √∫ltimo a√±o'
-            },
-
-        series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        }]
-    });
 
 
-    // the button actions
-  
+$( document ).ready(function() {
+	   
+	 
+			viewModel=
+		    {	
+		    	ingresos: ko.observableArray([]),
+		    	egresos: ko.observableArray([]),
+		    	tipos: ko.observableArray([]),
+		    	selectedTipoI:ko.observable(),
+		    	selectedTipoE:ko.observable()
+		    	
+		    };
+		
+			ko.applyBindings(viewModel);
+			//llamada ajax que devuelve el examen y carga el modelo con knockout
+			 var ruta= "ServletBuscarIyE";
+				$.ajax({
+						async: false,
+						url: ruta,
+						type: "POST",
+						dataType: "json",
+						success: function(datos)
+						{ 
+							if(datos.respInfo=="OK")
+								{
+								viewModel.ingresos(datos.ingresos);
+								viewModel.egresos(datos.egresos);
+								sumaIngresos();
+								}
+							else
+								{
+								alert("Ha ocurrido un error cargando socios, reintente logueandose");
+								}
+							
+						},
+						error: function(datos) {
+					        //AJAX request not completed
+					       alert("There was an error");
+					    }
+					
+				});
 
-});
+	});
+function sumaIngresos(){
+	var meses= [0,0,0,0,0,0,0,0,0,0,0,0];
+	
+	for(i=0; i< viewModel.ingresos().length;++i){
+		var mes= viewModel.ingresos()[i].fecha_ingreso;
+		var mesReal= mes.substring(5,7);
+		var mesA= parseInt(mesReal)-1;
+		var cantidad=viewModel.ingresos()[i].cantidad;
+		meses[mesA]+=cantidad;
+	}
+	 $('#container').highcharts({
+
+	        xAxis: {
+	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+	        },
+			title: {
+	                text: 'Ingresos en el ˙ltimo aÒo'
+	            },
+
+	        series: [{
+	            data: meses,
+	        }]
+	    });
+
+}
+function setModalIngresos()
+{
+	 var ruta= "ServletBuscarTiposIngreso";
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+						viewModel.tipos(datos.tipos);
+						
+						}
+					else
+						{
+						alert("Ha ocurrido un error cargando socios, reintente logueandose");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
+
+}
+function setModalEgresos()
+{
+	 var ruta= "ServletBuscarTiposEgreso";
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+						viewModel.tipos(datos.tipos);
+						
+						}
+					else
+						{
+						alert("Ha ocurrido un error cargando socios, reintente logueandose");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
+}
+function altaIngreso(){
+	var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+	var ingreso={tipo_ingreso: viewModel.selectedTipoI().tipo_codigo,cod_tipo_ingreso:viewModel.selectedTipoI().codigo,
+			cantidad: $('#txtMontoI').val(),observaciones:$('#txtObservacionesI').val(),fecha_ingreso:today};
+	var ruta= "ServletAgregarIngreso";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: "ingreso="+JSON.stringify(ingreso),
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Ingreso correcto");
+					viewModel.ingresos.push(ingreso);
+					//limpiar
+					$('#txtMontoI').val('');
+					$('#txtObservacionesI').val('');
+					viewModel.selectedTipoI('');
+
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+
+}
+function altaEgreso(){
+	var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = yyyy+'-'+mm+'-'+dd;
+	var egreso={tipo_egreso: viewModel.selectedTipoE().tipo_codigo,cod_tipo_egreso:viewModel.selectedTipoE().codigo,
+			cantidad: $('#txtMontoE').val(),observaciones:$('#txtObservacionesE').val(),fecha_egreso:today};
+	var ruta= "ServletAgregarEgreso";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: "egreso="+JSON.stringify(egreso),
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Ingreso correcto");
+					viewModel.egresos.push(egreso);
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+
+}
+function hacerCaja(){
+	//recorro ya qu tengo el viewModel ingersos y egresos
+	var suma=0;
+	var resta=0;
+	var cant= viewModel.ingresos().length;
+	for(i=0; i<cant;++i){
+		suma+= viewModel.ingresos()[i].cantidad;
+	}
+	var cante= viewModel.egresos().length;
+	for(j=0; j< cante ;++j){
+		resta+= viewModel.egresos()[j].cantidad;
+	}
+	var total=suma-resta;
+	$('#cajaValor').text('Caja actual= $'+ total +'= Ingresos('+ suma +' ) - Egresos('+ resta +' )');
+}
 </script>
 	<script src="js/tableFilter.js"></script>
 

@@ -12,25 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import Entidades.Cargo;
-import Entidades.Profesor;
+import Entidades.Ingreso;
 import Entidades.Socio;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletAgregarSocio
+ * Servlet implementation class ServletBuscarIyE
  */
-@WebServlet("/ServletAgregarSocio")
-public class ServletAgregarSocio extends HttpServlet {
+@WebServlet("/ServletBuscarIyE")
+public class ServletBuscarIyE extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAgregarSocio() {
+    public ServletBuscarIyE() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,33 +49,30 @@ public class ServletAgregarSocio extends HttpServlet {
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
-		//recupero el json y lo convierto a entidades
-		Socio socio= gson.fromJson(request.getParameter("socio"), Socio.class);
-		ArrayList<Cargo> cargos = gson.fromJson(request.getParameter("cargos"), new TypeToken<ArrayList<Cargo>>() { }.getType());
-		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
-		
 		PrintWriter out = response.getWriter();
+		JsonElement resp =null;
 		try{
+			//write some code
 			
-			cont.agregarSocio(socio, cargos);
 			myObj.addProperty("success", true);
-			myObj.add("respInfo", gson.toJsonTree("OK"));
-			out.println(myObj.toString());
-			
-
+		    resp = gson.toJsonTree("OK");
+			myObj.add("ingresos", gson.toJsonTree(cont.listarIngresos()));
+			myObj.add("egresos", gson.toJsonTree(cont.listarEgresos()));
 		}
 		catch(Exception e)
 		{
-			myObj.addProperty("success", false);
-		}
-		finally
-		{
-			out.close();
+			//write some code		} 
+			//myObj.addProperty("success", false);
+			resp = gson.toJsonTree("");
 			
+		}finally
+		{
+			myObj.add("respInfo", resp);
+			out.println(myObj.toString());
+			out.close();
 		}
-		
 	}
 
 }

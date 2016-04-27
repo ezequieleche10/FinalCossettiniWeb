@@ -16,21 +16,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import Entidades.Cargo;
-import Entidades.Profesor;
+import Entidades.Ingreso;
 import Entidades.Socio;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletAgregarSocio
+ * Servlet implementation class ServletAgregarIngreso
  */
-@WebServlet("/ServletAgregarSocio")
-public class ServletAgregarSocio extends HttpServlet {
+@WebServlet("/ServletAgregarIngreso")
+public class ServletAgregarIngreso extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletAgregarSocio() {
+    public ServletAgregarIngreso() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -51,8 +51,7 @@ public class ServletAgregarSocio extends HttpServlet {
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
 		//recupero el json y lo convierto a entidades
-		Socio socio= gson.fromJson(request.getParameter("socio"), Socio.class);
-		ArrayList<Cargo> cargos = gson.fromJson(request.getParameter("cargos"), new TypeToken<ArrayList<Cargo>>() { }.getType());
+		Ingreso i= gson.fromJson(request.getParameter("ingreso"), Ingreso.class);
 		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
@@ -60,7 +59,7 @@ public class ServletAgregarSocio extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 			
-			cont.agregarSocio(socio, cargos);
+			cont.agregarIngreso(i);
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
@@ -76,7 +75,6 @@ public class ServletAgregarSocio extends HttpServlet {
 			out.close();
 			
 		}
-		
 	}
 
 }
