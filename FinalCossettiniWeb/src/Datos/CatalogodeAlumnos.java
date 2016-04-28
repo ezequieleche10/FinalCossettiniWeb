@@ -95,7 +95,14 @@ public class CatalogodeAlumnos extends DBConexion_1{
             ins2.setInt(1,cod_carrera);
             ins2.setInt(2, dni);
             ins2.executeUpdate();
-            
+            PreparedStatement insUsu= Cone.prepareStatement("INSERT INTO usuario(nombre_usuario,clave,tipo_usuario,dni,pv)VALUES(?,?,?,?,?)");
+            insUsu.setInt(1,dni);
+            String clave="usu" + dni;
+            insUsu.setString(2,clave);
+            insUsu.setInt(3,3);
+            insUsu.setInt(4,dni);
+            insUsu.setInt(5, 0);
+            insUsu.executeUpdate();
             
              }
          

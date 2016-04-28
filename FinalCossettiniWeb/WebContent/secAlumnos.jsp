@@ -37,7 +37,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -52,103 +52,20 @@
   
             <ul class="nav navbar-right top-nav">
               <% 
-   String usuario ="";                        
+   String usuario =""; 
+   int codRol=0;
     try{ 
     if(session.getAttribute("usuario") != null)
     {
         usuario = (String)"<b>"+session.getAttribute("usuario")+"</b>";
+        codRol= (Integer)session.getAttribute("cod_rol");
   	%>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu message-dropdown">
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong><%=usuario %></strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong><%=usuario %></strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-preview">
-                            <a href="#">
-                                <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                    <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
-                                        </h5>
-                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="message-footer">
-                            <a href="#">Read All New Messages</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                    <ul class="dropdown-menu alert-dropdown">
-                        <li>
-                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                        </li>
-                        <li>
-                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">View All</a>
-                        </li>
-                    </ul>
-                </li>
+                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><%= usuario %><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -170,11 +87,80 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-
-					 <li class="active">
+                    <li class="active">
+                        <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
+                    </li>
+				   <%  try{ 
+					    if(codRol == 1)
+					    { %>
+					 <li>
+                        <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
+                    </li>
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==2)
+					    { %>
+					<li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Ex·menes <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="agregarExamen.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:red"></i>Alta Ex·men</a>
+                            </li>
+                            <li>
+                                <a href="listaRendir.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:red"></i>Lista de alumnos en condiciones</a>
+                            </li>
+                           	<li>
+                                <a href="generarExamen.jsp"><i class="fa fa-fw fa-magic fa-lg" style="color:red"></i>Generar Ex·men</a>
+                            </li>
+							<li>
+                                <a href="cargarNotas.jsp"><i class="fa fa-fw fa-upload fa-lg" style="color:red"></i>Cargar Notas</a>
+                            </li>
+							<li>
+                                <a href="verNotas.jsp"><i class="fa fa-fw fa-search-plus fa-lg" style="color:red"></i>Ver Notas</a>
+                            </li>
+                            <li>
+                             <a href="listaFinal.jsp"><i class="fa fa-fw fa-check fa-lg" style="color:red"></i>ListaFinal</a>
+                             </li>
+                        </ul>
+                    </li>
+                    <% }}catch(NullPointerException ex){} %>
+                   <%  try{ 
+					    if(codRol == 1)
+					    { %>
+                    <li>
+                        <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
+                    </li>
+                     <% }}catch(NullPointerException ex){} %>
+                      <%  try{ 
+					    if(codRol == 1)
+					    { %>
+                    <li>
+                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                    </li>
+                
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo2" class="collapse">
+                            <li>
+                                <a href="socios.jsp"><i class="fa fa-fw fa-dollar fa-lg" style="color:green"></i>Socios</a>
+                            </li>
+                            <li>
+                                <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
+                            </li>
+							<li>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padr√≥n Electoral</a>
+                            </li>
+							
+                        </ul>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
+                  <%  try{ 
+					    if(codRol == 3)
+					    { %>
+					 <li>
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
-                    
+                        <% }}catch(NullPointerException ex){} %>
                     
                 </ul>
             </div>
