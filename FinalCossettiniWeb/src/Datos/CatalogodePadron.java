@@ -51,6 +51,8 @@ public class CatalogodePadron extends DBConexion_1{
                 s.setApellido(resu.getString("s.apellido"));
                 s.setNombre(resu.getString("s.nombre"));
                 s.setFecha_nacimiento(resu.getString("s.fecha_nacimiento"));
+                String nya= s.getApellido() + " " + s.getNombre();
+                s.setNya(nya);
                 socios.add(s); 
                 
            }
@@ -60,6 +62,7 @@ public class CatalogodePadron extends DBConexion_1{
              consultar2.setInt(1, socios.get(i).getCod_socio());
              resu2 = consultar2.executeQuery();
              ArrayList<Cargo> cargosSocio = new ArrayList<Cargo>();
+             String cargoC="";
          while(resu2.next())
          {	  
               Cargo c= new Cargo();
@@ -67,8 +70,9 @@ public class CatalogodePadron extends DBConexion_1{
               c.setCod_cargo(resu2.getInt("c.cod_cargo" ));
               c.setTipo_cargo(resu2.getString("c.tipo_cargo"));
               cargosSocio.add(c);
-              
+              cargoC= cargoC + c.getTipo_cargo()+ "/";
          } 
+         socios.get(i).setCargosS(cargoC);
          socios.get(i).setCargos(cargosSocio);;
          }
        
@@ -96,7 +100,7 @@ public class CatalogodePadron extends DBConexion_1{
      	p.setAnio(resu.getInt("anio"));
      	p.setEstado(resu.getString("estado"));
      	p.setMontoMinimo(resu.getDouble("valorMinimo"));
-      
+     	
             this.Desconectar();
             return p;
         }

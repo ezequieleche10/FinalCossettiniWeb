@@ -45,4 +45,18 @@ public class Socio {
 	public void setFecha_nacimiento(String fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
 	}
+	 private String nya;
+	 public String getNya() {
+		return nya;
+	}
+	public void setNya(String nya) {
+		this.nya = nya;
+	}
+	public String getCargosS() {
+		return cargosS;
+	}
+	public void setCargosS(String cargosS) {
+		this.cargosS = cargosS;
+	}
+	private String cargosS;
 }

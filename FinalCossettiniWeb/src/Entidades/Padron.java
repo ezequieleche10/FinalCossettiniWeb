@@ -38,4 +38,5 @@ private int anio;
  private String estado;
  private double montoMinimo;
  private ArrayList<Socio> sociosHab;
+
 }

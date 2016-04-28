@@ -14,6 +14,7 @@ import Datos.CatalogodeSocios;
 import Datos.CatalogodeUsuarios;
 import Entidades.Alumno;
 import Entidades.AlumnoEnEjercicio;
+import Entidades.Cambio;
 import Entidades.Cargo;
 import Entidades.Carrera;
 import Entidades.Comision;
@@ -22,6 +23,7 @@ import Entidades.Examen;
 import Entidades.Ingreso;
 import Entidades.Egreso;
 import Entidades.NotaExamenAlumno;
+import Entidades.Padron;
 import Entidades.Profesor;
 import Entidades.Socio;
 import Entidades.TipoIngresoEgreso;
@@ -32,9 +34,12 @@ import Negocio.Controlador;
 import Datos.CatalogodeCarreras;
 import Datos.CatalogodeExamenes;
 import Datos.CatalogodeIngresos;
+import Datos.CatalogodePadron;
 
 import java.awt.Component;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -537,6 +542,43 @@ public class Controlador {
 		CatalogodeEgresos cdee= new CatalogodeEgresos();
 		try {
 			cdee.agregarEgreso(eg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Padron listarPadron() {
+		// TODO Auto-generated method stub
+		CatalogodePadron cdpa= new CatalogodePadron();
+		Padron p = new Padron();
+        String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        int anio= Integer.parseInt(fechaActual);
+		try {
+			p = cdpa.listarPadron(anio);
+			p.setSociosHab(cdpa.listarSociosHab(p.getMontoMinimo(), anio));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return p;
+	}
+
+	public ArrayList<Socio> listarSociosHab(int cod_padron, Double valorMinimo) throws Exception {
+		// TODO Auto-generated method stub
+		CatalogodePadron cdpa = new CatalogodePadron();
+		String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        int anio= Integer.parseInt(fechaActual);
+		return cdpa.listarSociosHab(valorMinimo, anio);
+	}
+
+	public void actualizarValorMinimo(Cambio c, Usuario u) {
+		// TODO Auto-generated method stub
+		CatalogodePadron cdpa = new CatalogodePadron();
+		String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        c.setFecha_cambio(fechaActual);
+        try {
+			cdpa.actualizarMonto(c, u);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
