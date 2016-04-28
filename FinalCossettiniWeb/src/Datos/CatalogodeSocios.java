@@ -1,14 +1,8 @@
 package Datos;
 import Datos.DBConexion_1;
-import Entidades.Alumno;
-import Entidades.Carrera;
-import Entidades.Comision;
-import Entidades.Ejercicio;
-import Entidades.Examen;
-import Entidades.Profesor;
-import Entidades.Socio;
-import Entidades.AlumnoEnEjercicio;
+
 import Entidades.Cargo;
+import Entidades.Socio;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,14 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static java.lang.System.out;
 
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.lang.String;
 
-import javax.swing.JOptionPane;
+
 
 /**
  *
