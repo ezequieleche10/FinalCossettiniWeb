@@ -184,6 +184,9 @@
                         </ol>
                     </div>
                 </div>
+                 <%  try{ 
+					    if(codRol == 1 || codRol==2)
+					    { %>
                 <!-- /.row -->
 				<div class="row">
 				<div class="col-lg-12">
@@ -359,7 +362,15 @@
 							</div>
 				</div>
 				<!-- /.row -->
-			
+				 <% }
+					    else{ 
+					%>    	
+				<div class="row">
+				<div class="col-12">
+				No tiene permiso para acceder a esta página</div>
+				</div>
+					<%    }
+				 }catch(NullPointerException ex){} %>
 
             </div>
             <!-- /.container-fluid -->

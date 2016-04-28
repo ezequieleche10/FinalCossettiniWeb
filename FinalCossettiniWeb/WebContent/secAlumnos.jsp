@@ -185,6 +185,9 @@
                     </div>
                 </div>
                 <!-- /.row -->
+                  <%  try{ 
+					    if(codRol == 1 || codRol==3)
+					    { %>
 				<div class="row">
 						<div class="col-md-12">
 						NOTAS EX√ÅMENES IMPORTANTE!!!
@@ -295,7 +298,15 @@
           </div><!--end col-8 -->
 				                   
                </div>
-              
+             <% }
+					    else{ 
+					%>    	
+				<div class="row">
+				<div class="col-12">
+				No tiene permiso para acceder a esta p·gina</div>
+				</div>
+					<%    }
+				 }catch(NullPointerException ex){} %>  
                 
 
             </div>

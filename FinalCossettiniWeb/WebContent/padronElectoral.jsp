@@ -188,6 +188,9 @@
                     </div>
                 </div>
                 <!-- /.row -->
+                <%  try{ 
+					    if(codRol == 1)
+					    { %>
 				<hr>
 				<div class="row">
 				<div class="col-lg-12">
@@ -255,7 +258,15 @@
 			   <button class="btn-md btn-success pull-right" style="margin-right:2px;" onclick="printData()"><i class="fa fa-fw fa-print fa-lg"></i>Imprimir</button></div>
 			   </div>
 			   </div>
-
+			 <% }
+					    else{ 
+					%>    	
+				<div class="row">
+				<div class="col-12">
+				No tiene permiso para acceder a esta página</div>
+				</div>
+					<%    }
+				 }catch(NullPointerException ex){} %>
             </div>
             <!-- /.container-fluid -->
 

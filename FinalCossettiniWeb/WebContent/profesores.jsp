@@ -186,7 +186,9 @@
                     </div>
                 </div>
                 <!-- /.row -->
-				
+				<%  try{ 
+					    if(codRol == 1)
+					    { %>
 				<div class="row">
 				<div class="col-md-12">
 				<section class="panel panel-info">
@@ -251,7 +253,15 @@
 				</div>
 				<!-- /.row -->
 
-
+			 <% }
+					    else{ 
+					%>    	
+				<div class="row">
+				<div class="col-12">
+				No tiene permiso para acceder a esta página</div>
+				</div>
+					<%    }
+				 }catch(NullPointerException ex){} %>
 
             </div>
             <!-- /.container-fluid -->

@@ -193,6 +193,9 @@
                     </div>
                 </div>
                 <!-- /.row -->
+              <%  try{ 
+					    if(codRol == 1)
+					    { %>    
 			<div class="row">
 			<div class="col-lg-6">
 			<div class="cajaStyle"><h4>Período actual</h4></div>
@@ -252,6 +255,15 @@
             </div>
            </div>
             
+              <% }
+					    else{ 
+					%>    	
+				<div class="row">
+				<div class="col-12">
+				No tiene permiso para acceder a esta página</div>
+				</div>
+					<%    }
+				 }catch(NullPointerException ex){} %>
              
 
             </div>
