@@ -189,7 +189,7 @@
                                 <i class="fa fa-dashboard"></i>  <a href="index.html">Home</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> Ex√°menes
+                                <i class="fa fa-table"></i> Ex·menes
                             </li>
                         </ol>
                     </div>
@@ -224,7 +224,7 @@
 					<div class="form-inline"> 
 					
 					<label class="control-label">AÒo:</label>
-					<input type="text" id="txtAno" required="required" class="form-control" placeholder="Ingrese AÒo" /> 
+					<input type="number" id="txtAno" required="required" class="form-control" placeholder="Ingrese AÒo" /> 
 					<button type="button" class="btn btn-info" aria-label="Left Align" onclick="buscarExamen()">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					
@@ -338,7 +338,7 @@
 										  <div class="form-group">
 										  <label class="col-lg-3 col-sm-3 control-label">Items:</label>
                                           <div class="col-lg-9">
-                                              <input type="Items" class="form-control" id="inputItems" placeholder="Items">
+                                              <input type="number" class="form-control" id="inputItems" placeholder="Items">
                                           </div>
 										  </div>
 										  </br>
@@ -347,7 +347,7 @@
 										  <label class="col-lg-3 col-sm-3 control-label">Porcentaje:</label>
                                           <div class="col-lg-9">
 										  <div class="input-group">
-											<input type="text" class="form-control" id="inputPorcentaje" placeholder="Porcentaje">
+											<input type="number" class="form-control" id="inputPorcentaje" placeholder="Porcentaje">
 											<div class="input-group-addon">%</div>
 											</div>
                                              
@@ -550,15 +550,27 @@
 	}
 function agregarEjercicio(){
 	var ejercicio={nombre:$('#inputNombre').val(),cant_items:$('#inputItems').val(),porcentaje:$('#inputPorcentaje').val(),descripcion:$('#inputDescripcion').val()};
+	if(ejercicio.nombre =="" || ejercicio.cant_items=="" || ejercicio.porcentaje =="" || ejercicio.descripcion==""){
+		alert("No puede agregar el ejercicio, complete todos los campos");
+	} else {
 	viewModel.ejercicios.push(ejercicio);
 	$('#inputNombre').val("");
 	$('#inputItems').val("");
 	$('#inputPorcentaje').val("");
 	$('#inputDescripcion').val("");
+	}
 }
 
 	
 function generarExamen(){
+var total = 0;
+for(i=0; i < viewModel.ejercicios().length;++i){
+	total=total + viewModel.ejercicios()[i].porcentaje;
+}
+if( total!==100){
+	alert('La suma de los porcentajes tiene que ser de 100%');
+}
+else{
 var ruta= "ServletGenerarExamen";
 var comision={nombre:$('#txtNombreComision').val(),descripcion:$('#txtDescripcionComision').val()};
 	$.ajax({
@@ -587,6 +599,7 @@ var comision={nombre:$('#txtNombreComision').val(),descripcion:$('#txtDescripcio
 		    }
 		
 	});
+}
 }
 </script>
 </body>

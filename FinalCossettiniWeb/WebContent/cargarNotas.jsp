@@ -306,7 +306,7 @@
 								  <td data-bind="text: alumno.apellido"></td>
 								  <td data-bind="text: alumno.nombre"></td>
 								  <td>
-									<input type="text" name="txtNota" class="form-control" data-bind="value: resultado "/>
+									<input type="number" name="txtNota" class="form-control" data-bind="value: resultado "/>
 								  </td>
 								</tr>
 								

@@ -203,7 +203,7 @@
                                           </div>
 										  <label class="col-lg-1 col-sm-1 control-label">Año:</label>
                                           <div class="col-lg-2">
-                                              <input type="text" class="form-control" id="txtAnio" placeholder="año">
+                                              <input type="number" class="form-control" id="txtAnio" placeholder="año">
                                           </div>
 										  <div class="col-lg-1">
 										  <button type="button" class="btn btn-success" aria-label="Left Align" onclick="buscarNotas()">

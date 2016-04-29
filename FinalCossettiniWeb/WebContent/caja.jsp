@@ -298,7 +298,7 @@
             <div class="form-group">
             <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
             <div class="col-lg-10">
-            <input type="text" name="txtNombre" class="form-control" id="txtMontoI"/>
+            <input type="number" name="txtNombre" class="form-control" id="txtMontoI"/>
             </div>
           </div>
 		  <div class="form-group">

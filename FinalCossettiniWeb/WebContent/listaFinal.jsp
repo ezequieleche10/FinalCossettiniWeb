@@ -164,7 +164,7 @@
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
-   
+   </nav>
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -194,7 +194,7 @@
 				<div class="col-lg-12">
 				<div class="form-inline"> 
 					<label class="control-label">Año:</label>
-					<input type="text" id="txtAno" required="required" class="form-control" placeholder="Ingrese Año" /> 
+					<input type="number" id="txtAno" required="required" class="form-control" placeholder="Ingrese Año" /> 
 					<button type="button" class="btn btn-info" aria-label="Left Align" onclick="buscarLista()">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					</button>

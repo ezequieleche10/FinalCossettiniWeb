@@ -280,7 +280,7 @@
    <th>Cargos</th>
    </tr>
    </thead>
-   <tbody data-bind="foreach:  sociosHabilitados">
+   <tbody data-bind="foreach:  sociosHabilitados()">
    <tr>
    <td data-bind="text: nya">
    </td>
@@ -417,6 +417,7 @@ $('<div></div>').appendTo('body')
             // $(obj).removeAttr('onclick');                                
             // $(obj).parents('.Parent').remove();
 			$('#myModalEditar').css({"display": 'none'});
+			viewModel.sociosHabilitados([]);
             $(this).dialog("close");
         },
         CANCEL: function () {
@@ -425,7 +426,7 @@ $('<div></div>').appendTo('body')
         }
     },
     close: function (event, ui) {
-        $(this).remove();
+     //   $(this).remove();
     }
 });
 }
