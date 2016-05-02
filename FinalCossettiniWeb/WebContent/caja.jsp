@@ -208,27 +208,22 @@
 			<div class="row" align="center">
 			<table class="table table-bordered">
 				  <thead><tr><th colspan="3">Ultimos ingresos</th></tr></thead>
-							  <tbody data-bind="foreach: ingresos">
-								<tr>
-								  
-								  <td class="col-md-3" data-bind="text: fecha_ingreso"></td>
-								  <td class="col-md-4" data-bind="text: cantidad"></td>
-								  <td class="col-md-5" data-bind="text: tipo_ingreso" class="td-success"></td>
-								  
-								</tr>
-								</tbody>
+						<tbody data-bind='template: { name: "fieldTemplate", foreach: pagedRows }'></tbody>
 					</table>
+					<ul class="pagination">
+					<li><a href="#" data-bind="click: previousPage, visible: pageIndex() > 0">&laquo;</a></li>
+					<li><a href="#" data-bind="click: nextPage, visible: pageIndex() < maxPageIndex()">&raquo;</a></li>
+					</ul>
 					<table class="table table-bordered">
 					<thead><tr><th colspan="3">Ultimos egresos</th></tr></thead>
-					<tbody data-bind="foreach: egresos">
-								<tr>
-								  <td class="col-md-3" data-bind="text: fecha_egreso"></td>
-								  <td class="col-md-4" data-bind="text: cantidad"></td>
-								  <td class="col-md-5" data-bind="text: tipo_egreso" class="td-danger"></td>
-								</tr>
-								</tbody>
+						<tbody data-bind='template: { name: "fieldTemplate2", foreach: pagedRows2 }'></tbody>
 							
 					</table>
+					<ul class="pagination">
+					<li><a href="#" data-bind="click: previousPage2, visible: pageIndex2() > 0">&laquo;</a></li>
+					<li><a href="#" data-bind="click: nextPage2, visible: pageIndex2() < maxPageIndex2()">&raquo;</a></li>
+					</ul>
+					<br>
 			<button type="button" class="btn-lg btn-success" aria-label="Left Align" data-toggle="modal" data-target="#myModalIngresos" onclick="setModalIngresos()">Ingresos</button>
 			<button type="button" class="btn-lg btn-danger" aria-label="Left Align"  data-toggle="modal" data-target="#myModalEgresos" onclick="setModalEgresos()">Egresos</button>
 					</div>
@@ -367,9 +362,20 @@
     <script src="js/bootstrap.min.js"></script>
 <script src="js/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-   
-   
-    
+<script type="text/html" id="fieldTemplate">
+<tr>
+<td class="col-md-3" data-bind="text: fecha_ingreso"></td>
+<td class="col-md-4" data-bind="text: cantidad"></td>
+<td class="col-md-5" data-bind="text: tipo_ingreso" class="td-success"></td>
+</tr>
+</script>
+<script type="text/html" id="fieldTemplate2">
+<tr>
+	 <td class="col-md-3" data-bind="text: fecha_egreso"></td>
+	<td class="col-md-4" data-bind="text: cantidad"></td>
+	<td class="col-md-5" data-bind="text: tipo_egreso" class="td-danger"></td>
+</tr>
+</script>   
 <script>
 
 
@@ -382,10 +388,53 @@ $( document ).ready(function() {
 		    	egresos: ko.observableArray([]),
 		    	tipos: ko.observableArray([]),
 		    	selectedTipoI:ko.observable(),
-		    	selectedTipoE:ko.observable()
+		    	selectedTipoE:ko.observable(),
+		    	meses:ko.observableArray([]),
+		    	mesesE:ko.observableArray([]),
+		    	//paginacion para ingresos
+		    	pageSize: ko.observable(4),
+		        pageIndex: ko.observable(0),
+		        previousPage: function() {
+		            this.pageIndex(this.pageIndex() - 1);
+		        },
+		        nextPage: function() {
+		            this.pageIndex(this.pageIndex() + 1);
+		        },
+		      //paginacion para ingresos
+		    	pageSize2: ko.observable(4),
+		        pageIndex2: ko.observable(0),
+		        previousPage2: function() {
+		            this.pageIndex2(this.pageIndex2() - 1);
+		        },
+		        nextPage2: function() {
+		            this.pageIndex2(this.pageIndex2() + 1);
+		        }
 		    	
 		    };
-		
+			//cantidad de paginas 
+			viewModel.maxPageIndex = ko.dependentObservable(function() {
+		        return Math.ceil(this.ingresos().length / this.pageSize()) - 1;
+		    }, viewModel);
+		    
+		    //la cantidad de paginas a mostrar en el momento
+		    viewModel.pagedRows = ko.dependentObservable(function() {
+		        var size = this.pageSize();
+		        var start = this.pageIndex() * size;
+		        return this.ingresos.slice(start, start + size);
+		    }, viewModel);
+		    
+		  //cantidad de paginas 
+			viewModel.maxPageIndex2 = ko.dependentObservable(function() {
+		        return Math.ceil(this.egresos().length / this.pageSize2()) - 1;
+		    }, viewModel);
+		    
+		    //la cantidad de paginas a mostrar en el momento
+		    viewModel.pagedRows2 = ko.dependentObservable(function() {
+		        var size = this.pageSize2();
+		        var start = this.pageIndex2() * size;
+		        return this.egresos.slice(start, start + size);
+		    }, viewModel);
+		    
 			ko.applyBindings(viewModel);
 			//llamada ajax que devuelve el examen y carga el modelo con knockout
 			 var ruta= "ServletBuscarIyE";
@@ -401,6 +450,7 @@ $( document ).ready(function() {
 								viewModel.ingresos(datos.ingresos);
 								viewModel.egresos(datos.egresos);
 								sumaIngresos();
+								graficar();
 								}
 							else
 								{
@@ -417,28 +467,46 @@ $( document ).ready(function() {
 
 	});
 function sumaIngresos(){
-	var meses= [0,0,0,0,0,0,0,0,0,0,0,0];
+
+	var meses2= [0,0,0,0,0,0,0,0,0,0,0,0];
+	var mesesEg= [0,0,0,0,0,0,0,0,0,0,0,0];
 	
 	for(i=0; i< viewModel.ingresos().length;++i){
 		var mes= viewModel.ingresos()[i].fecha_ingreso;
 		var mesReal= mes.substring(5,7);
 		var mesA= parseInt(mesReal)-1;
 		var cantidad=viewModel.ingresos()[i].cantidad;
-		meses[mesA]+=cantidad;
+		meses2[mesA]+=cantidad;
 	}
-	 $('#container').highcharts({
+	viewModel.meses(meses2);
+	for(i=0; i< viewModel.egresos().length;++i){
+		var mes= viewModel.egresos()[i].fecha_egreso;
+		var mesReal= mes.substring(5,7);
+		var mesA= parseInt(mesReal)-1;
+		var cantidad=viewModel.egresos()[i].cantidad;
+		mesesEg[mesA]+=cantidad;
+	}
+	viewModel.mesesE(mesesEg);
+}
+function graficar(){
+  $('#container').highcharts({
 
 	        xAxis: {
 	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 	        },
+	        
 			title: {
-	                text: 'Ingresos en el último año'
+	                text: 'Ingresos y egresos en el último año'
 	            },
 
 	        series: [{
-	            data: meses,
-	        }]
-	    });
+	            data: viewModel.meses(),
+	            name: 'Ingresos'
+	        },{ data: viewModel.mesesE(),
+	           name: 'Egresos',
+	           color: '#cc0000'}
+	        ]
+	        });
 
 }
 function setModalIngresos()
@@ -510,9 +578,10 @@ function altaIngreso(){
     if(mm<10){
         mm='0'+mm
     } 
+    var canti=parseInt($('#txtMontoI').val()); 
     var today = yyyy+'-'+mm+'-'+dd;
 	var ingreso={tipo_ingreso: viewModel.selectedTipoI().tipo_codigo,cod_tipo_ingreso:viewModel.selectedTipoI().codigo,
-			cantidad: $('#txtMontoI').val(),observaciones:$('#txtObservacionesI').val(),fecha_ingreso:today};
+			cantidad: canti,observaciones:$('#txtObservacionesI').val(),fecha_ingreso:today};
 	var ruta= "ServletAgregarIngreso";
 	$.ajax({
 			async: false,
@@ -526,6 +595,8 @@ function altaIngreso(){
 					{
 					alert("Ingreso correcto");
 					viewModel.ingresos.push(ingreso);
+					sumaIngresos();
+					graficar();
 					//limpiar
 					$('#txtMontoI').val('');
 					$('#txtObservacionesI').val('');
@@ -559,8 +630,9 @@ function altaEgreso(){
         mm='0'+mm
     } 
     var today = yyyy+'-'+mm+'-'+dd;
+    var canti=parseInt($('#txtMontoE').val()); 
 	var egreso={tipo_egreso: viewModel.selectedTipoE().tipo_codigo,cod_tipo_egreso:viewModel.selectedTipoE().codigo,
-			cantidad: $('#txtMontoE').val(),observaciones:$('#txtObservacionesE').val(),fecha_egreso:today};
+			cantidad: canti,observaciones:$('#txtObservacionesE').val(),fecha_egreso:today};
 	var ruta= "ServletAgregarEgreso";
 	$.ajax({
 			async: false,
@@ -572,8 +644,14 @@ function altaEgreso(){
 			{ 
 				if(datos.respInfo=="OK")
 					{
-					alert("Ingreso correcto");
+					alert("Egreso correcto");
 					viewModel.egresos.push(egreso);
+					sumaIngresos();
+					graficar();
+					//limpiar
+					$('#txtMontoE').val('');
+					$('#txtObservacionesE').val('');
+					viewModel.selectedTipoE('');
 					
 					}
 				else

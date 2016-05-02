@@ -584,6 +584,74 @@ public class Controlador {
 			e.printStackTrace();
 		}
 	}
+
+	public ArrayList<NotaExamenAlumno> getNotasAlumno(Usuario u) {
+		// TODO Auto-generated method stub
+		ArrayList<NotaExamenAlumno> notas= new ArrayList<NotaExamenAlumno>();
+		try {
+			notas= cne.listarNotasAlumno(u);
+			int cant = notas.size();
+			switch(cant)
+			{
+			case 0: Examen e= new Examen();
+					e.setTipo_examen("A");
+					e.setEstado("sin generar");
+					NotaExamenAlumno n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					
+					e= new Examen();
+					e.setTipo_examen("B");
+					e.setEstado("sin generar");
+					n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					
+					e= new Examen();
+					e.setTipo_examen("C");
+					e.setEstado("sin generar");
+					n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					break;
+			case 1: e= new Examen();
+					e.setTipo_examen("B");
+					e.setEstado("sin generar");
+					n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					
+					e= new Examen();
+					e.setTipo_examen("C");
+					e.setEstado("sin generar");
+					n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					break;
+			case 2: e= new Examen();
+					e.setTipo_examen("C");
+					e.setEstado("sin generar");
+					n= new NotaExamenAlumno();
+					n.setEx(e);
+					n.setCondicion("sin cargar");
+					notas.add(n);
+					break;
+			default: break;
+			}
+			return notas;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	
 	
 
 	

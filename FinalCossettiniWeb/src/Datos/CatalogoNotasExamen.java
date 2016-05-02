@@ -6,7 +6,9 @@
 package Datos;
 
 import Entidades.NotaExamenAlumno;
+import Entidades.Usuario;
 import Entidades.Alumno;
+import Entidades.Examen;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,7 +62,51 @@ public class CatalogoNotasExamen extends DBConexion_1 {
             return null;            
         }
     }
-     
+     public ArrayList<NotaExamenAlumno> listarNotasAlumno(Usuario u) throws Exception
+     {
+         try 
+         {    this.Conectar();
+         	
+             String cadenaC="select * from examen e inner join alumno_en_examen ae on ae.cod_examen=e.cod_examen inner join alumno_en_carrera aec on aec.dni=ae.dni inner join carrera c on c.cod_carrera=aec.cod_carrera where ae.dni= ? ";
+             ArrayList<NotaExamenAlumno> notasExamenesAlumnos = new ArrayList<NotaExamenAlumno>();
+             PreparedStatement consulta= Cone.prepareStatement(cadenaC);
+             consulta.setInt(1, Integer.parseInt(u.getNombre_usuario()));
+             resu= consulta.executeQuery(); 
+             
+          
+             while(resu.next())
+                {
+            	 	//seteo el examen
+            	     Examen e = new Examen();
+                     e.setCod_examen(resu.getInt("e.cod_examen"));
+                     e.setTipo_examen(resu.getString("e.tipo_examen"));
+                     e.setEstado(resu.getString("e.estado" ));
+                     e.setAnio(resu.getInt("e.anio" ));
+                     Alumno al= new Alumno();
+                     int dni = resu.getInt("ae.dni");
+                     String nombreC= getNombreCarrera(resu.getInt("cod_carrera"));
+                     al.setDni(dni);
+                     al.setNombre_Carrera(nombreC);
+                     NotaExamenAlumno nea= new NotaExamenAlumno();
+                     e.setEstado(resu.getString("ae.estado" ));
+                     e.setAnio(resu.getInt("e.anio" ));
+                     nea.setNota(resu.getFloat("ae.nota"));
+                     nea.setCondicion(resu.getString("ae.estado"));
+                     nea.setAlumno(al);
+                     nea.setEx(e);
+                     notasExamenesAlumnos.add(nea); 
+                     
+                }
+             this.Desconectar();
+             
+             return notasExamenesAlumnos;
+         }
+         catch (Exception ex)
+         {
+             System.err.println("SQLException: " + ex.getMessage());
+             return null;            
+         }
+     }
      
       public void agregarAlumnos(ArrayList<NotaExamenAlumno> listaNotas, int cod_examen) throws Exception
     {

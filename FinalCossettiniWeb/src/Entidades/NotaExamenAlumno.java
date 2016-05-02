@@ -18,10 +18,22 @@ public class NotaExamenAlumno {
         
     }
     
-    private float nota;
+    public NotaExamenAlumno() {
+		// TODO Auto-generated constructor stub
+	}
+
+	private float nota;
     private String condicion;
     private Alumno alumno;
-   
+    public Examen getEx() {
+		return ex;
+	}
+
+	public void setEx(Examen ex) {
+		this.ex = ex;
+	}
+
+	private Examen ex;
 
 	public float getNota() {
         return nota;

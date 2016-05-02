@@ -19,7 +19,11 @@
 	<link href="css/styleTable.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
     <link href="css/plugins/morris.css" rel="stylesheet">
-
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
+   
+	<script src="js/knockout-3.4.0.js"></script>
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -196,49 +200,24 @@
                              <table class="table table-responsive">
                                   <thead>
                                     <tr>
-                                      <th>#</th>
-                                      <th>Project</th>
-                                      <th>Manager</th>
-                                      <!-- <th>Client</th> -->
-                                      <th>Deadline</th>
+                                      <th>Tipo Examen</th>
+                                      <th>Estado</th>
+                                      <th>Condicion Acta</th>
                                       <!-- <th>Price</th> -->
-                                      <th>Status</th>
-                                      <th>Progress</th>
+                                      <th>Nota</th>
+                                      <th>Condicion Alumno</th>
                                   </tr>
                               </thead>
-                              <tbody>
+                              <tbody data-bind="foreach: notas">
                                 <tr>
-                                  <td>1</td>
-                                  <td>Facebook</td>
-                                  <td>Mark</td>
-                                  <!-- <td>Steve</td> -->
-                                  <td>10/10/2014</td>
-                                  <!-- <td>$1500</td> -->
-                                  <td><span class="label label-danger">in progress</span></td>
-                                  <td><span class="badge badge-info">50%</span></td>
-                              </tr>
-                              <tr>
-                                  <td>2</td>
-                                  <td>Twitter</td>
-                                  <td>Evan</td>
-                                  <!-- <td>Darren</td> -->
-                                  <td>10/8/2014</td>
-                                  <!-- <td>$1500</td> -->
-                                  <td><span class="label label-success">completed</span></td>
-                                  <td><span class="badge badge-success">100%</span></td>
-                              </tr>
-                              <tr>
-                                  <td>3</td>
-                                  <td>Google</td>
-                                  <td>Larry</td>
-                                  <!-- <td>Nick</td> -->
-                                  <td>10/12/2014</td>
-                                  <!-- <td>$2000</td> -->
-                                  <td><span class="label label-warning">in progress</span></td>
-                                  <td><span class="badge badge-warning">75%</span></td>
-                              </tr>
-   
-                          </tbody>
+                                 
+                                  <td data-bind="text: ex.tipo_examen"></td>
+                                  <td data-bind="text: ex.estado"></td>
+                                  <td data-bind="text: condicion"></td>
+                                  <td data-bind="text: nota"><span class="label label-danger"></span></td>
+                                  <td data-bind="text: nota>=6 ? 'Aprobado' : '' "></td>
+                               </tr>
+                               </tbody>
                       </table>
 							</div>
 							<div class="col-xs-2">
@@ -246,7 +225,7 @@
 							<b>&nbsp;&nbsp;Promedio</b>
 							</br>
 							</br>
-							<span class="badge badgeTam">5.90</span>
+							<span class="badge badgeTam" id="mySpan"></span>
 							<br>
 							</div>
 			</div> 
@@ -329,50 +308,58 @@
    <!-- ChartJS 1.0.1 -->
     <script src="plugins/chartjs/Chart.min.js"></script>
 <script>
-$(function () {
-
-    $(document).ready(function () {
-
-        // Build the chart
-        $('#container').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'Estadísticas del exámen'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'Brands',
-                colorByPoint: true,
-                data: [{
-                    name: 'Desaprobados',
-					
-                    y: 55.00, color:'red'
-                },  {
-                    name: 'Aprobados',
-					
-                    y: 45.00, color:'green'
-                }]
-            }]
-        });
-    });
+$(document).ready(function () {
+	  viewModel=
+	    {
+	    notas: ko.observableArray([])
+	    };
+	   
+	    
+	var ruta= "ServletAlumnoEnExamen";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					//manejar data
+					viewModel.notas(datos.notas);
+					calculaProm();
+					}
+				else
+					{
+					alert("Ha ocurrido un error cargando socios, reintente logueandose");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+	 ko.applyBindings(viewModel);
+     
 });
+function calculaProm(){
+	notaTotal= 0;
+	cant= 0;
+	for(i=0; i< viewModel.notas().length;++i)
+		{
+		if(viewModel.notas()[i].ex.estado == 'sin generar' || viewModel.notas()[i].condicion == 'sin cargar')
+			{
+			//no hago nada
+			}else{
+		notaTotal= viewModel.notas()[i].nota + notaTotal;
+		cant= cant+1;
+			}
+		}
+	prom= notaTotal/cant;
+	$('#mySpan').text(prom.toFixed(2));
+}
 </script>
 	<script src="js/tableFilter.js"></script>
 

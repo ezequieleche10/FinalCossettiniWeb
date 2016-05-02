@@ -141,7 +141,7 @@ public Examen(){
         CatalogoNotasExamen nea = new CatalogoNotasExamen();
        ArrayList<NotaExamenAlumno> listaEA=new ArrayList<NotaExamenAlumno>();
        listaEA= nea.listarNotaExamenAlumno(this.getCod_examen());
-           
+        String tipo_examen=this.tipo_examen;   
         // en este metodo se devolvio la lista de examen alumno para el examen del codigo enviado,
         // comprobar estado y generar una lista con los alumnos aprobados para devolverla al controlador
         //el controlador le da el examen nuevo esa lista para que cree las notaexamen alumno para el examen
@@ -153,9 +153,18 @@ public Examen(){
                float nota = listaEA.get(i).getNota();
               
                if (nota>=6)
-               {
+               {	
+            	   if(tipo_examen.equals("B"))
+            	   {   
+            	      if(listaEA.get(i).getAlumno().getNombre_Carrera().equals("Traductorado de ingles"))
+            	    	  		alAprob.add(listaEA.get(i).getAlumno()); 
+            	   }   
+            	   else{
+            	   //antes de agregarlos hay que preguntar si el examen a hacer es el C
                    alAprob.add(listaEA.get(i).getAlumno());
+            	   }
                }
+               
            }
         }
        return alAprob;

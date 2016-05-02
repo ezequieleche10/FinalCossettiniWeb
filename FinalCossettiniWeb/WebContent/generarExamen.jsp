@@ -565,7 +565,7 @@ function agregarEjercicio(){
 function generarExamen(){
 var total = 0;
 for(i=0; i < viewModel.ejercicios().length;++i){
-	total=total + viewModel.ejercicios()[i].porcentaje;
+	total=total + parseInt(viewModel.ejercicios()[i].porcentaje);
 }
 if( total!==100){
 	alert('La suma de los porcentajes tiene que ser de 100%');
