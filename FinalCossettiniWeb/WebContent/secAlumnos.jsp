@@ -197,6 +197,7 @@
 						NOTAS EXÁMENES IMPORTANTE!!!
 						<div class="row">
 						<div class="col-xs-10">
+						<div class="table-responsive">
                              <table class="table table-responsive">
                                   <thead>
                                     <tr>
@@ -219,6 +220,7 @@
                                </tr>
                                </tbody>
                       </table>
+                      </div>
 							</div>
 							<div class="col-xs-2">
 							</br>

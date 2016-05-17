@@ -401,7 +401,11 @@ public class Controlador {
 				ex = cde.buscarExamen(tipoExaAnt, anio);
 				if (ex!=null)
 				{
+					if(ex.getEstado().equals("cerrado")){
 					return 0;
+					}else{
+					return 3;
+					}
 				}
 				else
 				{
@@ -649,6 +653,168 @@ public class Controlador {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public String getAyuda() {
+		// TODO Auto-generated method stub
+		String ayuda= "";
+		int finA=0;
+		int finB=0;
+		try {
+			int cant=cda.buscarCantAl();
+			if (cant==0)
+			{
+			ayuda="1- Cargar la lista del SIGAE para proceder a la realizacion del examen <br>";	
+			}else{
+			//String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+		    //solo para testear es con este año;
+				int anio=2017;
+			Examen ex= new Examen();
+			ex=cde.buscarExamen("A", anio);
+			if(ex!=null){
+				
+				switch(ex.getEstado()){
+				case "sin generar": 
+					ayuda="1- Generar la lista de alumnos en condiciones A <br> 2- Generar Examen A <br> 3- Cargar las notas A<br> 4- Repetir pasos para ByC";
+								   break;
+				case "alumnos cargados":
+					ayuda="2- Generar Examen A <br> 3- Cargar las notas A <br> 4- Repetir pasos para ByC";
+					break;
+				case "generado":
+					ayuda="3- Cargar las notas A <br> 4- Repetir pasos para ByC";
+					break;
+				case "cerrado":
+					ayuda="Examen A definido <br>";
+					finA=1;
+					break;
+				}
+				}
+			else {
+					ayuda="1- Se debe agregar el examen A <br> 2- Generar la lista de alumnos en condiciones <br> 3- Generar Examen <br> 4- Cargar las notas <br> 5- Repetir para ByC";
+				   }
+			if (finA==1){
+				ex=null;
+				ex=cde.buscarExamen("B",anio);
+				
+				if (ex!=null){
+				switch(ex.getEstado()){
+				case "sin generar": 
+					ayuda="1- Generar la lista de alumnos en condiciones B <br> 2- Generar Examen <br> 3- Cargar las notas <br> 4- Repetir para C";
+								   break;
+				case "alumnos cargados":
+					ayuda="2- Generar Examen B <br> 3- Cargar las notas <br> 4- Repetir para C";
+					break;
+				case "generado":
+					ayuda="3- Cargar las notas B <br> 4- Repetir pasos para C";
+					break;
+				case "cerrado":
+					ayuda="Examen B definido <br>";
+					finB=1;
+					break;
+				}
+				}else{
+					ayuda="1- Se debe agregar el examen B <br> 2- Generar la lista de alumnos en condiciones <br> 3- Generar Examen <br> 4- Cargar las notas <br> 5- Repetir para C";
+				}
+				if(finB==1){
+					ex=null;
+					ex=cde.buscarExamen("C",anio);
+					
+					if (ex!=null){
+					switch(ex.getEstado()){
+					case "sin generar": 
+						ayuda="1- Generar la lista de alumnos en condiciones C <br> 2- Generar Examen <br> 3- Cargar las notas <br>";
+									   break;
+					case "alumnos cargados":
+						ayuda="2- Generar Examen C <br> 3- Cargar las notas <br> ";
+						break;
+					case "generado":
+						ayuda="3- Cargar las notas C <br>";
+						break;
+					case "cerrado":
+						ayuda="Examen C definido <br> Lista final definida(Consulte)!!";
+					
+						break;
+					}
+					}else{
+						ayuda="1- Se debe agregar el examen C <br> 2- Generar la lista de alumnos en condiciones <br> 3- Generar Examen <br> 4- Cargar las notas <br>";
+					}
+				}
+				
+			}
+			
+			}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return ayuda;
+	}
+
+	public void cambiaClave(Usuario u, String pass) {
+		// TODO Auto-generated method stub
+		cdeu.cambiaClave(u,pass);
+	}
+
+	public void agregarProfesor(Profesor p) {
+		// TODO Auto-generated method stub
+		
+		try {
+			cdp.agregarProfesor(p.getNombre(),p.getApellido(),p.getFecha_nac(),p.getUsuario());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarProfesor(Profesor p) {
+		// TODO Auto-generated method stub
+		cdp.deleteProfesor(p.getCod_profesor());
+	}
+
+	public void editarProfesor(Profesor p) {
+		// TODO Auto-generated method stub
+		try {
+			cdp.editarProfesor(p);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<Alumno> getAlumnos() {
+		// TODO Auto-generated method stub
+		return cda.getAllAlumnos();
+	}
+
+	public void agregarTipoIngreso(String tipo, String desc) {
+		// TODO Auto-generated method stub
+		CatalogodeIngresos cdi= new CatalogodeIngresos();
+		try {
+			cdi.agregarTipoIngreso(tipo,desc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void agregarTipoEgreso(String tipo, String desc) {
+		// TODO Auto-generated method stub
+		CatalogodeEgresos cdeg= new CatalogodeEgresos();
+		try {
+			cdeg.agregarTipoEgreso(tipo,desc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void eliminarCiclo() {
+		// TODO Auto-generated method stub
+		CatalogodeIngresos cdi= new CatalogodeIngresos();
+		cdi.eliminarCiclo();
 	}
 
 	

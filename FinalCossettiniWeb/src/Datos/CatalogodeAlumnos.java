@@ -7,6 +7,7 @@ package Datos;
 
 import Entidades.Alumno;
 import Entidades.NotaExamenAlumno;
+import Entidades.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,6 +55,26 @@ public class CatalogodeAlumnos extends DBConexion_1{
         {
             System.err.println("SQLException: " + ex.getMessage());
             return null;            
+        }
+      
+    }
+    public int buscarCantAl() throws Exception
+    {	
+        try 
+        {
+        	this.Conectar();
+        	PreparedStatement consulta= Cone.prepareStatement("SELECT COUNT(*) as cant FROM alumno");
+        	resu = consulta.executeQuery();
+            resu.first();
+             int cant = resu.getInt("cant" );
+             this.Desconectar();
+             return cant;
+
+        }
+        catch (Exception ex)
+        {
+            System.err.println("SQLException: " + ex.getMessage());
+            return 0;            
         }
       
     }
@@ -159,4 +180,40 @@ public class CatalogodeAlumnos extends DBConexion_1{
         }
       
     }
+	 public ArrayList<Alumno> getAllAlumnos() {
+			// TODO Auto-generated method stub
+			 try
+			 {
+		        	this.Conectar();
+		        	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
+		        	String cons="SELECT * FROM alumno a INNER JOIN carrera ca ON ca.cod_carrera=a.cod_carrera INNER JOIN usuario u on u.dni=a.dni ORDER BY a.apellido,a.nombre";
+		        	
+		            PreparedStatement consulta= Cone.prepareStatement(cons);
+		            
+		             resu = consulta.executeQuery();
+		             while(resu.next())
+		               {
+		                    int dniAl = resu.getInt("a.dni" );
+		                    String nomAl = resu.getString("a.nombre");
+		                    String apeAl = resu.getString("a.apellido");
+		                    String mailAl = resu.getString("a.mail");
+		                    String ingdiAl = resu.getString("a.ingreso_directo");
+		                    String tuelAl = resu.getString("a.turno_eleccion");
+		                    String carrera = resu.getString("ca.nombre");
+		                    String nombre_Usuario= resu.getString("u.nombre_usuario");
+		                    Alumno al = new Alumno(dniAl, nomAl, apeAl, mailAl, tuelAl, ingdiAl, carrera); 
+		                    al.setUsuario(nombre_Usuario);
+		                    alumnos.add(al); 
+		                    
+		               }
+		             this.Desconectar();
+		            return alumnos;
+
+		        }
+		        catch (Exception ex)
+		        {
+		            System.err.println("SQLException: " + ex.getMessage());
+		            return null;            
+		        }
+			}
 }

@@ -7,6 +7,13 @@ public class Usuario {
 	private int tipo_Usuario;
 	private int codigo_profesor;
 	private int dni;
+	private int pv;
+	public int getPv() {
+		return pv;
+	}
+	public void setPv(int pv) {
+		this.pv = pv;
+	}
 	public String getNombre_usuario() {
 		return nombre_usuario;
 	}

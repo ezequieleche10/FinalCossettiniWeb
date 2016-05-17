@@ -281,8 +281,12 @@ function agregarExamen()
 			data: "tipo_examen="+tipo_examen+"&spAno="+spinAno+"&areaDesc="+areaDesc,
 			success: function(datos)
 			{ 
-				if(datos=="OK"){
+				if(datos.resp=="OK"){
+					if(datos.mensaje==""){
 					alert("Se han cargado exitosamente el examen");
+					}else{
+						alert(datos.mensaje);
+					}
 					resultado="OK";
 				}
 				else{

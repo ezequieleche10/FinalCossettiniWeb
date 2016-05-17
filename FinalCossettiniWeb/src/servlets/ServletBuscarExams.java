@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 
 import Entidades.Alumno;
 import Entidades.Examen;
+import Entidades.Usuario;
 import Negocio.Controlador;
 
 /**
@@ -48,6 +49,7 @@ public class ServletBuscarExams extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
+		String usu= (String)Session.getAttribute("usuario");
 		Gson gson = new Gson();
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
@@ -55,9 +57,9 @@ public class ServletBuscarExams extends HttpServlet {
 		JsonElement resp =null;
 		try{
 			//write some code
-			int cod_profesor=4;
+			Usuario u = cont.getUsuario(usu);
 			ArrayList<Examen> exams = new ArrayList<Examen>();
-			exams= cont.buscarExamenes(cod_profesor);
+			exams= cont.buscarExamenes(u.getCodigo_profesor());
 			myObj.add("exams", gson.toJsonTree(exams));
 			myObj.addProperty("success", true);
 		    resp = gson.toJsonTree("OK");

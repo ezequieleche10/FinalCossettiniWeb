@@ -213,6 +213,7 @@
 					<input type="text" class="search form-control" placeholder="Filtrar">
 				</div>
 					<span class="counter pull-right"></span>
+				<div class="table-responsive">
 				<table class="table table-hover table-bordered results" id="my_file_output">
 				  <thead>
 					<tr>
@@ -223,7 +224,7 @@
 					  <th>IDir</th>
 					  <th>TE</th>
 					  <th>Carrera</th>
-					  <th></th>
+					  
 					</tr>
 					<tr class="warning no-result">
 					  <td colspan="7"><i class="fa fa-warning"></i> No result</td>
@@ -232,6 +233,7 @@
 							  <tbody>				
 							  </tbody>
 				</table>
+				</div>
 				</div>
 				<!--/.class -->
                      
@@ -317,11 +319,12 @@ function filePicked(oEvent) {
            
                 var sRow = "<tr>";
                 $.each(data[indexR], function( indexC, valueC ) {
-                    sRow = sRow + "<td>" + valueC + "</td>";
+                    sRow = sRow + "<td>" +  valueC + "</td>";
+                   
                 });
-                var newTD  = "<td>" + "<button type='submit' class='btn-xs btn-info' onclick='editarModal()' ><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>" + 
-                "<button type='submit' class='btn-xs btn-warning' onclick='confirmaEliminar()'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button>"+"&nbsp;&nbsp;" +"</td>";
-                sRow = sRow + newTD + "</tr>";
+                //var newTD  = "<td>" + "<button type='submit' class='btn-xs btn-info glyphicon glyphicon-pencil' onclick='editarModal()' ></button>" + 
+                //"<button type='submit' class='btn-xs btn-warning glyphicon glyphicon-remove' onclick='confirmaEliminar()'></button>"+"&nbsp;&nbsp;" +"</td>";
+                sRow = sRow + "</tr>";
                 $("#my_file_output").append(sRow);
             	}
             });

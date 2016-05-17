@@ -154,6 +154,54 @@ public class CatalogodeIngresos extends DBConexion_1{
           }
          
       }
+
+	  public void agregarTipoIngreso(String tipo,  String desc) throws Exception
+    {
+        try 
+        {	this.Conectar();
+          	String actu = "INSERT INTO tipos_ingresos (tipo_ingreso,descripcion) VALUES (?,?)";
+        	PreparedStatement inse = Cone.prepareStatement(actu);
+            inse.setString(1,tipo);
+            inse.setString(2, desc);
+            inse.executeUpdate();
+        	this.Desconectar();
+           
+        }
+        catch (Exception ex)
+        {
+            System.err.println("SQLException: " + ex.getMessage());            
+        }
+        
+    }
+
+	public void eliminarCiclo() {
+		// TODO Auto-generated method stub
+		 try
+         {    this.Conectar();
+         	
+         	String[] s= new String[10];
+         	s[0]="delete from alumno_en_ejercicio_examen";
+         	s[1]="delete from profesor_en_comision";
+         	s[2]="delete from comision";
+         	s[3]="delete from ejercicio";
+         	s[4]="delete from alumno_en_examen";
+         	s[5]="delete from examen_carrera";
+         	s[6]="delete from examen";
+         	s[7]="delete from alumno_en_carrera";
+         	s[8]="delete from usuario where tipo_usuario=3";
+         	s[9]="delete from alumno";
+         	for(int i=0;i<10;i++){
+         	PreparedStatement del = Cone.prepareStatement(s[i]);
+         	del.executeUpdate();
+         	}
+         	this.Desconectar();
+         }
+         catch (Exception ex)
+         {
+             System.err.println("SQLException: " + ex.getMessage());
+             
+         }
+	}
             
      
 }

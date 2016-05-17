@@ -26,10 +26,11 @@ public class Profesor {
 
     public Profesor(){}
     
-    public Profesor(int cod_profesor, String nombre, String apellido) {
+    public Profesor(int cod_profesor, String nombre, String apellido, String fecha_nac) {
         this.cod_profesor = cod_profesor;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.fecha_nac=fecha_nac;
     }
     public Profesor(String nombre, String apellido, String fecha_Nac){
     	this.nombre = nombre;

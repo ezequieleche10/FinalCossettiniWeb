@@ -17,6 +17,12 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 	<link href="css/spinner.css" rel="stylesheet">
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
+   
+   
+	<script src="js/knockout-3.4.0.js"></script>
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +33,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+	<style>
+	.ui-datepicker-month{color:black;}
+	.ui-datepicker-year{color:black;}
+	</style>
 </head>
 
 <body>
@@ -190,65 +199,48 @@
 					    if(codRol == 1)
 					    { %>
 				<div class="row">
-				<div class="col-md-12">
-				<section class="panel panel-info">
-                                <header class="panel-heading">
-                                 Agregar Profesor
-                                </header>
-                                <div class="panel-body">
-                                    <form class="form-horizontal tasi-form" method="get">
-                                     
-                                      
-                                      <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Nombre:</label>
-                                          <div class="col-lg-10">
-                                            <input type="text" name="txtNombre" class="form-control"/>
-                                          </div>
-                                      </div>
-									   <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputApellido">Apellido:</label>
-                                          <div class="col-lg-10">
-                                            <input type="text" name="txtApellido" class="form-control"/>
-                                          </div>
-                                      </div>
-									   <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputFechaNac">Fecha Nacimiento:</label>
-                                          <div class="col-lg-10">
-                                            <input type="text" name="txtFechaNac" class="form-control"/>
-                                          </div>
-                                      </div>
-									  <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputUsuario">Usuario:</label>
-                                          <div class="col-lg-10">
-                                            <input type="text" name="txtUsuario" class="form-control"/>
-                                          </div>
-                                      </div>
-									  <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputClave">Clave:</label>
-                                          <div class="col-lg-10">
-                                            <input type="password" name="txtClave" class="form-control"/>
-                                          </div>
-                                      </div>
-									  <div class="form-group">
-                                          <label class="col-sm-2 control-label col-lg-2" for="inputClave">Repetir Clave:</label>
-                                          <div class="col-lg-10">
-                                            <input type="password" name="txtRepClave" class="form-control"/>
-                                          </div>
-                                      </div>
-									 <div class="form-group">
-									 <div class="col-lg-offset-5">
-										<button type='submit' name='seach' id='search-btn' class="btn-lg btn-info">Agregar</button>
-										<button type='submit' name='seach' id='search-btn' class="btn-lg btn-warning">Cancelar</button>
-									</div>
-									</div>
-									
-									
-									</div>
-
-                                  </form>
-                              </div>
-                            </section>
+				<div class="col-lg-12">
+					<a data-toggle="modal" data-target="#myModalAgregar" >Click aquí para agregar Profesor</a>
+					<div class="form-group pull-right">
+					<input type="text" id="filter" class="search form-control" placeholder="Filtrar">
+					</div>
+					<span class="counter pull-right"></span>
+					<div class="table-responsive">
+				<table class="table table-hover table-bordered results">
+				  <thead>
+					<tr>
+					  <th class="col-md-4 col-xs-4">Nombre</th>
+					  <th class="col-md-3 col-xs-3">Apellido</th>
+					  <th class="col-md-3 col-xs-3">Fecha Nacimiento</th>
+					  <th class="col-md-2 col-xs-2"></th>
+					</tr>
+				
+				  </thead>
+							  <tbody data-bind="foreach: profesores">
+								<tr>
+								 
+								  <td data-bind="text: nombre"></td>
+								  <td data-bind="text: apellido"></td>
+								  <td data-bind="text: fecha_nac"></td>
+								  <td align="center">
+								   <button type="button" class="btn-md btn-info glyphicon glyphicon-pencil" aria-label="Left Align" data-bind="click: $parent.setModalEditar" data-toggle="modal"  
+								  data-target="#myModalEditar">
+								  
+								  </button>
+								  <button type="button" class="btn-md btn-danger glyphicon glyphicon-remove" data-bind="click: $parent.eliminarProfesor" >
+								   
+								  </button>
+								 </td>
+								</tr>
+							</tbody>
+				</table>
 				</div>
+				</div>
+				<!--/.class -->
+                     
+                       
+                    
+                </div>
 				<!-- /.class -->
 				</div>
 				<!-- /.row -->
@@ -271,14 +263,398 @@
 
     </div>
     <!-- /#wrapper -->
-
+<div class="modal fade" id="myModalAgregar" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alta Profesor</h4>
+        </div>
+        <div class="modal-body">
+      <form class="form-horizontal tasi-form">
+      <div id="lblClaves" style="display:none" align="center"><label style="color:red"></label></div>
+	 <div class="form-group">
+      <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Nombre:</label>
+      <div class="col-lg-10">
+      <input type="text" id="txtNombre" class="form-control"/>
+       </div>
+       </div>
+									   <div class="form-group">
+                                          <label class="col-sm-2 control-label col-lg-2" for="inputApellido">Apellido:</label>
+                                          <div class="col-lg-10">
+                                            <input type="text" id="txtApellido" class="form-control"/>
+                                          </div>
+                                      </div>
+									
+                                      <div class="form-group">
+                                        <label class="col-sm-2 control-label col-lg-2" for="inputFechaNac">Fecha Nacimiento:</label>
+							            <div class="col-lg-10" >
+							                <input type="text" class="form-control" id="datepicker4" />
+							            </div>
+        								</div>
+									  <div class="form-group">
+                                          <label class="col-sm-2 control-label col-lg-2" for="inputUsuario">Usuario:</label>
+                                          <div class="col-lg-10">
+                                            <input type="text" id="txtUsuario" class="form-control" onblur="validaUsuario()"/>
+                                          </div>
+                                      </div>
+									  <div class="form-group">
+                                          <label class="col-sm-2 control-label col-lg-2" for="inputClave">Clave:</label>
+                                          <div class="col-lg-10">
+                                            <input type="password" id="txtClave" class="form-control"/>
+                                          </div>
+                                      </div>
+									  <div class="form-group">
+                                          <label class="col-sm-2 control-label col-lg-2" for="inputClave">Repetir Clave:</label>
+                                          <div class="col-lg-10">
+                                            <input type="password" id="txtRepClave" class="form-control"/>
+                                           </div>
+                                          
+                                      </div>
+		</form>
+		</div>
+       <div class="modal-footer">
+         
+          <button id ="btnEgreso" type="submit" onclick="return altaProfesor();" class="btn btn-primary" >Agregar</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModalEditar" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Editar Profesor</h4>
+        </div>
+        <div class="modal-body">
+      <form class="form-horizontal tasi-form">
+	 <div class="form-group">
+      <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Nombre:</label>
+      <div class="col-lg-10">
+      <input type="text" id="txtNombreE" class="form-control"/>
+       </div>
+       </div>
+	   <div class="form-group">
+          <label class="col-sm-2 control-label col-lg-2" for="inputApellido">Apellido:</label>
+          <div class="col-lg-10">
+            <input type="text" id="txtApellidoE" class="form-control"/>
+          </div>
+     	 </div>
+	
+         <div class="form-group">
+           <label class="col-sm-2 control-label col-lg-2" for="inputFechaNac">Fecha Nacimiento:</label>
+           <div class="col-lg-10" >
+               <input type="text" class="form-control" id="datepickerE" />
+           </div>
+		</div>
+	  <div class="form-group">
+        <label class="col-sm-2 control-label col-lg-2" for="inputUsuario">Usuario:</label>
+        <div class="col-lg-10">
+          <input type="text" id="txtUsuarioE" class="form-control" readonly/>
+        </div>
+       </div>
+  	</form>
+		</div>
+       <div class="modal-footer">
+          <button id ="btnEgreso" type="button" onclick=" return editarProfesor();" class="btn btn-primary" data-dismiss="modal" >Editar</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+    <script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/tableFilter.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+ <script>
+  $(function() {
+    $( "#datepicker4" ).datepicker({ changeMonth: true,
+        changeYear: true,background:"#999",yearRange: '1950:2016', });
+  //  $( "#format" ).change(function() {
+    //    $( "#datepicker4" ).datepicker( "option", "dateFormat","yyyy-mm-dd" );
+     // });
+    $( "#datepickerE" ).datepicker({ changeMonth: true,
+        changeYear: true,background:"#999",yearRange: '1950:2016', });
+  });
+  </script>
+  <script type="text/javascript">
+$( document ).ready(function() {
+  $('#panelShow').hide();  
+ 
+		viewModel=
+	    {	
+	    	profesores: ko.observableArray([]),
+	    	selectedProfesor:ko.observable()
+	    	
+	    	
+	    };
+		
+		
+		viewModel.eliminarProfesor= function(profesor)
+	    {	
+			$('<div></div>').appendTo('body')
+			.html("Esta seguro de eliminar el profesor? <br> No se pueden revertir los cambios") 
+			.dialog({
+			    modal: true,
+			    title: 'Eliminar',
+			    zIndex: 10000,
+			    autoOpen: true,
+			    width: 'auto',
+			    resizable: false,
+			    buttons: {
+			        OK: function () {
+			        	var ruta= "ServletBorrarProfesor";
+				    	$.ajax({
+				    			async: false,
+				    			url: ruta,
+				    			type: "POST",
+				    			dataType: "json",
+				    			data: "profesor="+JSON.stringify(profesor),
+				    			success: function(datos)
+				    			{ 
+				    				if(datos.respInfo=="OK")
+				    					{
+				    					
+				    					viewModel.profesores.remove(profesor);
+				    					
+				    					}
+				    				else
+				    					{
+				    					alert("Ha ocurrido un error en la conexion o el profesor está asignado a una comisión");
+				    					}
+				    				
+				    			},
+				    			error: function(datos) {
+				    		        //AJAX request not completed
+				    		       alert("There was an error");
+				    		    }
+				    		
+				    	});
+				    	$(this).dialog("close");
+			        },
+			        CANCEL: function () {
+			        	
+			            $(this).dialog("close");
+			        }
+			    },
+			    close: function (event, ui) {
+			     //   $(this).remove();
+			    }
+			});
 
+			//go to servlet and eliminarlo del modelo
+	    	
+			
+		};
+		viewModel.setModalEditar= function(profesor)
+	    {	viewModel.selectedProfesor=profesor;
+			$('#txtNombreE').val(profesor.nombre);	
+			$('#txtApellidoE').val(profesor.apellido);	
+			$('#datepickerE').val(profesor.fecha_nac);
+			$('#txtUsuarioE').val(profesor.usuario.nombre_usuario);
+				
+			
+			
+		};
+		 ko.applyBindings(viewModel);
+		//llamada ajax que devuelve el examen y carga el modelo con knockout
+		 var ruta= "ServletBuscarProfesores";
+			$.ajax({
+					async: false,
+					url: ruta,
+					type: "POST",
+					dataType: "json",
+					success: function(datos)
+					{ 
+						if(datos.respInfo=="OK")
+							{
+							viewModel.profesores(datos.profesores);
+						
+							}
+						else
+							{
+							alert("Ha ocurrido un error cargando socios, reintente logueandose");
+							}
+						
+					},
+					error: function(datos) {
+				        //AJAX request not completed
+				       alert("There was an error");
+				    }
+				
+			});   
+	});
+
+function altaProfesor(){
+	var apellido=$('#txtApellido').val();
+	var nombre=$('#txtNombre').val();
+	var fecha_nac=$('#datepicker4').val()
+	var usuarioI=$('#txtUsuario').val();
+	var clave=$('#txtClave').val();
+	var repclave=$('#txtRepClave').val();
+	var valu=0;
+	if(validacionIngreso()){
+		var usuario={"nombre_usuario":usuarioI,"clave":clave}
+		var profesor= {"apellido": apellido,"nombre":nombre,"fecha_nac":fecha_nac,"usuario":usuario};
+		
+		var ruta= "ServletAgregarProfesor";
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				data: {"profesor":JSON.stringify(profesor)},
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+						alert("Profesor Agregado Correctamente");
+						viewModel.profesores.push(profesor);
+						
+						
+						}
+					else
+						{
+						alert("Ha ocurrido un error, reintente");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});	
+		
+	}else{
+		
+		$('#lblClaves').css({"display": ''}); valu=1;;
+	}
+if(valu===0){
+	
+	$('#myModalAgregar').modal('hide');
+	limpiarPanel();
+	}else {return false;}
+}
+function validacionIngreso(){
+	var apellido=$('#txtApellido').val();
+	var nombre=$('#txtNombre').val();
+	var fecha_nac=$('#datepicker4').val()
+	var usuarioI=$('#txtUsuario').val();
+	var clave=$('#txtClave').val();
+	var repclave=$('#txtRepClave').val();
+	var bandera= true;
+	var mensaje="";
+	if(clave!== repclave){
+		bandera=false;
+		mensaje+= "Claves no coinciden ";
+	}
+	if(apellido===""){
+		bandera=false;
+		mensaje+= "Apellido no puede ser vacio ";
+	}
+	if(nombre===""){
+		bandera=false;
+		mensaje+= "Nombre no puede ser vacio ";
+	}
+	if(fecha_nac===""){
+		bandera=false;
+		mensaje+= "Fecha Nacimiento no puede ser vacio ";
+	}
+	if(usuarioI===""){
+		bandera=false;
+		mensaje+= "Nombre usuario no puede ser vacio ";
+	}
+	if(!bandera)
+		{$('#lblClaves').text(mensaje)}
+	return bandera;
+	
+}	
+function limpiarPanel(){
+	$('#txtApellido').val("");
+	$('#txtNombre').val("");
+	$('#datepicker4').val("")
+	$('#txtUsuario').val("");
+	$('#txtClave').val("");
+	$('#txtRepClave').val("");
+}	
+
+function editarProfesor(){
+	//recupero elementos y creo el socio con su cargo
+	viewModel.selectedProfesor.nombre= $('#txtNombreE').val();	
+	viewModel.selectedProfesor.apellido=$('#txtApellidoE').val();
+	viewModel.selectedProfesor.fecha_nac=$('#datepickerE').val();
+	
+	var ruta= "ServletEditarProfesor";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data: "profesor="+JSON.stringify(viewModel.selectedProfesor),
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Profesor Modificado Correctamente");
+					window.location.href="profesores.jsp";
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+	return false;
+}
+function validaUsuario(){
+	var existe;
+	
+	$.ajax({ 
+		async: false,
+		type : 'POST',
+		data : "inputUsername="+$('#txtUsuario').val(),
+		url  : 'existeUsuario.jsp',
+		success: function(data){ // Get the result and asign to each cases
+			
+			if(data==1)
+			{
+			//Ok
+				existe=true;
+				alert("Nombre de Usuario existente, ingrese otro");
+				$('#txtUsuario').focus();		
+			}
+			else
+			{ 	
+				existe=false;;
+			}
+			
+		}
+			
+		});
+	
+	return existe;
+}
+function validaCoincidePass(){
+	if($('#txtClave').val()==$('#txtRepClave')){
+	alert("las claves no coinciden");
+	}
+	
+}
+
+</script>
 </body>
 
 </html>

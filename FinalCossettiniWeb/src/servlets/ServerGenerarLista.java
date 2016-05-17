@@ -60,7 +60,7 @@ public class ServerGenerarLista extends HttpServlet {
 		try{
 			//write some code
 			
-			controlador.agregarAlumnos(alumnos);
+			controlador.agregarAlumnos(alumnos);;
 			String resp="OK";
 			myObj.addProperty("success", true);
 			JsonElement childObj = gson.toJsonTree(resp);

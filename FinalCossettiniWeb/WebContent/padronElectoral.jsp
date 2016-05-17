@@ -227,6 +227,7 @@
 					<input type="text" class="search form-control" placeholder="Filtrar">
 				</div>
 					<span class="counter pull-right"></span>
+					<div class="table-responsive">
 			   <table id="printTable" class="table table-hover results">
 				  <thead>
 					<tr>
@@ -248,7 +249,7 @@
 							  </tbody>
 				</table>
 			   </div>
-			  
+			  </div>
 			   </div>
                <div class="row">
 			   <div class="col-lg-12">

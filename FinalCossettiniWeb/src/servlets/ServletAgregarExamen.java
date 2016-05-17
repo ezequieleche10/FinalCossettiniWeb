@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import Negocio.Controlador;
 
@@ -46,16 +51,48 @@ public class ServletAgregarExamen extends HttpServlet {
 		String tipo_examen =request.getParameter("tipo_examen");
 		int año =Integer.parseInt(request.getParameter("spAno"));
 		String descripcion =request.getParameter("areaDesc");
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
+		JsonObject myObj = new JsonObject();
+		
+		String mje="";
 		PrintWriter out = response.getWriter();
 		try{
 			//redirect to specific page
-		    	cont.agregarExamen(tipo_examen, año, descripcion);
-		    	out.print("OK");
-			
+			//validar si el examen es creado o no
+			int valor = cont.buscarExamenesPendientes(tipo_examen, año);
+			switch(valor){
+			case 0:
+				cont.agregarExamen(tipo_examen, año, descripcion);
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(""));
+				break;
+			case 1:
+				mje= "Ya existe un examen con dichos datos";
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(mje));
+				break;
+			case 2:
+				mje= "No existe el examen anterior creado";
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(mje));
+			case 3:
+				mje= "El examen anterior no esta cerrado";
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(mje));
+			default:
+				myObj.addProperty("success", false);
+				break;
+			}
+		    	
+				myObj.add("resp", gson.toJsonTree("OK"));
+		    	out.println(myObj.toString());
+		    	out.close();
 			}
 		catch(Exception e){
-		   out.print("");
+		   myObj.add("resp", gson.toJsonTree(""));
+		   out.println(myObj.toString());
+		   out.close();
 		    }
 						
 		}

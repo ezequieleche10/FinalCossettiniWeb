@@ -206,19 +206,23 @@
 			</div>
 			</div>
 			<div class="row" align="center">
+			<div class="table-responsive">
 			<table class="table table-bordered">
 				  <thead><tr><th colspan="3">Ultimos ingresos</th></tr></thead>
 						<tbody data-bind='template: { name: "fieldTemplate", foreach: pagedRows }'></tbody>
 					</table>
+					</div>
 					<ul class="pagination">
 					<li><a href="#" data-bind="click: previousPage, visible: pageIndex() > 0">&laquo;</a></li>
 					<li><a href="#" data-bind="click: nextPage, visible: pageIndex() < maxPageIndex()">&raquo;</a></li>
 					</ul>
+					<div class="table-responsive">
 					<table class="table table-bordered">
 					<thead><tr><th colspan="3">Ultimos egresos</th></tr></thead>
 						<tbody data-bind='template: { name: "fieldTemplate2", foreach: pagedRows2 }'></tbody>
 							
 					</table>
+					</div>
 					<ul class="pagination">
 					<li><a href="#" data-bind="click: previousPage2, visible: pageIndex2() > 0">&laquo;</a></li>
 					<li><a href="#" data-bind="click: nextPage2, visible: pageIndex2() < maxPageIndex2()">&raquo;</a></li>

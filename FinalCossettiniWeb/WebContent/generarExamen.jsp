@@ -18,6 +18,9 @@
     <link href="css/sb-admin.css" rel="stylesheet">
 	<link href="css/spinner.css" rel="stylesheet">
 	<link href="css/wizard.css" rel="stylesheet">
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
 	<script src="js/knockout-3.4.0.js"></script>
 
     <!-- Custom Fonts -->
@@ -383,7 +386,8 @@
 							  	<!-- /.class col lg1 -->
 							
 								<div class="col-lg-6 col-xs-12">
-								<table class="table table-hover table-bordered results" >
+								<div class="table-responsive">
+								<table id="myTable" class="table table-hover table-bordered results" >
 						  <thead>
 							<tr>
 							  <th>Nombre</th>
@@ -412,11 +416,11 @@
 									  </tbody>
 									  
 						</table>
-
+							</div>
 								</div>
 								</div>
                           </section>
-				<button type="submit"class="btn btn-success btn-lg pull-right" onclick="generarExamen()">Generar Examen</button> 
+				<button type="submit" class="btn btn-success btn-lg pull-right" onclick="return generarExamen();">Generar Examen</button> 
 				</div> 
 				</div> 
 				</div> 
@@ -448,7 +452,7 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+	<script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/tableFilter.js"></script>
@@ -568,7 +572,10 @@ for(i=0; i < viewModel.ejercicios().length;++i){
 	total=total + parseInt(viewModel.ejercicios()[i].porcentaje);
 }
 if( total!==100){
-	alert('La suma de los porcentajes tiene que ser de 100%');
+	alert("La suma debe ser de 100%");
+	
+		
+	
 }
 else{
 var ruta= "ServletGenerarExamen";
@@ -599,6 +606,7 @@ var comision={nombre:$('#txtNombreComision').val(),descripcion:$('#txtDescripcio
 		    }
 		
 	});
+	return false;
 }
 }
 </script>

@@ -52,15 +52,15 @@
     </nav>
 
     <!-- Page Content -->
-    <body>
+   
     <div class="container">
 
         <form class="form-signin" id="form-singin" action="ServletNuevoLogin" method="post">
-        <h2 class="form-signin-heading">Bienvenido</h2>
+        <h2 class="form-signin-heading">Bienvenido al sitio</h2>
         <label for="inputUsername" class="sr-only">Direccion de correo</label>
-        <input type="text" name ="inputUsername" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="">
+        <input type="text" name ="inputUsername" id="inputUsername" class="form-control" placeholder="Username" autofocus/>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required="">
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password"/>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Recuerdame
@@ -71,7 +71,7 @@
         
     </div>
     <!-- /.container -->
-</body>
+
     <div class="container">
 
         <hr>
@@ -80,7 +80,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright © Java Final 2015</p>
+                    <p>Copyright © Proyecto Final 2015</p>
                 </div>
             </div>
         </footer>

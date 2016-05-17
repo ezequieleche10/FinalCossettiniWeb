@@ -24,6 +24,10 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,6 +35,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 
 </head>
 
@@ -56,15 +61,24 @@
               <% 
    String usuario =""; 
    int codRol=0;
+   int pv=0;
     try{ 
     if(session.getAttribute("usuario") != null)
     {
         usuario = (String)"<b>"+session.getAttribute("usuario")+"</b>";
         codRol= (Integer)session.getAttribute("cod_rol");
+        if(session.getAttribute("pv") != null){
+          pv= (Integer)session.getAttribute("pv");
+        }       
   	%>
-                
+  	 <%  try{ 
+					    if(codRol == 1 || codRol==2)
+					    { %>
+                <li><a href="#"><i class="fa fa-fw fa-question fa-lg" onclick="ayuda()"></i></a></li>
+                 <% }}catch(NullPointerException ex){} %>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><%= usuario %><b class="caret"></b></a>
+                    
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -163,7 +177,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -197,28 +217,162 @@
 			Contactanos
 			</div>
 			</div>
-
-
+				<%  try{ 
+					    if((codRol == 3 ||codRol==2) && pv==1) 
+					    { %>
+			<input type="hidden" id="myValue" value="<%= pv %>"/>
+			 <% }else{
+				 %>
+			<input type="hidden" id="myValue" value="0"/>
+			<% }
+					    }catch(NullPointerException ex){} %>
             </div>
             <!-- /.container-fluid -->
 
         </div>
         <!-- /#page-wrapper -->
-
+<div id="myModalClave" class="col-lg-12" style="display:none">
+<h3>Por seguridad, cambie su clave</h3>
+<label class="col-lg-12" id="claveCambio">Ingrese clave:</label>
+<div class="col-lg-12">
+<input id="txtPassword" type="password" class="form-control input-sm" id="txtPassword" />
+</div>
+</div>
     </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
+   <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-ui.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+
 
     <!-- Morris Charts JavaScript -->
     <script src="js/plugins/morris/raphael.min.js"></script>
     <script src="js/plugins/morris/morris.min.js"></script>
     <script src="js/plugins/morris/morris-data.js"></script>
 
-</body>
 
+<script type="text/javascript">
+window.onload = function() {
+	var valor=parseInt($('#myValue').val());
+	if(valor==1)
+	{
+	 $('#myModalClave').css({"display": ''});
+	 $('<div></div>').appendTo('body')
+		.html($('#myModalClave')) 
+		.dialog({
+		    modal: true,
+		    title: 'Alumno Logueado',
+		    zIndex: 10000,
+		    autoOpen: true,
+		    width: 'auto',
+		    resizable: false,
+		    buttons: {
+		        Cambiar: function () {
+		            // $(obj).removeAttr('onclick');                                
+		            // $(obj).parents('.Parent').remove();
+					guardarClave();				
+		            $(this).dialog("close");
+		        },
+		       // CANCEL: function () {
+		       // 	$('#myModalEditar').css({"display": 'none'});
+		        //    $(this).dialog("close");
+		        //}
+		    },
+		    close: function (event, ui) {
+		     	  $(this).remove();
+		    }
+		});
+	}
+	};
+function guardarClave(){
+	var ruta= "ServletCambiaClave";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			data: {clave: JSON.stringify($('#txtPassword').val())},
+			dataType: "json",
+			success: function(datos)
+			{ 
+				
+					if(datos.respInfo=="OK")
+					{
+					alert("Contraseña cambiada");
+					}
+					else
+					{
+					alert("Ha ocurrido un error, reintente logueandose");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+}
+function ayuda()
+{	var mje="";
+	var ruta= "ServletAyuda";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			success: function(datos)
+			{ 
+				
+					if(datos.respInfo=="OK")
+					{
+					mje= datos.mensaje;
+					muestraModal(mje);
+					}
+					else
+					{
+					alert("Ha ocurrido un error, reintente logueandose");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+}
+function muestraModal(mje){
+	
+	$('<div></div>').appendTo('body')
+	.html(mje) 
+	.dialog({
+	    modal: true,
+	    title: 'Seccion Exámenes',
+	    zIndex: 10000,
+	    autoOpen: true,
+	    width: 'auto',
+	    resizable: false,
+	    buttons: {
+	        OK: function () {
+	            // $(obj).removeAttr('onclick');                                
+	            // $(obj).parents('.Parent').remove();
+				
+	            $(this).dialog("close");
+	        },
+	       // CANCEL: function () {
+	       // 	$('#myModalEditar').css({"display": 'none'});
+	        //    $(this).dialog("close");
+	        //}
+	    },
+	    close: function (event, ui) {
+	     	  $(this).remove();
+	     	 
+	    }
+	});
+	}
+</script>
+</body>
 </html>

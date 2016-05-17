@@ -202,6 +202,7 @@
                 <div class="row">
 				<div class="col-lg-12">
 				<span class="counter pull-right"></span>
+				<div class="table-responsive">
 				<table class="table table-hover table-bordered results">
 				  <thead>
 					<tr>
@@ -228,6 +229,7 @@
 							 </tbody>
 				</table>
 				</div>
+				</div>
 				<!--/.class -->
                      
                        
@@ -236,19 +238,23 @@
                 <!-- /.row -->
 				<div class="row">
 				<div class="col-lg-12">
-				<section class="panel panel-primary">
+				<section id="myPanel" class="panel panel-primary" style="display:none">
                                 <header class="panel-heading">
                                  Panel Carga Notas
                                 </header>
                                 <div class="panel-body">
                                     <form class="form-horizontal tasi-form" method="get">
+                                    <div class="row"><div class="col-lg-12">
+                                    <button type="button" class="btn-xs btn-success pull-right" onclick="cerrarNotas()" style="margin-top:5px;">Cerrar Notas</button>
+                                      </div></div>
                                       <div class="form-inline">
                                           <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Examen a cargar:</label>
                                           <div class="col-lg-10" style="margin-bottom:12px">
                                              <input type="text" id="codSeleccionado" readonly class="col-lg-2 form-control" placeholder="Codigo Examen"/>
                                              <input type="text" id="tipoSeleccionado" readonly class="col-lg-2 form-control" placeholder="Tipo Examen" />
-                                             <button type="button" class="btn-xs btn-success" onclick="cerrarNotas()" style="margin-top:5px;margin-left:5px;">Cerrar Notas</button>
+                                             
                                              </div>
+                                            
                                       </div>
                                       
                                       <div class="form-group">
@@ -290,6 +296,7 @@
                                              
 									<div class="col-lg-12">
 								  <div data-bind="if: selectedEjercicio()">
+								  <div class="table-responsive">
 								  <table id="tablexEjercicios" class="table table-hover table-bordered results" >
 								  <thead>
 									<tr>
@@ -313,8 +320,10 @@
 							  </tbody>
 				</table>
 				</div>
+				</div>
 				
 				<div data-bind="if: selectedAlumno()">
+				<div class="table-responsive">
 								  <table id="tablexAlumno" class="table table-hover table-bordered results" >
 								  <thead>
 									<tr>
@@ -342,6 +351,7 @@
 								
 							  </tbody>
 				</table>
+				</div>
 				</div>
 				</div>
 				<!--/.class -->
@@ -436,6 +446,8 @@ $(document).ready(function() {
     {
 		$('#codSeleccionado').val(examen.cod_examen);
 		$('#tipoSeleccionado').val(examen.tipo_examen);
+		$('#myPanel').css({"display": ''});
+
 	};
 	
 		
@@ -549,6 +561,19 @@ function guardarCarga(){
 	var codigo=$('#codSeleccionado').val();
 	if(el.options.selectedIndex == 2)
 	{
+    var items= viewModel.selectedEjercicio().cant_items;
+    var valueA=0;
+    for(i=0; i< viewModel.selectedEjercicio().listaAlumnos.length;++i)
+    	{
+    	if(items< viewModel.selectedEjercicio().listaAlumnos[i].resultado)
+    	{
+    		valueA=1;
+    		break;
+    	}
+    	}
+	if(valueA==1){
+		alert("El resultado no puede superar la cantidad de items");
+	}else{
 	var ruta= "ServletCargarNotaxEj";
 
 		$.ajax({
@@ -577,8 +602,20 @@ function guardarCarga(){
 			
 		});
 	}
+	}
 	if(el.options.selectedIndex == 1)
 		{//alumnos
+	   var value=0;
+		for(i=0;i< viewModel.alumEnEj().length;++i){
+			if(viewModel.alumEnEj()[i].ejer.cant_items < viewModel.alumEnEj()[i].resultado){
+				value=1;
+				break;
+			}
+		}
+		if(value==1)
+		{
+			alert("El resultado no puede superar la cantidad de items");
+		}else {
 		var ruta= "ServletCargarNotaxAl";
 	
 			$.ajax({
@@ -606,6 +643,7 @@ function guardarCarga(){
 				    }
 				
 			});
+		}
 		}
 }
 function cerrarNotas(){

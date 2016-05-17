@@ -155,6 +155,27 @@ public class CatalogodeEgresos extends DBConexion_1{
           }
          
       }
+
+	  public void agregarTipoEgreso(String tipo, String desc) throws Exception
+    {
+        try 
+        {	this.Conectar();
+           	String actu = "INSERT INTO tipos_egresos (tipo_egreso,descripcion) VALUES (?,?)";
+        	PreparedStatement inse = Cone.prepareStatement(actu);
+            inse.setString(1,tipo);
+            inse.setString(2, desc);
+            
+        	inse.executeUpdate();
+        	
+        	 this.Desconectar();
+           
+        }
+        catch (Exception ex)
+        {
+            System.err.println("SQLException: " + ex.getMessage());            
+        }
+        
+    }
 }
 
 		

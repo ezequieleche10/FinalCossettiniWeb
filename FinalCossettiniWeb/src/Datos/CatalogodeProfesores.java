@@ -50,17 +50,22 @@ public class CatalogodeProfesores  extends DBConexion_1 {
     {
         try 
         {    this.Conectar();
-             PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM profesor ORDER BY cod_profesor");
+             PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM profesor p INNER JOIN usuario u on u.codigo_profesor=p.cod_profesor  ORDER BY cod_profesor");
              ArrayList<Profesor> profes = new ArrayList<Profesor>();
             
             resu = consulta.executeQuery();
             while(resu.next())
                {
                     
-                    int cod_profesor = resu.getInt("cod_profesor" );
-                    String nomPr = resu.getString("nombre");
-                    String apePr = resu.getString("apellido");
-                    Profesor p = new Profesor(cod_profesor,nomPr,apePr);
+                    int cod_profesor = resu.getInt("p.cod_profesor" );
+                    String nomPr = resu.getString("p.nombre");
+                    String apePr = resu.getString("p.apellido");
+                    String fecha_nac=resu.getString("p.fecha_nac");
+                    String nombre_usuario=resu.getString("u.nombre_usuario");
+                    Usuario usu = new Usuario();
+                    usu.setNombre_usuario(nombre_usuario);
+                    Profesor p = new Profesor(cod_profesor,nomPr,apePr,fecha_nac);
+                    p.setUsuario(usu);
                     p.setBandera(false);
                     profes.add(p);
                     
@@ -81,7 +86,7 @@ public class CatalogodeProfesores  extends DBConexion_1 {
      {
          try 
          {	 this.Conectar();
-             String insert="INSERT INTO profesor(nombre,apellido,fecha_Nac) VALUES(?,?,?)";
+             String insert="INSERT INTO profesor(nombre,apellido,fecha_nac) VALUES(?,?,?)";
              PreparedStatement ins= Cone.prepareStatement(insert);
              ins.setString(1, nombre);
              ins.setString(2, apellido);
@@ -94,33 +99,39 @@ public class CatalogodeProfesores  extends DBConexion_1 {
          	 resu.first();
          	 int codi= resu.getInt("cod");
              
-             String insert2= "INSERT INTO usuario(nombre_usuario, clave, tipo_usuario, codigo_profesor) VALUES (?,?,?,?)";
+             String insert2= "INSERT INTO usuario(nombre_usuario, clave, tipo_usuario, codigo_profesor,pv) VALUES (?,?,?,?,?)";
              PreparedStatement inse = Cone.prepareStatement(insert2);
              inse.setString(1, u.getNombre_usuario());
              inse.setString(2, u.getClave());
-             inse.setInt(3, u.getTipo_Usuario());
+             inse.setInt(3, 2);
              inse.setInt(4, codi);
+             inse.setInt(5, 0);
              inse.executeUpdate();
-             JOptionPane.showMessageDialog(null,"Se agregó correctamente");
+             
              this.Desconectar();
          }
          catch (Exception ex)
          {
              System.err.println("SQLException: " + ex.getMessage()); 
-             JOptionPane.showMessageDialog(null, "Ya existe un profesor con dicho usuario!");
+             
          }
          
          
      }
 
 
-	public void deleteProfesor_Comsion(int cod_comision) {
+	public void deleteProfesor(int cod_profesor) {
 		
 		  try 
 	        {    this.Conectar();
-	             PreparedStatement dele= Cone.prepareStatement("DELETE FROM profesor_en_comision WHERE profesor_en_comision.cod_comision=?");
-	             dele.setInt(1, cod_comision);
-	             int rta= dele.executeUpdate();	         
+	             PreparedStatement dele= Cone.prepareStatement("DELETE FROM usuario WHERE codigo_profesor=?");
+	             dele.setInt(1, cod_profesor);
+	             dele.executeUpdate();
+	             
+	             PreparedStatement dele2= Cone.prepareStatement("DELETE FROM profesor WHERE cod_profesor=?");
+	             dele2.setInt(1, cod_profesor);
+	             dele2.executeUpdate();
+	             
 	            this.Desconectar();
 	       
 	        }
@@ -131,4 +142,48 @@ public class CatalogodeProfesores  extends DBConexion_1 {
 	        }
 		
 	}
+
+
+	public void deleteProfesor_Comision(int cod_comision) {
+		
+		  try 
+	        {    this.Conectar();
+	             PreparedStatement dele= Cone.prepareStatement("DELETE FROM profesor_en_comision WHERE profesor_en_comision.cod_comision=?");
+	             dele.setInt(1, cod_comision);
+	             dele.executeUpdate();	         
+	            this.Desconectar();
+	       
+	        }
+	        catch (Exception ex)
+	        {
+	            System.err.println("SQLException: " + ex.getMessage());
+	           
+	        }
+		
+	}
+
+
+	 public void editarProfesor(Profesor p) throws Exception
+     {
+         try 
+         {	 this.Conectar();
+             String insert="UPDATE profesor SET nombre=?,apellido=?,fecha_nac=? where cod_profesor=?";
+             PreparedStatement ins= Cone.prepareStatement(insert);
+             ins.setString(1, p.getNombre());
+             ins.setString(2, p.getApellido());
+             ins.setString(3,p.getFecha_nac());
+             ins.setInt(4,p.getCod_profesor());
+             ins.executeUpdate();
+             
+             this.Desconectar();
+         }
+         catch (Exception ex)
+         {
+             System.err.println("SQLException: " + ex.getMessage()); 
+             
+         }
+         
+         
+     }
+
 }

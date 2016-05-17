@@ -214,6 +214,7 @@
 					<input type="text" class="search form-control" placeholder="Filtrar">
 				</div>
 					<span class="counter pull-right"></span>
+					<div class="table-responsive">
 				<table class="table table-hover table-bordered results">
 				  <thead>
 					<tr>
@@ -238,6 +239,7 @@
 						</tr>
 					</tbody>
 				</table>
+				</div>
 				</div>
 				<!--/.class -->
                 </div>

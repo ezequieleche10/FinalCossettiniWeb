@@ -62,6 +62,18 @@ public class ServletNuevoLogin extends HttpServlet {
 	            cookieUsuario.setMaxAge(60*60*24*31);
 	            response.addCookie(cookieUsuario);
 	            vUsuario = cont.getUsuario(vUsername);
+	            if(vUsuario.getTipo_Usuario()==3 && vUsuario.getPv()==0 )
+	            {
+	            session.setAttribute("pv",1);	
+	            }
+	            else
+	            {
+	            session.setAttribute("pv",0);	
+	            }
+	            if(vUsuario.getTipo_Usuario()==2 && vUsuario.getPv()==0){
+	            session.setAttribute("pv",1);
+	            }
+	            
 		    	session.setAttribute("usuario",vUsername);
 		    	session.setAttribute("controlador",cont);
 		    	session.setAttribute("cod_rol", vUsuario.getTipo_Usuario());
