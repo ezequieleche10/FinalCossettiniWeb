@@ -211,16 +211,22 @@
 										   </button>
 										   </div>
 										   <div class="col-lg-1">
-										   <button type="button" class="btn btn-danger" aria-label="Left Align">
+										   <button type="button" class="btn btn-danger" aria-label="Left Align" onclick="recargar()">
 										  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 										   </button>
 										   </div>
 										  </div>
 										 
 										  <div class="form-group">
-										  <label class="col-lg-3 col-sm-3 control-label">Cod Exámen:</label>
+										  <label class="col-lg-3 col-sm-3 control-label" style="display:none">Cod Exámen:</label>
                                           <div class="col-lg-9">
-											<input type="text" class="form-control" id="txtCodExamen" placeholder="codigo" readonly>
+											<input type="hidden" class="form-control" id="txtCodExamen" placeholder="codigo" readonly>
+										</div>
+										  </div>
+										  <div class="form-group">
+										  <label class="col-lg-3 col-sm-3 control-label">Estado:</label>
+                                          <div class="col-lg-9">
+											<input type="text" class="form-control" id="txtEstado" placeholder="estado" readonly>
 										</div>
 										  </div>
                                          
@@ -234,7 +240,7 @@
 								  </div>
 								  	<!-- /.class col lg6 -->
 				<div class="col-lg-5">
-                <div id="container" style="min-width: 310px; height: 300px; max-width: 500px; margin: 0 auto"></div>
+                <div id="container" style=" height: 300px; max-width: 500px; margin: 0 auto"></div>
 				</div>
                </div>
                <div class="row">
@@ -243,6 +249,7 @@
 			   <div class="col-lg-12">
 			    <div class="form-group pull-left">
 					<input type="text" class="search form-control" placeholder="Filtrar">
+					<button class="btn-sm btn-danger" id="btnLimite" onclick="verCasoLimite()" style="display:none">Ver caso límite</button>
 				</div>
 					<span class="counter pull-right"></span>
 					<div class="table-responsive">
@@ -290,7 +297,69 @@
 
     </div>
     <!-- /#wrapper -->
+<!-- Modal Editar -->
 
+<div class="modal fade" id="myModalEditar" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Prueba alumno</h4>
+        </div>
+        <div class="modal-body">
+		   <div class="form-group">
+           <label id="lblAl" class="col-sm-2 control-label col-lg-2" for="inputNombre">Seleccionar Alumno</label>
+           <div class="col-lg-10">
+          <select id="alumnoSelect" class="form-control m-b-10"  data-bind="options: alumnos, 
+                        					value: selectedAlumno,
+                       						optionsText: 'nombre', 
+                       optionsCaption: 'Seleccione un alumno...'"></select> 
+                                          </div>
+           </div>
+           <div class="col-lg-12">
+           <div data-bind="if: selectedAlumno()">
+								  <div class="table-responsive col-md-12">
+								  <table id="tablexAlumno" class="table table-hover table-bordered results" >
+								  <thead>
+									<tr>
+					
+					 				 <th class="col-md-4 col-xs-4">Codigo</th>
+							    	 <th class="col-md-4 col-xs-4">Nombre</th>
+					 				 <th class="col-md-3 col-xs-3">Nota Parcial</th>
+								     <th class="col-md-1 col-xs-1">Porcentaje</th>
+					 				 <th class="col-md-3 col-xs-3">Cant Items</th>
+								     <th class="col-md-1 col-xs-1">Resultado</th>
+									</tr>
+								 </thead>
+							  <tbody data-bind="foreach: alumEnEj">
+								<tr>
+								
+								  <td data-bind="text: ejer.cod_ejercicio"></td>
+								  <td data-bind="text: ejer.nombre"></td>
+								  <td data-bind="text: nota_parcial, attr: { id: 'prefix_' + $index()}"></td>
+								  <td data-bind="text: ejer.porcentaje, attr: { id: 'porcent_' + $index()}"></td>
+								  <td data-bind="text: ejer.cant_items, attr: { id: 'item_' + $index()}"></td>
+								  <td>
+									<input type="text" name="txtNota" class="form-control" data-bind="value: resultado, attr: {id: $index()}" onblur="actualizarTabla(id)" />
+								  </td>
+								</tr>
+								
+							  </tbody>
+				</table>
+			</div>
+		
+           </div>
+           
+        </div>
+        </div>
+       <div class="modal-footer">
+         
+          <button id ="btnEditar" type="button" onclick="return modificarNota();" class="btn btn-primary" data-dismiss="modal" >Modificar</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
@@ -307,10 +376,43 @@ $(function () {
     $(document).ready(function () {
     	viewModel=
         {	
-        	alumExams: ko.observableArray([])
+        	alumExams: ko.observableArray([]),
+        	alumnos: ko.observableArray([]),
+        	alumEnEj:ko.observableArray([]),
+        	selectedAlumno:ko.observable(),
+        	exams:ko.observableArray()
         	
         };
-    	
+    	viewModel.selectedAlumno.subscribe(function () {
+   		 var codigo=$('#txtCodExamen').val();
+   		 var ruta= "ServletAlumnoEnEjercicio";
+   			$.ajax({
+   					async: false,
+   					url: ruta,
+   					type: "POST",
+   					dataType: "json",
+   					data: {mydata: JSON.stringify(viewModel.selectedAlumno()),codigo: JSON.stringify(codigo)},
+   					success: function(datos)
+   					{ 
+   						if(datos.respInfo=="OK")
+   							{
+   							viewModel.alumEnEj(datos.alumEnEj);
+   							}
+   						else
+   							{
+   							alert("Ha ocurrido un error, reintente");
+   							}
+   						
+   					},
+   					error: function(datos) {
+   				        //AJAX request not completed
+   				       alert("There was an error");
+   				    }
+   				
+   			});
+          
+       	
+       });
     	 ko.applyBindings(viewModel);
 
     });
@@ -337,6 +439,8 @@ function buscarNotas(){
 							viewModel.alumExams(datos.notaExams);
 							$('#txtCodExamen').val(datos.examen.cod_examen);
 							$('#txtDescripcion').val(datos.examen.descripcion);
+							$('#txtEstado').val(datos.examen.estado);
+							validarBotonLimite();
 							var aprob=(datos.suma/datos.cant)*100;
 							var desap=100-aprob;
 							//carga highcharts
@@ -393,6 +497,151 @@ function buscarNotas(){
 			    }
 			
 		});
+}
+function validarBotonLimite(){
+	var ruta= "ServletBuscarExams";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					viewModel.exams(datos.exams);
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+var resp= false;
+for(i=0;i<viewModel.exams().length;++i){
+	if(viewModel.exams()[i].cod_examen==$('#txtCodExamen').val()){
+		resp=true;
+		break;
+	}
+}
+if(resp && ($('#txtEstado').val()=='generado'))
+	{
+	$('#btnLimite').css({"display": ''});
+	}
+
+}
+function verCasoLimite(){
+	//ver lo del estado para habilitar o no boton en primer lugar y luego ver si el profesor tiene ese examen asignado
+	buscarCarga();
+	$("#myModalEditar").modal('show');
+	}
+function buscarCarga()
+{	
+	var el= 1;
+	var codigo=$('#txtCodExamen').val();;
+	//llamada ajax que devuelve el examen y carga el modelo con knockout
+	 var ruta= "ServletCargaModo";
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				data: {mydata: JSON.stringify(el), codigo: JSON.stringify(codigo)},
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+					
+							viewModel.alumnos(datos.alumnos);
+							
+						}
+						
+						
+						
+					else
+						{
+						alert("Ha ocurrido un error, reintente");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
+	
+}
+function actualizarTabla(index)
+{
+	var elem= "prefix_" + index;
+	//var element =document.getElementById(elem)
+	var indexres= index;
+	var cantItems= "item_" + index;
+	var porcentaje= "porcent_"+ index;
+	
+	var result= document.getElementById(indexres).value;
+	var porcen=document.getElementById(porcentaje).innerHTML;
+	var cantI = document.getElementById(cantItems).innerHTML;
+	
+	document.getElementById(elem).innerHTML= (result*porcen)/(cantI *10);
+}
+function recargar(){
+	window.location.href='verNotas.jsp'
+}
+function modificarNota(){
+	
+	var codigo=$('#txtCodExamen').val();
+	
+	{//alumnos
+	   var value=0;
+		for(i=0;i< viewModel.alumEnEj().length;++i){
+			if(viewModel.alumEnEj()[i].ejer.cant_items < viewModel.alumEnEj()[i].resultado){
+				value=1;
+				break;
+			}
+		}
+		if(value==1)
+		{
+			alert("El resultado no puede superar la cantidad de items");
+		}else {
+		var ruta= "ServletCargarNotaxAl";
+	
+			$.ajax({
+					async: false,
+					url: ruta,
+					type: "POST",
+					dataType: "json",
+					data: {alenj: JSON.stringify(viewModel.alumEnEj()),codigo: JSON.stringify(codigo)},
+					success: function(datos)
+					{ 
+						if(datos.respInfo=="OK")
+							{
+							alert("Notas modificada exitosamente");
+							window.location.href='verNotas.jsp'
+							
+							}
+						else
+							{
+							alert("No se pudo cargar nota, reintente");
+							}
+						
+					},
+					error: function(datos) {
+				        //AJAX request not completed
+				       alert("There was an error");
+				    }
+				
+			});
+		}
+		}
+	return false;
 }
 </script>
 	<script src="js/tableFilter.js"></script>
