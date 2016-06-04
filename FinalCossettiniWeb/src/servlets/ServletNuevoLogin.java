@@ -62,7 +62,7 @@ public class ServletNuevoLogin extends HttpServlet {
 	            cookieUsuario.setMaxAge(60*60*24*31);
 	            response.addCookie(cookieUsuario);
 	            vUsuario = cont.getUsuario(vUsername);
-	            if(vUsuario.getTipo_Usuario()==3 && vUsuario.getPv()==0 )
+	            if(vUsuario.getPv()==0 )
 	            {
 	            session.setAttribute("pv",1);	
 	            }
@@ -70,9 +70,7 @@ public class ServletNuevoLogin extends HttpServlet {
 	            {
 	            session.setAttribute("pv",0);	
 	            }
-	            if(vUsuario.getTipo_Usuario()==2 && vUsuario.getPv()==0){
-	            session.setAttribute("pv",1);
-	            }
+	            
 	            
 		    	session.setAttribute("usuario",vUsername);
 		    	session.setAttribute("controlador",cont);
@@ -88,7 +86,7 @@ public class ServletNuevoLogin extends HttpServlet {
 	  	
 	    }catch(Exception e){
 	    
-		   session.setAttribute("error", e);
+		   request.setAttribute("error", "Usuario y/o password incorrecto/s");
 		   request.getRequestDispatcher("/nuevologin.jsp").forward(request, response);
 		 
 		    

@@ -64,13 +64,17 @@ public class ServletCargaAlumnos extends HttpServlet {
 			myObj.add("examen", gson.toJsonTree(ex));
 			myObj.addProperty("success", true);
 		    resp = gson.toJsonTree("OK");
-			if(ex.getTipo_examen()!=null)
+			if(ex!=null)
 			{
+				if(ex.getEstado().equals("sin generar"))
+				{
 				alumnosE= new ArrayList<Alumno>();
 				alumnosE= cont.listarAlumnos(ex.getCod_examen());
 				myObj.add("alumnos", gson.toJsonTree(alumnosE));
-				
-			}
+				}else {
+					resp=gson.toJsonTree("Lista generada, diríjase a ayuda");
+				}
+			}else {resp=gson.toJsonTree("No se encontró examen, diríjase a ayuda");}
 			
 		}
 		catch(Exception e)

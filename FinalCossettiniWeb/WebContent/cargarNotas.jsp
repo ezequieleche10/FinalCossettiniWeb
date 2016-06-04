@@ -19,7 +19,9 @@
 	<script src="js/knockout-3.4.0.js"></script>
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -88,14 +90,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -122,19 +124,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -158,7 +163,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -185,7 +196,7 @@
                     </div>
                 </div>
                  <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol==2)
 					    { %>
                 <!-- /.row -->
 				<div class="row">
@@ -245,7 +256,7 @@
                                 <div class="panel-body">
                                     <form class="form-horizontal tasi-form" method="get">
                                     <div class="row"><div class="col-lg-12">
-                                    <button type="button" class="btn-xs btn-success pull-right" onclick="cerrarNotas()" style="margin-top:5px;">Cerrar Notas</button>
+                                    <button type="button" class="btn-xs btn-success pull-right" onclick="return modalCerrarNotas();" style="margin-top:5px;">Cerrar Notas</button>
                                       </div></div>
                                       <div class="form-inline">
                                           <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Examen a cargar:</label>
@@ -393,7 +404,7 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+    <script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/tableFilter.js"></script>
@@ -649,7 +660,7 @@ function guardarCarga(){
 function cerrarNotas(){
 	var codigo=$('#codSeleccionado').val();
 	var ruta= "ServletCerrarNota";
-	alert("esta seguro de cerrar las notas? s/n");
+	
 	$.ajax({
 			async: false,
 			url: ruta,
@@ -674,6 +685,35 @@ function cerrarNotas(){
 		       alert("There was an error");
 		    }
 		
+	});
+}
+function modalCerrarNotas(){
+	$('<div></div>').appendTo('body')
+	.html($('<div><h5>Está seguro de cerrar las notas, los cambios no se van a poder deshacer?</h5></div>')) 
+	.dialog({
+	    modal: true,
+	    title: 'Confirmar',
+	    zIndex: 10000,
+	    autoOpen: true,
+	    width: 'auto',
+	    resizable: false,
+	    buttons: {
+	        Aceptar: function () {
+	            // $(obj).removeAttr('onclick');                                
+	            // $(obj).parents('.Parent').remove();
+				cerrarNotas();
+				window.location='index.jsp';
+	            $(this).dialog("close");
+	            
+	        },
+	        Cancelar: function () {
+	        	
+	            $(this).dialog("close");
+	        }
+	    },
+	    close: function (event, ui) {
+	        $(this).remove();
+	    }
 	});
 }
 </script>

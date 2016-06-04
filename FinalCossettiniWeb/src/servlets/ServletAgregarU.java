@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,25 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import Entidades.Alumno;
-import Entidades.Examen;
+import Entidades.Profesor;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletBuscarGenerarExamen
+ * Servlet implementation class ServletAgregarU
  */
-@WebServlet("/ServletBuscarGenerarExamen")
-public class ServletBuscarGenerarExamen extends HttpServlet {
+@WebServlet("/ServletAgregarU")
+public class ServletAgregarU extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletBuscarGenerarExamen() {
+    public ServletAgregarU() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,51 +43,37 @@ public class ServletBuscarGenerarExamen extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
+		//recupero el json y lo convierto a entidades
+		int ind= gson.fromJson(request.getParameter("ind"), Integer.class);
+		String nombre= gson.fromJson(request.getParameter("nombre"), String.class);
+		String apellido=gson.fromJson(request.getParameter("apellido"), String.class);
+		int dni= gson.fromJson(request.getParameter("dni"), Integer.class);
+		String clave=gson.fromJson(request.getParameter("clave"), String.class);
+		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
-		int anoIngresado = gson.fromJson(request.getParameter("mydata"),Integer.class);
 		response.setContentType("application/json;charset=UTF-8");
+		
 		PrintWriter out = response.getWriter();
-		JsonElement resp =null;
 		try{
-			//write some code
-			Examen ex= new Examen();
-			ArrayList<Alumno> alumnosE;
-			ex= cont.mostrarExamenPendiente(anoIngresado);
-			myObj.add("examen", gson.toJsonTree(ex));
+			
+			cont.agregarResponsable(ind,nombre,apellido,dni,clave);
 			myObj.addProperty("success", true);
-		    resp = gson.toJsonTree("OK");
-			if(ex!=null)
-			{
-				if(ex.getEstado().equals("alumnos cargados"))
-				{
-				alumnosE= new ArrayList<Alumno>();
-				alumnosE= cont.getAlumnosenExamen(ex.getCod_examen());
-				myObj.add("alumnos", gson.toJsonTree(alumnosE));
-				}else
-				{
-				resp=gson.toJsonTree("Examen con estado incorrecto, diríjase a ayuda");
-				}
-			}else
-			{resp=gson.toJsonTree("Examen no encontrado");
-				
-			}
+			myObj.add("respInfo", gson.toJsonTree("OK"));
+			out.println(myObj.toString());
+			
 			
 		}
 		catch(Exception e)
 		{
-			//write some code		} 
-			//myObj.addProperty("success", false);
-			resp = gson.toJsonTree("");
-			
-		}finally
+			myObj.addProperty("success", false);
+		}
+		finally
 		{
-			myObj.add("respInfo", resp);
-			out.println(myObj.toString());
 			out.close();
+			
 		}
 	}
 

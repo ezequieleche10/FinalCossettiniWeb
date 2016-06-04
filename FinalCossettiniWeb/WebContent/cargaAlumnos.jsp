@@ -91,14 +91,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -125,19 +125,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -161,7 +164,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -188,7 +197,7 @@
                     </div>
                 </div>
                  <%  try{ 
-					    if(codRol == 3 || codRol==1)
+					    if(codRol == 4 || codRol==1)
 					    { %>
                 <!-- /.row -->
 				<div class="row">
@@ -374,7 +383,7 @@ function tableToJson() {
 					}
 				else
 					{
-					alert("Ha ocurrido un error, reintente");
+					alert(datos.respInfo);
 					}
 				
 			},

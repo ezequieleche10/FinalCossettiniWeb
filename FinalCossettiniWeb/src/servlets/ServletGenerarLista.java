@@ -60,12 +60,18 @@ public class ServletGenerarLista extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 			//write some code
+			String resp="";
+			if(alumnos.size()!=0){
 			cont.agregarAlumnosEnExamen(alumnos, ex.getCod_examen());
-			String resp="OK";
+			 resp="OK";
+			}
+			else{resp="Datos imcompletos";}
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree(resp));
 			out.println(myObj.toString());
 			out.close();
+			
+			
 		}
 		catch(Exception e)
 		{

@@ -49,6 +49,7 @@ public class ServletCambiarClave extends HttpServlet {
 		Gson gson = new Gson();
 		String pass= gson.fromJson(request.getParameter("clave"), String.class);
 		String usu= gson.fromJson(request.getParameter("usu"), String.class);
+		int pv= gson.fromJson(request.getParameter("pv"), Integer.class);
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -59,7 +60,7 @@ public class ServletCambiarClave extends HttpServlet {
 			
 		    //valido pass here 
 		    Usuario u = cont.getUsuario(usu);
-		    cont.cambiaClave(u,pass);
+		    cont.cambiaClave(u,pass,pv);
 		    Session.setAttribute("pv",0);
 		    myObj.addProperty("success", true);
 		    resp = gson.toJsonTree("OK");

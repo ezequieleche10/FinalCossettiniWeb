@@ -18,6 +18,9 @@
     <link href="css/sb-admin.css" rel="stylesheet">
 	<link href="css/spinner.css" rel="stylesheet">
 	<script src="js/knockout-3.4.0.js"></script>
+	<link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -90,14 +93,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -124,19 +127,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -160,7 +166,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -188,13 +200,13 @@
                 </div>
                 <!-- /.row -->
                  <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 				<div class="row">
 				<div class="col-lg-12">
 				<div class="form-inline"> 
 					<label class="control-label">Año:</label>
-					<input type="number" id="txtAno" required="required" class="form-control" placeholder="Ingrese Año" /> 
+					<input type="number" id="txtAno" min="2017"  class="form-control" placeholder="Ingrese Año" /> 
 					<button type="button" class="btn btn-info" aria-label="Left Align" onclick="buscarExamen()">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					</button>
@@ -216,7 +228,7 @@
 				</div>
 					<span class="counter pull-right"></span>
 				<div class="table-responsive">
-				<table class="table table-hover table-bordered results">
+				<table id="tabletoPrint" class="table table-hover table-bordered results">
 				  <thead>
 					<tr>
 					  <th>DNI</th>
@@ -224,9 +236,9 @@
 					  <th>Nombre</th>
 					  <th>Carrera</th>
 					</tr>
-					<tr class="warning no-result">
+					<!-- <tr class="warning no-result">
 					  <td colspan="4"><i class="fa fa-warning"></i> No result</td>
-					</tr>
+					</tr> -->
 				  </thead>
 					<tbody data-bind="foreach: alumnos">
 						<tr>
@@ -245,7 +257,7 @@
                 <!-- /.row -->
 				<div class="row">
 				<div class="col-md-12 col-md-offset-5">
-				<button type="submit" class="btn-lg btn-info" onclick="generarLista()">Generar Lista DImp</button>
+				<button type="submit" class="btn-lg btn-info" data-bind="visible: alumnos().length > 0" onclick="return generarLista();">Generar Lista</button>
 				</div>
 				<!-- /.class -->
 				</div>
@@ -272,9 +284,10 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
+    <script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    
 	<script src="js/tableFilter.js"></script>
 <script type="text/javascript">
 function editarModal()
@@ -289,6 +302,9 @@ function buscarExamen()
 {
 var anoIngresado= $("#txtAno").val();
 //llamada ajax que devuelve el examen y carga el modelo con knockout
+if (anoIngresado==""){
+	alert("Ingrese año");
+}else {
  var ruta= "ServletCargaAlumnos";
 	$.ajax({
 			async: false,
@@ -305,7 +321,7 @@ var anoIngresado= $("#txtAno").val();
 					}
 				else
 					{
-					alert("Ha ocurrido un error, reintente");
+					alert(datos.respInfo);
 					}
 				
 			},
@@ -315,7 +331,7 @@ var anoIngresado= $("#txtAno").val();
 		    }
 		
 	});
-
+}
 
 
 }
@@ -332,8 +348,10 @@ function generarLista()
 			{ 
 				if(datos.respInfo=="OK")
 					{
-					alert("Lista generada");
-					window.location="index.jsp";
+						printData();
+						window.location='index.jsp';
+						
+					
 					//redireccionar página
 					}
 				else
@@ -349,7 +367,8 @@ function generarLista()
 		
 	});
 
-	
+	window.location='index.jsp';
+	return false;
 }
 </script>
 <script>
@@ -362,6 +381,38 @@ $( document ).ready(function() {
     viewModel.examen({"codigo_examen":"","tipo_examen":""});
     ko.applyBindings(viewModel);
     });
+function printData()
+{
+   var divToPrint=document.getElementById("tabletoPrint");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
+function imprimirLista(){
+	$('<div></div>').appendTo('body')
+    .html('<div><h5>Desea imprimir lista generada?</h5></div>')
+    .dialog({
+        modal: true,
+        title: 'Imprimir',
+        zIndex: 10000,
+        autoOpen: true,
+        width: 'auto',
+        resizable: false,
+        buttons: {
+            Yes: function () {
+               printData();
+                $(this).dialog("close");
+            },
+            No: function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function (event, ui) {
+            $(this).remove();
+        }
+    });
+}
 </script>	
 
 </body>

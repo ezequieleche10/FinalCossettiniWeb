@@ -99,14 +99,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -133,19 +133,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -169,7 +172,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -194,7 +203,7 @@
                 </div>
                 <!-- /.row -->
               <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4 || codRol==5)
 					    { %>    
 			<div class="row">
 			<div class="col-lg-6">
@@ -294,12 +303,18 @@
                        optionsCaption: 'Seleccione un tipo...'"></select> 
                                           </div>
                                       </div>
-            <div class="form-group">
-            <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
-            <div class="col-lg-10">
-            <input type="number" name="txtNombre" class="form-control" id="txtMontoI"/>
-            </div>
-          </div>
+          <div style="margin-top:15px">
+          <div class="form-group">
+          <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
+          <div class="col-lg-10">
+          <div class="input-group">
+  		  <span class="input-group-addon">$</span>
+ 		   <input type="number" id="txtMontoI" class="form-control" aria-label="monto">
+  		   
+		</div>
+		</div>
+		</div>
+		</div>
 		  <div class="form-group">
            <label class="col-sm-2 control-label col-lg-2" for="txtObservaciones">Observaciones</label>
            <div class="col-lg-10">
@@ -310,7 +325,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEditar" type="button" onclick="altaIngreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEditar" type="button" onclick=" return altaIngreso();" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
         </div>
        
       </div>
@@ -336,12 +351,22 @@
                        optionsCaption: 'Seleccione un tipo...'"></select> 
                                           </div>
                                       </div>
-            <div class="form-group">
+           <!--   <div class="form-group">
             <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
             <div class="col-lg-10">
             <input type="text" name="txtNombre" class="form-control" id="txtMontoE"/>
             </div>
-          </div>
+          </div>-->
+          <div class="form-group">
+          <label class="col-sm-2 control-label col-lg-2" for="txtCantidad">Monto</label>
+          <div class="col-lg-10">
+          <div class="input-group">
+  		  <span class="input-group-addon">$</span>
+ 		   <input type="number" id="txtMontoE" class="form-control" aria-label="monto">
+  		   
+		</div>
+		</div>
+		</div>
 		  <div class="form-group">
            <label class="col-sm-2 control-label col-lg-2" for="txtObservaciones">Observaciones</label>
            <div class="col-lg-10">
@@ -352,7 +377,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgreso" type="button" onclick="altaEgreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEgreso" type="button" onclick=" return altaEgreso();" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
         </div>
        
       </div>
@@ -619,7 +644,7 @@ function altaIngreso(){
 		    }
 		
 	});
-
+	window.location.href='caja.jsp';
 }
 function altaEgreso(){
 	var today = new Date();
@@ -670,7 +695,7 @@ function altaEgreso(){
 		    }
 		
 	});
-
+ window.location.href='caja.jsp';
 }
 function hacerCaja(){
 	//recorro ya qu tengo el viewModel ingersos y egresos

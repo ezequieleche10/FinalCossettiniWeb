@@ -2,8 +2,10 @@ package Datos;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import Entidades.Examen;
+import Entidades.Responsable;
 import Entidades.Usuario;
 
 public class CatalogodeUsuarios extends DBConexion_1 {
@@ -44,7 +46,7 @@ public class CatalogodeUsuarios extends DBConexion_1 {
 		    }
 		   
 		    
-		    public void cambiaClave(Usuario u, String pass) {
+		    public void cambiaClave(Usuario u, String pass,int pv) {
 				// TODO Auto-generated method stub
 				//se actualizan todas las notas por alumno 
 				
@@ -54,7 +56,7 @@ public class CatalogodeUsuarios extends DBConexion_1 {
 			        
 			        	PreparedStatement upd2= Cone.prepareStatement("UPDATE usuario SET clave=?,pv=? where nombre_usuario=?");
 			        	upd2.setString(1, pass);
-			        	upd2.setInt(2, 1);
+			        	upd2.setInt(2, pv);
 			        	upd2.setString(3, u.getNombre_usuario());
 			        	upd2.executeUpdate();  
 			        	
@@ -68,6 +70,83 @@ public class CatalogodeUsuarios extends DBConexion_1 {
 			        }
 					
 				}
+
+
+			public void agregarUsuario(int dni, String clave, int rol) {
+				// TODO Auto-generated method stub
+				try 
+		        {   this.Conectar();
+		        	String nUsuario= Integer.toString(dni);
+		        	PreparedStatement ins= Cone.prepareStatement("INSERT usuario(nombre_usuario,clave,tipo_usuario,pv) VALUES (?,?,?,?)");
+		        	ins.setString(1, nUsuario);
+		        	ins.setString(2, clave);
+		        	ins.setInt(3, rol);
+		        	ins.setInt(4, 0);
+		        	ins.executeUpdate();  
+		        	
+		        	this.Desconectar();
+			
+		        	
+		        }
+		        catch (Exception ex)
+		        {
+		            System.err.println("SQLException: " + ex.getMessage());            
+		        }
+				
+			}
+
+
+			public void agregarResponsable(String nombre, String apellido, int dni) {
+				// TODO Auto-generated method stub
+				try 
+		        {   this.Conectar();
+		        	String nUsuario= Integer.toString(dni);
+		        	PreparedStatement ins= Cone.prepareStatement("INSERT responsable(apellido,nombre,dni) VALUES (?,?,?)");
+		        	ins.setString(1, apellido);
+		        	ins.setString(2, nombre);
+		        	ins.setString(3, nUsuario);
+		        	ins.executeUpdate();  
+		        	
+		        	this.Desconectar();
+			
+		        	
+		        }
+		        catch (Exception ex)
+		        {
+		            System.err.println("SQLException: " + ex.getMessage());            
+		        }
+			}
+
+
+			public ArrayList<Responsable> getResponsables() {
+				
+				ArrayList<Responsable> resps= new ArrayList<Responsable>();
+		        try 
+		        {   
+		        	this.Conectar();
+		            String vsql="SELECT * FROM responsable";
+		            PreparedStatement consulta= Cone.prepareStatement(vsql);
+		            resu = consulta.executeQuery();
+		            while(resu.next())
+		            {
+		            	Responsable r= new Responsable();
+		            	r.setNombre(resu.getString("nombre"));
+		                r.setApellido(resu.getString("apellido"));
+		                Usuario u= new Usuario();
+		                u.setNombre_usuario(resu.getString("dni"));
+		                r.setU(u);
+		                resps.add(r);
+		            }
+		            this.Desconectar();
+		            
+		            return resps;
+		        }
+		        catch (Exception ex)
+		        {
+		            System.err.println("SQLException: " + ex.getMessage());
+		            return null;            
+		        }
+			}
 }
 
 	

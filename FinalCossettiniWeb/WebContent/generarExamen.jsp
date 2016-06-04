@@ -21,6 +21,8 @@
 	<link href="css/jquery-ui.min.css" rel="stylesheet">
     <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
     <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
+    
+   
 	<script src="js/knockout-3.4.0.js"></script>
 
     <!-- Custom Fonts -->
@@ -95,21 +97,21 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+           <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -136,19 +138,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -172,11 +177,17 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
-        </nav>       
+        </nav>
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -199,21 +210,21 @@
                 </div>
                 <!-- /.row -->
 				  <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 				<div class="row">
 				<div class="col-md-12">
 				<div class="container-fluid"> 
-				<div id="rootwizard" class="stepwizard"> 
+				<div class="stepwizard"> 
 				<div class="stepwizard-row setup-panel"> 
 					<div class="stepwizard-step"> 
 				<a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a> <p>Lista Alumnos</p> 
 					</div> 
 					<div class="stepwizard-step"> 
-				<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a> <p>Comisión y Profesores</p> 
+				<a href="#step-2" type="button" class="btn btn-default btn-circle disabled" >2</a> <p>Comisión y Profesores</p> 
 					</div> 
 					<div class="stepwizard-step"> 
-				<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a> <p>Ejercicios</p>
+				<a href="#step-3" type="button" class="btn btn-default btn-circle disabled" >3</a> <p>Ejercicios</p>
 					</div> 
 				</div> 
 				</div> 
@@ -233,8 +244,8 @@
 					
 					</button>
 				<input type="text"  readonly class="form-control" placeholder="Tipo Examen" data-bind="value: viewModel.examen().tipo_examen" />
-				<input type="text"  readonly class="form-control" placeholder="Estado" data-bind="value: viewModel.examen().estado"/>
-			
+				<input type="text" id="lblEstado"  readonly class="form-control" placeholder="Estado" data-bind="value: viewModel.examen().estado"/>
+				<input type="text" hidden id="lblPaso2" value="0"/>
 					</div> 
 				<div class="col-lg-12">
                         <h3>Lista de alumnos en condiciones</h3>
@@ -260,7 +271,7 @@
                             </table>
                         </div>
                     </div>
-				<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" onclick="buscarProfesores()" >Next</button> 
+				<button type="button" class="btn btn-primary nextBtn btn-lg pull-right"  onclick="return buscarProfesores();" >Next</button> 
 				</div> 
 				</div> 
 				</div> 
@@ -315,7 +326,7 @@
                     </div>
 				<div class="col-md-12">
 				<div class="col-md-5 col-md-offset-7">
-				<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button> 
+				<button class="btn btn-primary nextBtn btn-lg pull-right" type="button" data-bind="visible: profesoresComision().length >0" >Next</button> 
 				</div>
 				</div>
 				 </div> </div></div> 
@@ -420,12 +431,13 @@
 								</div>
 								</div>
                           </section>
-				<button type="submit" class="btn btn-success btn-lg pull-right" onclick="return generarExamen();">Generar Examen</button> 
+				<button type="button" class="btn btn-success btn-lg pull-right" onclick="return generarExamen();">Generar Examen</button> 
 				</div> 
 				</div> 
 				</div> 
-				</form> 
+				</form>
 				</div>
+				 
 				</div>
 				<!-- /.class -->
 				</div>
@@ -452,13 +464,14 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+   
 	<script src="js/jquery-ui.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 	<script src="js/tableFilter.js"></script>
 	<script>
 	$(document).ready(function() {
-  	//$('#rootwizard').bootstrapWizard();
+  	
   	viewModel=
     {
     	examen: ko.observable(),
@@ -486,7 +499,52 @@
     viewModel.eliminarEjercicio= function(ejercicio)
     {viewModel.ejercicios.remove(ejercicio)};
     ko.applyBindings(viewModel);
-    
+//code
+  	var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+    allWells.hide();
+
+    navListItems.click(function (e) {
+        e.preventDefault();
+        var $target = $($(this).attr('href')),
+                $item = $(this);
+
+        if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-primary').addClass('btn-default');
+            $item.addClass('btn-primary');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+        }
+    });
+
+    allNextBtn.click(function(){
+        var curStep = $(this).closest(".setup-content"),
+            curStepBtn = curStep.attr("id"),
+            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+            curInputs = curStep.find("input[type='text'],input[type='url']"),
+            isValid = true;
+
+        $(".form-group").removeClass("has-error");
+        for(var i=0; i<curInputs.length; i++){
+            if (!curInputs[i].validity.valid){
+                isValid = false;
+                $(curInputs[i]).closest(".form-group").addClass("has-error");
+            }
+        }
+		//my code
+		if($('#lblPaso2').val()== 1)
+		{
+			isValid= false;
+		}
+        if (isValid)
+           nextStepWizard.removeClass('disabled').trigger('click');
+    });
+
+    $('div.setup-panel div a.btn-primary').trigger('click');
+  	//
 });
 	</script>
 	<script type="text/javascript">
@@ -510,7 +568,7 @@
 						}
 					else
 						{
-						alert("Ha ocurrido un error, reintente");
+						alert(datos.respInfo);
 						}
 					
 				},
@@ -526,6 +584,9 @@
 	}
 	function buscarProfesores()
 	{
+		//$('.inputDisabled').prop("disabled", false);
+		if($('#lblEstado').val()  == 'alumnos cargados')
+			{
 		 var ruta= "ServletBuscarProfesores";
 			$.ajax({
 					async: false,
@@ -550,7 +611,9 @@
 				    }
 				
 			});
-		
+			}
+		else {alert("No puede generar examen, lista y/o examen no cargadas, dirígase a ayuda"); 
+			  $('#lblPaso2').val(1);}
 	}
 function agregarEjercicio(){
 	var ejercicio={nombre:$('#inputNombre').val(),cant_items:$('#inputItems').val(),porcentaje:$('#inputPorcentaje').val(),descripcion:$('#inputDescripcion').val()};
@@ -609,7 +672,9 @@ var comision={nombre:$('#txtNombreComision').val(),descripcion:$('#txtDescripcio
 	return false;
 }
 }
+
 </script>
+
 </body>
 
 </html>

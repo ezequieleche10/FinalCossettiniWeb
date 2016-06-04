@@ -99,14 +99,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -133,19 +133,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -169,7 +172,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -193,12 +202,13 @@
                     </div>
                 </div>
                 <!-- /.row -->
-              <%  try{ 
-					    if(codRol == 1)
-					    { %>    
+            <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %> 
 			<div class="row">
 			<div class="col-lg-12">
 			<hr>
+			
 			<h3>Alumnos y Profesores</h3>
 			<button class="btn-md btn-info" data-toggle="modal" data-target="#myModalUsuario" onclick="recuperarAlumno()">Recuperar Clave Alumno</button>
 			<button class="btn-md btn-info" data-toggle="modal" data-target="#myModalProfesor" onclick="recuperarProfesor()">Recuperar Clave Profesor</button>
@@ -207,10 +217,17 @@
 			<button class="btn-md btn-success" id="btnAltaI" data-toggle="modal" data-target="#myModalIngresos">Alta tipo ingreso</button>
 			<button class="btn-md btn-success" id="btnAltaE" data-toggle="modal" data-target="#myModalEgresos">Alta tipo egreso</button>
 			<hr>
-			<h3>Limpiar BD</h3>
+				
+				 <%  try{ 
+					    if(codRol == 1)
+					    { %> 
+			<h3>Administrador</h3>
 			<button class="btn-md btn-danger" onclick="removeAll()">Remover Ciclo</button>
+			<button class="btn-md btn-danger" id="btnAltaU" data-toggle="modal" data-target="#myModalU">Alta Usuario</button>
+			<button class="btn-md btn-danger" id="btnResp" data-toggle="modal" data-target="#myModalResp" onclick="recuperarResp()">Recuperar clave resp</button>
 			<hr>
-			
+			<%    }
+				 }catch(NullPointerException ex){} %>
 			</div>
 		
 			
@@ -416,7 +433,110 @@
       </div>
     </div>
   </div>
-
+  <div class="modal fade" id="myModalResp" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Buscar Usuario</h4>
+        </div>
+        <div class="modal-body">
+		   <div class="row">
+            <div class="form-group">
+           <label id="lblRespo" class="col-sm-2 control-label col-lg-2" for="respo">Responsable</label>
+                                          <div class="col-lg-10">
+                                            <select id="tipoSelect" class="form-control m-b-10"  data-bind="options: resp, 
+                        					value: selectedResp,
+                       						optionsText: function(item) {
+                       return item.apellido + ' ' + item.nombre}, 
+                       optionsCaption: 'Seleccione un responsable...'"></select> 
+                                          </div>
+                                      </div>
+          </div>
+          <div class="row" style="margin-top:15px;">
+		  <div class="form-group">
+           <label class="col-sm-2 control-label col-lg-2" for="txtObservaciones">Ingrese Clave</label>
+           <div class="col-lg-10">
+           <input type="password" id="txtClaveR" class="form-control" />
+            </div>
+           </div>
+           </div>	
+        </div>
+       <div class="modal-footer">
+         
+          <button id ="btnEgresa" type="button" onclick="cambiarClaveR()" class="btn btn-primary" data-dismiss="modal" >Modificar</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+<div class="modal fade" id="myModalU" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alta Usuario</h4>
+          
+        </div>
+        <div class="modal-body">
+        <div align="center"><label id="valError" style="display:none">Corrija los campos</label></div>
+		   <div class="row">
+            <div class="form-group">
+           <label id="lbltipoU" class="col-sm-2 control-label col-lg-2" for="inputNombre">Tipo Usuario</label>
+           
+                                          <div class="col-lg-10">
+                                            <select class="form-control" id="options">
+                                            
+                                            <option>Seleccione un tipo</option>
+                                            <option>Secretaria</option>
+                                            <option>Respons Coop</option>
+                                            </select>
+                                             
+                                          </div>
+                                      </div>
+          </div>
+          	
+           <div class="row" style="margin-top:15px;">
+		  <div class="form-group">
+           <label id="apellidoU" class="col-sm-2 control-label col-lg-2" for="txtApellidoU">Apellido:</label>
+           <div class="col-lg-10">
+           <input id="txtApellidoU" class="form-control" />
+            </div>
+           </div>
+           </div>
+           <div class="row" style="margin-top:15px;">
+		  <div class="form-group">
+           <label id="nombreU" class="col-sm-2 control-label col-lg-2" for="txtNombreU">Nombre:</label>
+           <div class="col-lg-10">
+           <input id="txtNombreU" class="form-control" />
+            </div>
+           </div>
+           </div>
+           <div class="row" style="margin-top:15px;">
+		  <div class="form-group">
+           <label id="dniU" class="col-sm-2 control-label col-lg-2" for="lblNombreU">DNI:</label>
+           <div class="col-lg-10">
+           <input id="lblDniU" type="number" class="form-control" onblur="validaUsuario();"/>
+            </div>
+           </div>
+           </div>	
+           <div class="row" style="margin-top:15px;">
+		  <div class="form-group">
+           <label id="claveU" class="col-sm-2 control-label col-lg-2" for="txtClaveU">Ingrese Clave:</label>
+           <div class="col-lg-10">
+           <input type="password" id="txtClaveU" class="form-control" />
+            </div>
+           </div>
+           </div>	
+        </div>
+       <div class="modal-footer">
+         
+          <button id ="btnAltaU" type="submit" onclick="return altaUsuario();" class="btn btn-primary">Registrar</button>
+        </div>
+       
+      </div>
+    </div>
+  </div>
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 	<script src="js/jquery-ui.min.js"></script>
@@ -438,6 +558,8 @@ $( document ).ready(function() {
 		    	selectedAlumno:ko.observable(),
 		    	selectedProfesor:ko.observable(),
 		    	profesores: ko.observableArray([]),
+		    	resp:ko.observableArray([]),
+		    	selectedResp:ko.observable(),
 		    	alumnos: ko.observableArray([])
 		    	
 		    };
@@ -586,6 +708,33 @@ function recuperarProfesor(){
 		
 	});
 }
+function recuperarResp(){
+	var ruta= "ServletBuscarResp";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					viewModel.resp(datos.resp);
+					
+					}
+				else
+					{
+					alert("Ha ocurrido un error en la carga, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+}
 function cambiarClave(){
 	var ruta= "ServletCambiarClave";
 	$.ajax({
@@ -593,13 +742,14 @@ function cambiarClave(){
 			url: ruta,
 			type: "POST",
 			dataType: "json",
-			data:{"clave":$('#txtClave').val(),"usu":viewModel.selectedAlumno().usuario},
+			data:{"clave":$('#txtClave').val(),"usu":viewModel.selectedAlumno().usuario,"pv":0},
 			success: function(datos)
 			{ 
 				if(datos.respInfo=="OK")
 					{
 					$('#txtClave').val('');
 					alert("Clave cambiada");
+					window.location.href='settings.jsp';
 					}
 				else
 					{
@@ -621,13 +771,43 @@ function cambiarClaveP(){
 			url: ruta,
 			type: "POST",
 			dataType: "json",
-			data:{"clave":$('#txtClaveP').val(),"usu":viewModel.selectedProfesor().usuario.nombre_usuario},
+			data:{"clave":$('#txtClaveP').val(),"usu":viewModel.selectedProfesor().usuario.nombre_usuario,"pv":0},
 			success: function(datos)
 			{ 
 				if(datos.respInfo=="OK")
 					{
 					$('#txtClaveP').val('');
 					alert("Clave cambiada");
+					window.location.href='settings.jsp';
+					}
+				else
+					{
+					alert("Ha ocurrido un error en la carga, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+}
+function cambiarClaveR(){
+	var ruta= "ServletCambiarClave";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data:{"clave":$('#txtClaveR').val(),"usu":viewModel.selectedResp().u.nombre_usuario,"pv":0},
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					$('#txtClaveP').val('');
+					alert("Clave cambiada");
+					window.location.href='settings.jsp';
 					}
 				else
 					{
@@ -693,6 +873,100 @@ function removeAll(){
 	
 	
 }
+function altaUsuario(){
+	var ind= $('#options').prop('selectedIndex');
+	var nombre=$('#txtNombreU').val();
+	var ape=$('#txtApellidoU').val();
+	var dni=$('#lblDniU').val();
+	var clave=$('#txtClaveU').val();
+	var mje="";
+	var valid=true;
+	if(ind==0){
+		mje= mje+ "Debe seleccionar un responsable- "
+		valid=false;
+	}
+	if(nombre == ""){
+		mje= mje + "Nombre no puede ser vacío- "
+		valid=false;
+	}
+	if(ape == ""){
+		mje= mje + "Apellido no puede ser vacío- "
+		valid=false;
+	}
+	if(dni == ""){
+		mje= mje + "Dni no puede ser vacío- "
+		valid=false;
+	}
+	if(clave == ""){
+		mje= mje + "Clave no puede ser vacía."
+		valid=false;
+	}
+	if(!valid){
+		$('#valError').text("");
+		$('#valError').css({"display": ''});
+		$('#valError').css({"color": 'red'});
+		$('#valError').text(mje);
+	}else{
+	var ruta= "ServletAgregarU";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			data:{"ind":JSON.stringify(ind),"nombre":JSON.stringify(nombre),"apellido":JSON.stringify(ape),"dni":JSON.stringify(dni),"clave":JSON.stringify(clave)},
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("Usuario dado de alta");
+					//limpiar
+					window.location.href='settings.jsp'
+					
+
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("There was an error");
+		    }
+		
+	});
+	}
+}
+function validaUsuario(){
+	var existe;
+	
+	$.ajax({ 
+		async: false,
+		type : 'POST',
+		data : "inputUsername="+$('#lblDniU').val().toString(),
+		url  : 'existeUsuario.jsp',
+		success: function(data){ // Get the result and asign to each cases
+			
+			if(data==1)
+			{
+			//Ok
+				existe=true;
+				alert("Dni ya existe");
+				$('#lblDniU').focus();		
+			}
+			else
+			{ 	
+				existe=false;;
+			}
+			
+		}
+			
+		});
+	
+	return existe;
+}
+
 </script>
 	<script src="js/tableFilter.js"></script>
 

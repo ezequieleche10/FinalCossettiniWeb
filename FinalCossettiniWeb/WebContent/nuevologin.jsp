@@ -24,7 +24,10 @@
 </head>
 
 <body>
-<% session.invalidate(); %>
+<% session.invalidate(); 
+String login_msg="";
+login_msg=(String)request.getAttribute("error");
+%>
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -58,9 +61,12 @@
         <form class="form-signin" id="form-singin" action="ServletNuevoLogin" method="post">
         <h2 class="form-signin-heading">Bienvenido al sitio</h2>
         <label for="inputUsername" class="sr-only">Direccion de correo</label>
-        <input type="text" name ="inputUsername" id="inputUsername" class="form-control" placeholder="Username" autofocus/>
+        <input type="text" name ="inputUsername" id="inputUsername" class="form-control" placeholder="Username" required autofocus/>
         <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password"/>
+        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required/>
+        <%   if(login_msg!=null)
+					    { %>
+        <div align="center" style="color:red"><label><%= login_msg%></label></div> <%} %>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Recuerdame

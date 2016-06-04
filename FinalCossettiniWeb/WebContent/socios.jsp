@@ -116,14 +116,14 @@
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Exámenes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -150,19 +150,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -186,11 +189,17 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
-        </nav> 
+        </nav>
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -213,7 +222,7 @@
                 </div>
                 <!-- /.row -->
 				  <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4 || codRol==5)
 					    { %>
                 <div class="row">
 				<div class="col-lg-12">
@@ -275,22 +284,23 @@
                                  Datos socio
                                 </header>
                                 <div class="panel-body">
+                                <form action="#" onsubmit=" return agregarSocio();">
                                     <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
                                           <div class="col-lg-10">
-                                             <input type="text" name="txtNombre" id="txtDni"  class="form-control"/>
+                                             <input type="text" name="txtNombre" id="txtDni" class="form-control" required/>
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtNombreSocio">Nombre</label>
                                           <div class="col-lg-10">
-                                             <input type="text" name="txtNombre" id="txtNombre" class="form-control"/>
+                                             <input type="text" name="txtNombre" id="txtNombre" required class="form-control"/>
                                           </div>
                                       </div>
 									  <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtApellido">Apellido</label>
                                           <div class="col-lg-10">
-                                             <input type="text" name="txtApellido" id="txtApellido" class="form-control"/>
+                                             <input type="text" name="txtApellido" id="txtApellido" required class="form-control"/>
                                           </div>
                                       </div>
 									 <div class="form-group">
@@ -314,11 +324,11 @@
 									</div>
 									 <div class="form-group">
 									 <div class="col-lg-offset-6">
-										<button id='search-btn' class="btn-md btn-info" onclick="agregarSocio()">Agregar</button>
+										<button id='search-btn' class="btn-md btn-info" type="submit">Agregar</button>
 									</div>
 									</div>
 
-									
+									</form>
 									</div>
 
                                      </section> 
@@ -660,7 +670,7 @@ function agregarSocio(){
 				if(datos.respInfo=="OK")
 					{
 					alert("Socio Agregado Correctamente");
-					viewModel.socios.push(socio);
+					//viewModel.socios.push(socio);
 					
 					}
 				else
@@ -676,6 +686,7 @@ function agregarSocio(){
 		
 	});
 	
+	return true;
 }
 function editarSocio(){
 	//recupero elementos y creo el socio con su cargo
@@ -778,7 +789,7 @@ function imprimirPago(){
         width: 'auto',
         resizable: false,
         buttons: {
-            Yes: function () {
+            SI: function () {
                 // $(obj).removeAttr('onclick');                                
                 // $(obj).parents('.Parent').remove();
 				 printElement(document.getElementById("printThis"));

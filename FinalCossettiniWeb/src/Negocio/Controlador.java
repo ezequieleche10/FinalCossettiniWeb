@@ -15,6 +15,7 @@ import Datos.CatalogodeUsuarios;
 import Entidades.Alumno;
 import Entidades.AlumnoEnEjercicio;
 import Entidades.Cambio;
+import Entidades.Responsable;
 import Entidades.Cargo;
 import Entidades.Carrera;
 import Entidades.Comision;
@@ -753,9 +754,9 @@ public class Controlador {
 		return ayuda;
 	}
 
-	public void cambiaClave(Usuario u, String pass) {
+	public void cambiaClave(Usuario u, String pass,int pv) {
 		// TODO Auto-generated method stub
-		cdeu.cambiaClave(u,pass);
+		cdeu.cambiaClave(u,pass,pv);
 	}
 
 	public void agregarProfesor(Profesor p) {
@@ -815,6 +816,25 @@ public class Controlador {
 		// TODO Auto-generated method stub
 		CatalogodeIngresos cdi= new CatalogodeIngresos();
 		cdi.eliminarCiclo();
+	}
+
+	public void agregarResponsable(int ind, String nombre, String apellido, int dni, String clave) {
+		// TODO Auto-generated method stub
+		
+		int rol=0;
+		if(ind==1){
+			rol=4;
+		}else rol=5;
+		
+		cdeu.agregarUsuario(dni,clave,rol);
+		cdeu.agregarResponsable(nombre,apellido,dni);
+		
+		
+	}
+
+	public ArrayList<Responsable> buscarResps() {
+		// TODO Auto-generated method stub
+		return cdeu.getResponsables();
 	}
 
 	

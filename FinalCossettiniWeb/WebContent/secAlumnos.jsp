@@ -179,11 +179,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Seccion Alumnos <small>Informaci√≥n</small>
+                            Seccion Alumnos <small>InformaciÛn</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Secci√≥n Alumnos
+                                <i class="fa fa-dashboard"></i> SecciÛn Alumnos
                             </li>
                         </ol>
                     </div>
@@ -194,7 +194,7 @@
 					    { %>
 				<div class="row">
 						<div class="col-md-12">
-						NOTAS EX√ÅMENES IMPORTANTE!!!
+						NOTAS EX¡ÅMENES IMPORTANTE!!!
 						<div class="row">
 						<div class="col-xs-10">
 						<div class="table-responsive">

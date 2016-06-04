@@ -82,21 +82,21 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
                         <a href="index.jsp"><i class="fa fa-fw fa-home fa-lg"></i>Home</a>
                     </li>
 				   <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
 					 <li>
                         <a href="cargaAlumnos.jsp"><i class="fa fa-fw fa-file-excel-o fa-lg" style="color:green"></i>Carga Inicial Sigae</a>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file-text fa-lg" style="color:red"></i> Ex·menes <i class="fa fa-fw fa-caret-down"></i></a>
@@ -123,19 +123,22 @@
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                    <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
                       <%  try{ 
-					    if(codRol == 1)
+					    if(codRol == 1 || codRol==4)
 					    { %>
                     <li>
                         <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
                     </li>
-                
+                    <% }}catch(NullPointerException ex){} %>
+                    <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==5)
+					    { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-money fa-lg" style="color:green"></i> Cooperadora <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo2" class="collapse">
@@ -159,7 +162,13 @@
                         <a href="secAlumnos.jsp"><i class="fa fa-fw fa-users fa-lg" style="color:yellow"></i> Alumnos</a>
                     </li>
                         <% }}catch(NullPointerException ex){} %>
-                    
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4)
+					    { %>
+					 <li>
+                        <a href="settings.jsp"><i class="fa fa-fw fa-key fa-lg" style="color:blue"></i> Settings</a>
+                    </li>
+                        <% }}catch(NullPointerException ex){} %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -172,21 +181,21 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Seccion Ex√°menes
+                            Seccion Examenes
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.jsp">Home</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> Ex√°menes
+                                <i class="fa fa-table"></i> Ex·menes
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 				 <%  try{ 
-					    if(codRol == 1 || codRol==2)
+					    if(codRol == 1 || codRol==2 || codRol==4)
 					    { %>
 				<div class="row">
 				<div class="col-md-12">
@@ -195,7 +204,7 @@
                      Agregar Ex·men
                    </header>
                  <div class="panel-body">
-                    <form class="form-horizontal tasi-form" onSubmit="return agregarExamen();">
+                    
                       <div class="form-group">
                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Tipo Ex·men</label>
                            <div class="col-lg-10">
@@ -211,27 +220,28 @@
 					  <label class="col-sm-2 control-label col-lg-2">AÒo</label>
 					  <div class="col-lg-10">
 					  <div class="input-group spinner">
-					  <input id="spAno" type="text" class="form-control" value="2010"/>
+					  <input id="spAno" type="number" class="form-control" min="2017" value="2017"/>
 					  <div class="input-group-btn-vertical">
 					  <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
 					  <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
 					  </div>
 	   				  </div>
 					 </div>
-					 </div>
-					<div class="form-group">
+					 
+					<div>
 				    <label class="col-sm-2 control-label col-lg-2">DescripciÛn</label>
 					<div class="col-lg-10">
-					<textarea id="areaDesc" class="form-control" rows="4"></textarea>
+					<textarea id="areaDesc"  class="form-control" required="required"  rows="4"></textarea>
 					</div>
 					</div>
-					<div class="form-group">
+					</div>
+					<div>
 					<div class="col-lg-offset-5">
-					<button type='submit' name='seach' id='search-btn' class="btn-lg btn-info">Agregar</button>
+					<button type="button" name='seach' id='search-btn' class="btn-lg btn-info" onclick="return agregarExamen()">Agregar</button>
 				    <button type='submit' name='seach' id='search-btn' class="btn-lg btn-warning">Cancelar</button>
 					</div>
 				    </div>
-				    </form>
+				    
 				    </div>
 				    </section>
 				    
@@ -273,7 +283,7 @@ function agregarExamen()
 	var spinAno=$("#spAno").val();
 	var areaDesc=$("#areaDesc").val();
 	var ruta= "ServletAgregarExamen";
-	var resultado="false";
+	var resultado="Error";
 	$.ajax({
 			async: false,
 			url: ruta,
@@ -284,10 +294,11 @@ function agregarExamen()
 				if(datos.resp=="OK"){
 					if(datos.mensaje==""){
 					alert("Se han cargado exitosamente el examen");
+					resultado="OK";
 					}else{
 						alert(datos.mensaje);
 					}
-					resultado="OK";
+					
 				}
 				else{
 					alert("Ha ocurrido un error, reintente");
@@ -302,8 +313,9 @@ function agregarExamen()
 	if (resultado=="OK")
 	{
 		window.location="index.jsp";
+		return true;
 	}
-	return false;
+	else return false;
 }
 </script>
 </body>

@@ -59,9 +59,19 @@ public class ServerGenerarLista extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 			//write some code
-			
-			controlador.agregarAlumnos(alumnos);;
+			int cant=0;
 			String resp="OK";
+			cant= controlador.getAlumnos().size();
+			int cantAlum=alumnos.size();
+			if(cant==0){
+				if(cantAlum==0){
+					resp="Lista no importada correctamente";
+				}
+				else 
+				{
+			controlador.agregarAlumnos(alumnos);
+				}
+			}else {resp="Lista ya existe";}
 			myObj.addProperty("success", true);
 			JsonElement childObj = gson.toJsonTree(resp);
 			myObj.add("respInfo", childObj);
