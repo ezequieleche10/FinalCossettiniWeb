@@ -92,7 +92,7 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                       <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
@@ -139,11 +139,23 @@
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
-                      <%  try{ 
-					    if(codRol == 1 || codRol==4)
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==6)
 					    { %>
-                    <li>
-                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo1" class="collapse">
+                            <li>
+                                <a href="agregarCurso.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:blue"></i>Agregar Curso</a>
+                            </li>
+                            <li>
+                                <a href="cursos.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:blue"></i>Inscripcion Alumnos a Curso</a>
+                            </li>
+							<li>
+                                <a href="cambiarEstadoCurso.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:blue"></i>Cerrar Curso</a>
+                            </li>
+							
+                        </ul>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
@@ -377,7 +389,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgreso" type="button" onclick=" return altaEgreso();" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEgreso" type="button" onclick=" return altaEgreso();" class="btn btn-primary" >Agregar</button>
         </div>
        
       </div>
@@ -611,6 +623,8 @@ function altaIngreso(){
     var today = yyyy+'-'+mm+'-'+dd;
 	var ingreso={tipo_ingreso: viewModel.selectedTipoI().tipo_codigo,cod_tipo_ingreso:viewModel.selectedTipoI().codigo,
 			cantidad: canti,observaciones:$('#txtObservacionesI').val(),fecha_ingreso:today};
+	if(viewModel.selectedTipoI=="undefined" && $('#txtMontoI').val()!="" && $('#txtObservacionesI').val() !="" )
+		{
 	var ruta= "ServletAgregarIngreso";
 	$.ajax({
 			async: false,
@@ -645,6 +659,8 @@ function altaIngreso(){
 		
 	});
 	window.location.href='caja.jsp';
+		}else{alert("Complete todos los campos");
+		return false;}
 }
 function altaEgreso(){
 	var today = new Date();

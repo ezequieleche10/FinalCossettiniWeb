@@ -9,19 +9,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista Alumnos</title>
+    <title>Agregar Curso</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/styleTable.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
-	<link href="css/spinner.css" rel="stylesheet">
+    <link href="css/spinner.css" rel="stylesheet">
 	<script src="js/knockout-3.4.0.js"></script>
-	<link href="css/jquery-ui.min.css" rel="stylesheet">
-    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
-    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -86,7 +82,7 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-                        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                       <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
@@ -189,7 +185,6 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-   
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -198,84 +193,86 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Lista de alumnos en condiciones
+                            Alta Cursos
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.jsp">Home</a>
                             </li>
-                            <li>
-                                <i class="fa fa-table"></i> Lista
+                            <li class="active">
+                                <i class="fa fa-table"></i> Cursos
                             </li>
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->
-                 <%  try{ 
-					    if(codRol == 1 || codRol==2 || codRol==4)
+                <%  try{ 
+					    if(codRol == 1 || codRol==2 || codRol==6)
 					    { %>
-				<div class="row">
-				<div class="col-lg-12">
-				<div class="form-inline"> 
-					<label class="control-label">Año:</label>
-					<input type="number" id="txtAno" min="2017"  class="form-control" placeholder="Ingrese Año" /> 
-					<button type="button" class="btn btn-info" aria-label="Left Align" onclick="buscarExamen()">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					</button>
-				<input type="text" name="txtCodExamen" readonly class="form-control" placeholder="Codigo Examen" data-bind=" value: examen().cod_examen" />
-				<input type="text" name="txtTipoExamen" readonly class="form-control" placeholder="Tipo Examen" data-bind=" value: examen().tipo_examen" />
-					</div> 
-				</div>
-				<!-- /.class -->
-
-				</div>
-				
-				<!-- /.row -->
-                <div class="row">
-				<div class="col-lg-12">
-				</br>
-				</br>
-                 <div class="form-group pull-right">
-					<input type="text" class="search form-control" placeholder="Filtrar">
-				</div>
-					<span class="counter pull-right"></span>
-				<div class="table-responsive">
-				<table id="tabletoPrint" class="table table-hover table-bordered results">
-				  <thead>
-					<tr>
-					  <th>DNI</th>
-					  <th>Apellido</th>
-					  <th>Nombre</th>
-					  <th>Carrera</th>
-					</tr>
-					<!-- <tr class="warning no-result">
-					  <td colspan="4"><i class="fa fa-warning"></i> No result</td>
-					</tr> -->
-				  </thead>
-					<tbody data-bind="foreach: alumnos">
-						<tr>
-							<td data-bind=" text: dni" ></td>
-							<td data-bind=" text: apellido"></td>
-							<td data-bind=" text: nombre" ></td>
-							<td data-bind=" text: nombre_carrera" ></td>
-							
-						</tr>
-					</tbody>
-				</table>
-				</div>
-				</div>
-				<!--/.class -->
-                </div>
                 <!-- /.row -->
+				
 				<div class="row">
-				<div class="col-md-12 col-md-offset-5">
-				<button type="submit" class="btn-lg btn-info" data-bind="visible: alumnos().length > 0" onclick="return generarLista();">Generar Lista</button>
+				<div class="col-md-12">
+				<section class="panel panel-info">
+                   <header class="panel-heading">
+                     Agregar Curso
+                   </header>
+                 <div class="panel-body">
+                    <form class="form-horizontal tasi-form" onSubmit="return agregarCurso();">
+                      <div class="form-group">
+                           <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Nombre Curso</label>
+                              <div class="col-lg-10">
+                                <input type="text" name="txtNombre" id="txtNombre" class="form-control" required/>
+                      		  </div>
+                  	 </div>
+					 <div class="form-group">
+						  <label class="col-sm-2 control-label col-lg-2">Año</label>
+						  <div class="col-lg-10">
+							  <div class="input-group spinner">
+							  <input id="spAno" type="number" class="form-control" value="2017" required/>
+								  <div class="input-group-btn-vertical">
+									  <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+									  <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+								  </div>
+			   				  </div>
+						 </div>
+					 </div>
+					 <div class="form-group">
+                       <label class="col-sm-2 control-label col-lg-2" for="inputPrecio">Precio</label>
+                       <div class="col-lg-10">        
+		                    <div class="input-group">
+		                       	<div class="input-group-addon">$</div>
+		                         <input type="number" name="txtPrecio" id ="txtPrecio" class="form-control" required/>
+                       		</div>
+                       </div>          
+					</div>
+					 <div class="form-group">
+					  <label class="col-sm-2 control-label col-lg-2">Cupo</label>
+					  <div class="col-lg-10">
+					  <input id="spCupo" type="number" class="form-control" required/>
+					 </div>
+					 </div>
+					<div class="form-group">
+				    <label class="col-sm-2 control-label col-lg-2">Descripción</label>
+					<div class="col-lg-10">
+					<textarea id="areaDesc" class="form-control" rows="4" required></textarea>
+					</div>
+					</div>
+					<div class="form-group">
+					<div class="col-lg-offset-5">
+					<button type='submit' name='seach' id='search-btn' class="btn-lg btn-info">Agregar</button>
+				    <button name='seach' id='search-btn' class="btn-lg btn-warning" onclick="window.location='index.jsp';">Cancelar</button>
+					</div>
+				    </div>
+				    </form>
+				    </div>
+				    </section>
+				    
+                            
 				</div>
 				<!-- /.class -->
 				</div>
 				<!-- /.row -->
-				
-			 <% }
+				 <% }
 					    else{ 
 					%>    	
 				<div class="row">
@@ -296,82 +293,34 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    
 	<script src="js/tableFilter.js"></script>
-<script type="text/javascript">
-function editarModal()
+<script>
+function agregarCurso()
 {
-alert("El modal se tiene que abrir");
-}
-function confirmaEliminar()
-{
-alert("Va a eliminarlo");
-}
-function buscarExamen()
-{
-var anoIngresado= $("#txtAno").val();
-//llamada ajax que devuelve el examen y carga el modelo con knockout
-if (anoIngresado==""){
-	alert("Ingrese año");
-}else {
- var ruta= "ServletCargaAlumnos";
+	var nombre = $("#txtNombre").val();
+	var spAno = $("#spAno").val();
+	var precio = $("#txtPrecio").val();
+	var cupo = $("#spCupo").val();
+	var desc = $('#areaDesc').val();
+	var ruta= "ServletAgregarCurso";
+	var resultado="false";
 	$.ajax({
 			async: false,
 			url: ruta,
 			type: "POST",
-			dataType: "json",
-			data: "mydata="+JSON.stringify(anoIngresado),
+			data: "nombre="+nombre+"&anio="+spAno+"&precio="+precio+"&cupo="+cupo+"&desc="+desc,
 			success: function(datos)
 			{ 
-				if(datos.respInfo=="OK")
-					{
-					viewModel.examen(datos.examen);
-					viewModel.alumnos(datos.alumnos);
-					}
-				else
-					{
-					alert(datos.respInfo);
-					}
-				
-			},
-			error: function(datos) {
-		        //AJAX request not completed
-		       alert("There was an error");
-		    }
-		
-	});
-}
-
-
-}
-function generarLista()
-{
-	var ruta= "ServletGenerarLista";
-	$.ajax({
-			async: false,
-			url: ruta,
-			type: "POST",
-			dataType: "json",
-			data: {mydata: JSON.stringify(viewModel.alumnos()), examen: JSON.stringify(viewModel.examen())},
-			success: function(datos)
-			{ 
-				if(datos.respInfo=="OK")
-					{
-						alert('Lista generada');
-						printData();
-						window.location='index.jsp';
-						
-					
-					//redireccionar página
-					}
-				else
-					{
+				if(datos=="OK"){
+					alert("Se ha cargado exitosamente el curso");
+					resultado="OK";
+				}
+				else{
 					alert("Ha ocurrido un error, reintente");
-					}
-				
+				}
 			},
 			error: function(datos) {
 		        //AJAX request not completed
@@ -379,55 +328,13 @@ function generarLista()
 		    }
 		
 	});
-
-	window.location='index.jsp';
+	if (resultado=="OK")
+	{
+		window.location="index.jsp";
+	}
 	return false;
 }
 </script>
-<script>
-$( document ).ready(function() {
-    viewModel=
-    {
-    	examen: ko.observable(),
-    	alumnos: ko.observableArray([])
-    };
-    viewModel.examen({"codigo_examen":"","tipo_examen":""});
-    ko.applyBindings(viewModel);
-    });
-function printData()
-{
-   var divToPrint=document.getElementById("tabletoPrint");
-   newWin= window.open("");
-   newWin.document.write(divToPrint.outerHTML);
-   newWin.print();
-   newWin.close();
-}
-function imprimirLista(){
-	$('<div></div>').appendTo('body')
-    .html('<div><h5>Desea imprimir lista generada?</h5></div>')
-    .dialog({
-        modal: true,
-        title: 'Imprimir',
-        zIndex: 10000,
-        autoOpen: true,
-        width: 'auto',
-        resizable: false,
-        buttons: {
-            Yes: function () {
-               printData();
-                $(this).dialog("close");
-            },
-            No: function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function (event, ui) {
-            $(this).remove();
-        }
-    });
-}
-</script>	
-
 </body>
 
 </html>

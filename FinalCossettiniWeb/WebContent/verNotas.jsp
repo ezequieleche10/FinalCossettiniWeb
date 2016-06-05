@@ -84,7 +84,7 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
@@ -131,11 +131,23 @@
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
-                      <%  try{ 
-					    if(codRol == 1 || codRol==4)
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==6)
 					    { %>
-                    <li>
-                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo1" class="collapse">
+                            <li>
+                                <a href="agregarCurso.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:blue"></i>Agregar Curso</a>
+                            </li>
+                            <li>
+                                <a href="cursos.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:blue"></i>Inscripcion Alumnos a Curso</a>
+                            </li>
+							<li>
+                                <a href="cambiarEstadoCurso.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:blue"></i>Cerrar Curso</a>
+                            </li>
+							
+                        </ul>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
@@ -431,7 +443,7 @@ $(function () {
 function buscarNotas(){
 	var tipoExamen= document.getElementById("selectTipoExamen").value;
 	
-	
+	if(tipoExamen!="Seleccionar tipo" && $('#txtAnio').val() != "" ){
 	//llamada ajax que devuelve el examen y carga el modelo con knockout
 	 var ruta= "ServletBuscarNotas";
 		$.ajax({
@@ -496,7 +508,7 @@ function buscarNotas(){
 						}
 					else
 						{
-						alert("Ha ocurrido un error, reintente");
+						alert(datos.respInfo);
 						}
 					
 				},
@@ -506,6 +518,7 @@ function buscarNotas(){
 			    }
 			
 		});
+	}else {alert("Tipo de examen y/o año no ingresados");}
 }
 function validarBotonLimite(){
 	var ruta= "ServletBuscarExams";

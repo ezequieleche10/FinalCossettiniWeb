@@ -54,12 +54,18 @@ public class ServletBorrarProfesor extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		try{
-			
+			int profesores =cont.buscarExamenes(p.getCod_profesor()).size();
+			if(profesores>0){
+				myObj.addProperty("success", true);
+				myObj.add("respInfo", gson.toJsonTree("Profesor no puede ser eliminado por estar asignado a examen"));
+				out.println(myObj.toString());
+			}
+			else{
 			cont.eliminarProfesor(p);
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
-			
+			}
 
 		}
 		catch(Exception e)

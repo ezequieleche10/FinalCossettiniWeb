@@ -66,7 +66,8 @@ public class ServletGenerarExamen extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		try{
-			
+			int cantProf=profComis.size();
+			if(cantProf>0){
 			int cod_comision = cont.agregarComision(ex.getCod_examen(),com.getNombre(),com.getDescripcion());
 			cont.asignarProfesores(profComis, cod_comision);
 			cont.agregarEjercicios(ejercicios, ex.getCod_examen());
@@ -75,7 +76,11 @@ public class ServletGenerarExamen extends HttpServlet {
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
-			
+			}else{
+				myObj.addProperty("success", true);
+				myObj.add("respInfo", gson.toJsonTree("Profesores no asignados"));
+				out.println(myObj.toString());
+			}
 
 		}
 		catch(Exception e)

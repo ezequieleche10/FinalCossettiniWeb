@@ -109,7 +109,7 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                      <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
@@ -156,11 +156,23 @@
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
-                      <%  try{ 
-					    if(codRol == 1 || codRol==4)
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==6)
 					    { %>
-                    <li>
-                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo1" class="collapse">
+                            <li>
+                                <a href="agregarCurso.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:blue"></i>Agregar Curso</a>
+                            </li>
+                            <li>
+                                <a href="cursos.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:blue"></i>Inscripcion Alumnos a Curso</a>
+                            </li>
+							<li>
+                                <a href="cambiarEstadoCurso.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:blue"></i>Cerrar Curso</a>
+                            </li>
+							
+                        </ul>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
@@ -424,7 +436,7 @@
 			<p>La suma de: $</p>
 			</td>
 			<td class="col-md-offset-5">
-			<input type="text" id="importe" />
+			<input type="number" id="importe" required="required" />
 			</td>
 			</tr>
 			<tr class="row">
@@ -432,7 +444,7 @@
 			<p>Firma:</p>
 			</td>
 			<td class="col-md-offset-5">
-			<input type="text" id="firma" />
+			<input type="text" id="firma" readonly />
 			</td>
 			</tr>
 			
@@ -440,7 +452,7 @@
        	</form> 
         </div>
        <div class="modal-footer">
-          <button id="btnRegistrar" type="button" onclick="registrarPago()" class="btn btn-primary" data-dismiss="modal" >Registrar Pago</button>
+          <button id="btnRegistrar" type="submit" onclick="return registrarPago();" class="btn btn-primary"  >Registrar Pago</button>
         </div>
        
       </div>
@@ -748,6 +760,8 @@ function editarSocio(){
 function registrarPago(){
 	var importe= $('#importe').val();
 	var cod_socio=$('#cod_socio').val();
+	if(importe!= "")
+		{
 	var ruta= "ServletRegistrarPago";
 	$.ajax({
 			async: false,
@@ -775,7 +789,8 @@ function registrarPago(){
 		
 	});
 
-	
+		}
+	else{alert("Importe no ingresado");}
 	
 }
 function imprimirPago(){

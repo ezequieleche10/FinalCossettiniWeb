@@ -12,13 +12,16 @@ import Datos.CatalogodeEjercicios;
 import Datos.CatalogodeProfesores;
 import Datos.CatalogodeSocios;
 import Datos.CatalogodeUsuarios;
+import Datos.CatalogodeCursos;
 import Entidades.Alumno;
+import Entidades.AlumnoEnCurso;
 import Entidades.AlumnoEnEjercicio;
 import Entidades.Cambio;
 import Entidades.Responsable;
 import Entidades.Cargo;
 import Entidades.Carrera;
 import Entidades.Comision;
+import Entidades.Curso;
 import Entidades.Ejercicio;
 import Entidades.Examen;
 import Entidades.Ingreso;
@@ -61,6 +64,7 @@ public class Controlador {
     private CatalogodeUsuarios cdeu;
     private CatalogoNotasExamen cne;
     private CatalogodeSocios cdeso;
+    private CatalogodeCursos cdcu;
     public Controlador() {
         cde = new CatalogodeExamenes();
         cdc = new CatalogodeCarreras();
@@ -71,6 +75,7 @@ public class Controlador {
         cdeu=new CatalogodeUsuarios();
         cne=new CatalogoNotasExamen();
         cdeso= new CatalogodeSocios();
+        cdcu= new CatalogodeCursos();
         }
     
      public ArrayList<Carrera> buscarCarreras() throws Exception{
@@ -426,6 +431,7 @@ public class Controlador {
 		try {
 			e= cde.buscarExamen("C", anio);
 			if(e!=null){
+				
 			ArrayList<NotaExamenAlumno> notasEx = new ArrayList<NotaExamenAlumno>();
 			notasEx= cne.listarNotaExamenAlumno(e.getCod_examen());
 			for(int i=0;i<notasEx.size();++i){
@@ -434,7 +440,6 @@ public class Controlador {
 				alumnos.add(notasEx.get(i).getAlumno());
 				}
 			
-			}
 			}
 			ex=cde.buscarExamen("B",anio);
 			String s= "Profesorado de ingles";
@@ -449,11 +454,14 @@ public class Controlador {
 				}
 				}
 			}
-		    ArrayList<Alumno> alums= new ArrayList<Alumno>();
+			ArrayList<Alumno> alums= new ArrayList<Alumno>();
 		    alums=cda.buscarAlumnosID();
 		    for (int j=0; j<alums.size();++j){
 		    	alumnos.add(alums.get(j));
 		    }
+			}
+			
+		    
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -824,7 +832,11 @@ public class Controlador {
 		int rol=0;
 		if(ind==1){
 			rol=4;
-		}else rol=5;
+		}else if(ind==2)
+			{rol=5;
+			
+			}
+		else{rol=6;}
 		
 		cdeu.agregarUsuario(dni,clave,rol);
 		cdeu.agregarResponsable(nombre,apellido,dni);
@@ -837,7 +849,72 @@ public class Controlador {
 		return cdeu.getResponsables();
 	}
 
+	//MODULO CURSOS
+	public void agregarCurso (String nombre, int año, int precio, int cupo, String descripcion) throws Exception
+    {
+    	Curso curso = new Curso(nombre, año, precio, cupo, descripcion);
+    	cdcu.agregarCurso(curso);
+    }
+    
+    public void agregarAlumnoCurso(int cod_curso, Alumno alumno, String observaciones) throws Exception
+    {
+    	cdcu.agregarAlumnoCurso(cod_curso, alumno, observaciones);
+    }
+    
+    public ArrayList<Curso> buscarCursosAbiertos() throws Exception
+    {
+    	return cdcu.buscarCursosAbiertos();
+    }
+    
+    public ArrayList<Curso> buscarCursos() throws Exception
+    {
+    	return cdcu.buscarCursos();
+    }
+    
+    public ArrayList<AlumnoEnCurso> alumnosEnCurso(Curso curso) throws Exception
+    {
+    	return cdcu.alumnosEnCurso(curso);
+    }
+    
+    public int cupoCurso(Curso curso) throws Exception
+    {
+    	return cdcu.cupoCurso(curso);
+    }
+    
+    public void cambiarEstadoCurso(Curso curso) throws Exception
+    {
+    	cdcu.cambiarEstadoCurso(curso);
+    }
+
+	public void cambiarCupoCurso (Curso curso, int cupo) throws Exception
+	{
+		cdcu.cambiarCupoCurso(curso, cupo);
+	}
+
+	public int buscarExamenesAbiertos() {
+		// TODO Auto-generated method stub
+		String estado= "sin generar";
+		return cde.buscarExamen(estado);
+	}
+
+	public int verAñoCorrecto(String tipoExamen,int anio) {
+		// TODO Auto-generated method stub
+		int respu=1;
+		
+		if(tipoExamen.equals("B"))
+		{
+			Examen ex=buscarExamen("A", anio);
+			if(ex==null) respu=0;
+		}
+		if(tipoExamen.equals("C")){
+			Examen ex=buscarExamen("B",anio);
+			if(ex==null) respu=0;
+		}
+		return respu;
+			
+	}
 	
+	//
 	
 
 	

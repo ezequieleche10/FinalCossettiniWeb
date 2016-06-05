@@ -9,19 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista Alumnos</title>
+    <title>Cambiar Estado Curso</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/styleTable.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
-	<link href="css/spinner.css" rel="stylesheet">
 	<script src="js/knockout-3.4.0.js"></script>
-	<link href="css/jquery-ui.min.css" rel="stylesheet">
-    <link href="css/jquery-ui.structure.min.css" rel="stylesheet">
-    <link href="css/jquery-ui.theme.min.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -189,7 +184,6 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-   
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -198,84 +192,97 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Lista de alumnos en condiciones
+                            Cerrar Cursos
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.jsp">Home</a>
                             </li>
-                            <li>
-                                <i class="fa fa-table"></i> Lista
+                            <li class="active">
+                                <i class="fa fa-table"></i> Cursos
                             </li>
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->
                  <%  try{ 
-					    if(codRol == 1 || codRol==2 || codRol==4)
+					    if(codRol == 1 || codRol==2 || codRol==6)
 					    { %>
-				<div class="row">
-				<div class="col-lg-12">
-				<div class="form-inline"> 
-					<label class="control-label">Año:</label>
-					<input type="number" id="txtAno" min="2017"  class="form-control" placeholder="Ingrese Año" /> 
-					<button type="button" class="btn btn-info" aria-label="Left Align" onclick="buscarExamen()">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					</button>
-				<input type="text" name="txtCodExamen" readonly class="form-control" placeholder="Codigo Examen" data-bind=" value: examen().cod_examen" />
-				<input type="text" name="txtTipoExamen" readonly class="form-control" placeholder="Tipo Examen" data-bind=" value: examen().tipo_examen" />
-					</div> 
-				</div>
-				<!-- /.class -->
-
-				</div>
-				
-				<!-- /.row -->
-                <div class="row">
-				<div class="col-lg-12">
-				</br>
-				</br>
-                 <div class="form-group pull-right">
-					<input type="text" class="search form-control" placeholder="Filtrar">
-				</div>
-					<span class="counter pull-right"></span>
-				<div class="table-responsive">
-				<table id="tabletoPrint" class="table table-hover table-bordered results">
-				  <thead>
-					<tr>
-					  <th>DNI</th>
-					  <th>Apellido</th>
-					  <th>Nombre</th>
-					  <th>Carrera</th>
-					</tr>
-					<!-- <tr class="warning no-result">
-					  <td colspan="4"><i class="fa fa-warning"></i> No result</td>
-					</tr> -->
-				  </thead>
-					<tbody data-bind="foreach: alumnos">
-						<tr>
-							<td data-bind=" text: dni" ></td>
-							<td data-bind=" text: apellido"></td>
-							<td data-bind=" text: nombre" ></td>
-							<td data-bind=" text: nombre_carrera" ></td>
-							
-						</tr>
-					</tbody>
-				</table>
-				</div>
-				</div>
-				<!--/.class -->
-                </div>
                 <!-- /.row -->
+				
 				<div class="row">
-				<div class="col-md-12 col-md-offset-5">
-				<button type="submit" class="btn-lg btn-info" data-bind="visible: alumnos().length > 0" onclick="return generarLista();">Generar Lista</button>
+				<div class="col-md-12 col-lg-8">
+				<section class="panel panel-info">
+                   <header class="panel-heading">
+                     Cerrar Curso
+                   </header>
+                 <div class="panel-body">
+                    <form class="form-horizontal tasi-form">
+                      <div class="form-group">
+                                          <label id="lblEj" class="col-sm-2 control-label col-lg-2" for="inputNombre" >Seleccionar Curso</label>
+                                          <div class="col-lg-10">
+                                            <select id="cursoSelect" class="form-control m-b-10"  data-bind="options: cursos, 
+                        					value: selectedCurso,
+                       						 optionsText: function(item) {
+							                       return item.cod_curso + ' - ' + item.nombre
+							                   },  
+                       						optionsCaption: 'Seleccione un curso...'"></select> 
+                                          </div>
+                                      </div>
+                                      
+                                      <div class="col-lg-offset-5">
+										<button type='button' name='seach' id='search-btn' onclick="cambiarEstadoCurso();" class="btn-lg btn-info">Cerrar Curso</button>
+										</div>
+				    </form>
+				    </div>
+				    </section>
+				    
+                            
 				</div>
 				<!-- /.class -->
 				</div>
-				<!-- /.row -->
 				
-			 <% }
+				<div class="row" id="datosAlumnos" style="display:none">
+				<div class="col-md-12 col-lg-8">
+				<section class="panel panel-info">
+                   <header class="panel-heading">
+                     Lista de Alumnos inscriptos al Curso
+                   </header>
+                 <div class="panel-body">
+							<label class="col-sm-2 control-label col-lg-3" for="inputNombre">Cupos Totales:</label>
+                                          <div class="col-lg-2">
+                                             <input type="text" id="cupoTotal" readonly class="col-lg-2 form-control"/>
+                                           </div>
+                                           <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Alumnos Inscriptos:</label>
+                                           <div class="col-lg-4">
+                                             <input type="text" id="cupoInscripto" readonly class="col-lg-2 form-control" />
+                                      	   </div>
+								  <table id="tableAlumnosCurso" class="table table-hover table-bordered results" >
+								  <thead>
+									<tr>
+									<th class="col-md-4 col-xs-3">Dni</th>
+					 				 <th class="col-md-3 col-xs-3">Nombre</th>
+							    	 <th class="col-md-4 col-xs-3">Apellido</th>
+					 				 <th class="col-md-3 col-xs-3">Observaciones</th>
+									</tr>
+								 </thead>
+							  <tbody data-bind="foreach: alumnos">
+								<tr>
+									<td data-bind="text: dni"></td>
+									<td data-bind="text: nombre"></td>
+								  <td data-bind="text: apellido"></td>
+								  <td data-bind="text: observacion"></td>
+								</tr>
+								
+							  </tbody>
+				</table>
+								   <button class="btn-md btn-success pull-right" style="margin-right:2px;" onclick="printData()"><i class="fa fa-fw fa-print fa-lg"></i>Imprimir</button>		   
+				</div>
+				</section>
+				</div>
+				</div>
+				
+				<!-- /.row -->
+				 <% }
 					    else{ 
 					%>    	
 				<div class="row">
@@ -296,76 +303,43 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    
 	<script src="js/tableFilter.js"></script>
-<script type="text/javascript">
-function editarModal()
+<script>
+function printData()
 {
-alert("El modal se tiene que abrir");
+   var divToPrint=document.getElementById("tableAlumnosCurso");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
 }
-function confirmaEliminar()
-{
-alert("Va a eliminarlo");
-}
-function buscarExamen()
-{
-var anoIngresado= $("#txtAno").val();
-//llamada ajax que devuelve el examen y carga el modelo con knockout
-if (anoIngresado==""){
-	alert("Ingrese año");
-}else {
- var ruta= "ServletCargaAlumnos";
+
+$(document).ready(function() {
+	viewModel=
+    {	
+    	cursos:ko.observableArray([]),
+    	selectedCurso:ko.observable(),
+    	alumnos:ko.observableArray([])
+    	
+    };
+
+
+	 ko.applyBindings(viewModel);
+	//llamada ajax que devuelve los cursos y carga el modelo con knockout
+	var ruta= "ServletBuscarCursos";
 	$.ajax({
 			async: false,
 			url: ruta,
 			type: "POST",
 			dataType: "json",
-			data: "mydata="+JSON.stringify(anoIngresado),
 			success: function(datos)
 			{ 
 				if(datos.respInfo=="OK")
 					{
-					viewModel.examen(datos.examen);
-					viewModel.alumnos(datos.alumnos);
-					}
-				else
-					{
-					alert(datos.respInfo);
-					}
-				
-			},
-			error: function(datos) {
-		        //AJAX request not completed
-		       alert("There was an error");
-		    }
-		
-	});
-}
-
-
-}
-function generarLista()
-{
-	var ruta= "ServletGenerarLista";
-	$.ajax({
-			async: false,
-			url: ruta,
-			type: "POST",
-			dataType: "json",
-			data: {mydata: JSON.stringify(viewModel.alumnos()), examen: JSON.stringify(viewModel.examen())},
-			success: function(datos)
-			{ 
-				if(datos.respInfo=="OK")
-					{
-						alert('Lista generada');
-						printData();
-						window.location='index.jsp';
-						
-					
-					//redireccionar página
+					viewModel.cursos(datos.cursos);
 					}
 				else
 					{
@@ -379,55 +353,58 @@ function generarLista()
 		    }
 		
 	});
+});
 
-	window.location='index.jsp';
-	return false;
+function cambiarEstadoCurso(){
+		
+		var selectedCurso = viewModel.selectedCurso();
+		
+		if (selectedCurso == undefined)
+			{
+			alert ("No se ha seleccionado ningun curso")
+			}
+		else
+			{
+			
+		var ruta= "ServletCambiarEstadoCurso";
+
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				dataType: "json",
+				data: {curso: JSON.stringify(viewModel.selectedCurso())},
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+							if (datos.alumnos.length > 0)
+								{
+									 $('#datosAlumnos').css({display: ''});
+									 $('#cupoTotal').val(datos.cupo);
+									 $('#cupoInscripto').val(datos.alumnos.length);
+									 viewModel.alumnos(datos.alumnos);
+								}
+							else
+								{
+									alert("El curso ha sido cerrado. No existen alumnos inscriptos a dicho curso.");
+								}
+						}
+					else
+						{
+						alert("No se pudo cerrar el curso, reintente");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
+			}
 }
 </script>
-<script>
-$( document ).ready(function() {
-    viewModel=
-    {
-    	examen: ko.observable(),
-    	alumnos: ko.observableArray([])
-    };
-    viewModel.examen({"codigo_examen":"","tipo_examen":""});
-    ko.applyBindings(viewModel);
-    });
-function printData()
-{
-   var divToPrint=document.getElementById("tabletoPrint");
-   newWin= window.open("");
-   newWin.document.write(divToPrint.outerHTML);
-   newWin.print();
-   newWin.close();
-}
-function imprimirLista(){
-	$('<div></div>').appendTo('body')
-    .html('<div><h5>Desea imprimir lista generada?</h5></div>')
-    .dialog({
-        modal: true,
-        title: 'Imprimir',
-        zIndex: 10000,
-        autoOpen: true,
-        width: 'auto',
-        resizable: false,
-        buttons: {
-            Yes: function () {
-               printData();
-                $(this).dialog("close");
-            },
-            No: function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function (event, ui) {
-            $(this).remove();
-        }
-    });
-}
-</script>	
-
 </body>
 
 </html>

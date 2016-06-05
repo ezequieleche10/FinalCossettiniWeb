@@ -58,12 +58,28 @@ public class ServletListaFinal extends HttpServlet {
 		try{
 			//write some code
 			ArrayList<Alumno> alumnos= new ArrayList<Alumno>();
-			alumnos = cont.buscarListaFinal(anio);
-			String resp="OK";
-			myObj.addProperty("success", true);
-			myObj.add("respInfo", gson.toJsonTree(resp));
-			myObj.add("alumnos", gson.toJsonTree(alumnos));
-
+			
+			Examen ec= cont.buscarExamen("C", anio);
+			if(ec!=null){
+				if(ec.getEstado().equals("cerrado"))
+				{
+					alumnos = cont.buscarListaFinal(anio);
+					String resp="OK";
+					myObj.addProperty("success", true);
+					myObj.add("respInfo", gson.toJsonTree(resp));
+					myObj.add("alumnos", gson.toJsonTree(alumnos));
+					
+				}else
+				{
+					
+					myObj.addProperty("success", true);
+					myObj.add("respInfo", gson.toJsonTree("Examen C no concluido"));
+				}
+			}else{
+				myObj.addProperty("success", true);
+				myObj.add("respInfo", gson.toJsonTree("Lista no generada por año incorrecto o examen C no realizado"));
+			}
+			
 			out.println(myObj.toString());
 			out.close();
 		}

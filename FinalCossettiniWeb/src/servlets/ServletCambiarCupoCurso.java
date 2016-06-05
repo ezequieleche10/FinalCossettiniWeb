@@ -15,22 +15,24 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import Entidades.AlumnoEnEjercicio;
+import Entidades.Comision;
+import Entidades.Curso;
+import Entidades.Ejercicio;
 import Entidades.Examen;
-import Entidades.NotaExamenAlumno;
+import Entidades.AlumnoEnCurso;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletBuscarNotas
+ * Servlet implementation class ServletCargarNotaxEj
  */
-@WebServlet("/ServletBuscarNotas")
-public class ServletBuscarNotas extends HttpServlet {
+@WebServlet("/ServletCambiarCupoCurso")
+public class ServletCambiarCupoCurso extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletBuscarNotas() {
+    public ServletCambiarCupoCurso() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,14 +49,15 @@ public class ServletBuscarNotas extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
 		//recupero el json y lo convierto a entidades
-		String tipoExamen=gson.fromJson(request.getParameter("tipoExamen"), String.class);
-		int anio= gson.fromJson(request.getParameter("anio"), Integer.class);
-				
+		Curso curso = gson.fromJson(request.getParameter("curso"), Curso.class);
+		int cupo = gson.fromJson(request.getParameter("cupo"), Integer.class);
+		
 		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
@@ -62,33 +65,11 @@ public class ServletBuscarNotas extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 			
-			Examen exa= new Examen();
-			exa=cont.buscarExamen(tipoExamen, anio);
-			if(exa!=null){
+			cont.cambiarCupoCurso(curso, cupo);
 			myObj.addProperty("success", true);
-			myObj.add("examen", gson.toJsonTree(exa));
-			exa.setListaNotaExamenAlumno(cont.getNotasExamen(exa.getCod_examen()));
-			ArrayList<NotaExamenAlumno> notas = new ArrayList<NotaExamenAlumno>();
-			notas= exa.getListaNotaExamenAlumno();
-			int suma=0;
-			int cant=notas.size();
-			for(int i=0;i< cant; ++i)
-			{
-			 if(notas.get(i).getNota()>=6){
-				 suma=suma+1;
-				 }
-			}
-			myObj.add("notaExams", gson.toJsonTree(notas));
-			myObj.add("suma", gson.toJsonTree(suma));
-			myObj.add("cant", gson.toJsonTree(cant));
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
-			}
-			else{
-				myObj.addProperty("success", true);
-				myObj.add("respInfo", gson.toJsonTree("El examen no existe"));
-				out.println(myObj.toString());
-			}
+			
 
 		}
 		catch(Exception e)
@@ -100,6 +81,7 @@ public class ServletBuscarNotas extends HttpServlet {
 			out.close();
 			
 		}
+		
 	}
 
 }

@@ -375,6 +375,35 @@ public class CatalogodeExamenes extends DBConexion_1{
 	            return null;            
 	        }
 	}
+
+	public int buscarExamen(String estado) {
+		// TODO Auto-generated method stub
+	      try 
+	        {	this.Conectar();
+	            String consult = "SELECT * FROM examen WHERE estado = ?";
+	            PreparedStatement consulta= Cone.prepareStatement(consult);
+	            consulta.setString(1, estado);
+	            
+	            resu = consulta.executeQuery();
+	            resu.first();
+	            
+	            int codEx = resu.getInt("cod_examen" );
+	            String tipoEx = resu.getString("tipo_examen");
+	            int anioEx = resu.getInt("anio");
+	            String esEx = resu.getString("estado");
+	            String desEx = resu.getString("descripcion");
+	            Examen ex = new Examen(codEx,tipoEx, anioEx, esEx, desEx);   
+	            this.Desconectar();
+	            return 1;
+	        }
+	        catch (Exception ex)
+	        {
+	            
+	            //JOptionPane.showMessageDialog(null, "No existe tipo de examen para el año seleccionado");
+	            return 0;            
+	        }
+	
+	}
 		
 		
 		

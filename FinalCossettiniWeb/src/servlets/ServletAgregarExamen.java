@@ -60,12 +60,21 @@ public class ServletAgregarExamen extends HttpServlet {
 		try{
 			//redirect to specific page
 			//validar si el examen es creado o no
+			int exOtroAño= cont.buscarExamenesAbiertos();
+			int agregaExa=0;
+			if(exOtroAño==0)
+			{
+			agregaExa= cont.verAñoCorrecto(tipo_examen,año);
+			if(agregaExa==1)
+			
+			{
 			int valor = cont.buscarExamenesPendientes(tipo_examen, año);
 			switch(valor){
 			case 0:
 				cont.agregarExamen(tipo_examen, año, descripcion);
 				myObj.addProperty("success", true);
 				myObj.add("mensaje", gson.toJsonTree(""));
+				
 				break;
 			case 1:
 				mje= "Ya existe un examen con dichos datos";
@@ -83,6 +92,18 @@ public class ServletAgregarExamen extends HttpServlet {
 			default:
 				myObj.addProperty("success", false);
 				break;
+			}
+			}
+			else{
+				mje= "Año lectivo incorrecto";
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(mje));
+			}
+			}
+			else{
+				mje= "Ya hay examen para otro año.";
+				myObj.addProperty("success", true);
+				myObj.add("mensaje", gson.toJsonTree(mje));
 			}
 		    	
 				myObj.add("resp", gson.toJsonTree("OK"));

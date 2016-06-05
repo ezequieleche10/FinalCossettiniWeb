@@ -83,7 +83,7 @@
     }catch(NullPointerException ex){} 
 %>       
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+                       <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
@@ -130,11 +130,23 @@
                         <a href="profesores.jsp"><i class="fa fa-fw fa-user fa-lg" style="color:orange"></i> Profesores</a>
                     </li>
                      <% }}catch(NullPointerException ex){} %>
-                      <%  try{ 
-					    if(codRol == 1 || codRol==4)
+                     <%  try{ 
+					    if(codRol == 1 || codRol==4 || codRol==6)
 					    { %>
-                    <li>
-                        <a href="cursos.jsp"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos</a>
+                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-book fa-lg" style="color:blue"></i> Cursos <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo1" class="collapse">
+                            <li>
+                                <a href="agregarCurso.jsp"><i class="fa fa-fw fa-plus fa-lg" style="color:blue"></i>Agregar Curso</a>
+                            </li>
+                            <li>
+                                <a href="cursos.jsp"><i class="fa fa-fw fa-list fa-lg" style="color:blue"></i>Inscripcion Alumnos a Curso</a>
+                            </li>
+							<li>
+                                <a href="cambiarEstadoCurso.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:blue"></i>Cerrar Curso</a>
+                            </li>
+							
+                        </ul>
                     </li>
                     <% }}catch(NullPointerException ex){} %>
                     <%  try{ 
@@ -196,7 +208,7 @@
                     </div>
                 </div>
                  <%  try{ 
-					    if(codRol==2)
+					    if(codRol==2 || codRol==1 | codRol==4)
 					    { %>
                 <!-- /.row -->
 				<div class="row">
@@ -324,7 +336,7 @@
 								  <td data-bind="text: alumno.apellido"></td>
 								  <td data-bind="text: alumno.nombre"></td>
 								  <td>
-									<input type="number" name="txtNota" class="form-control" data-bind="value: resultado "/>
+									<input type="number" name="txtNota" class="form-control" min="0" data-bind="value: resultado "/>
 								  </td>
 								</tr>
 								
@@ -356,7 +368,7 @@
 								  <td data-bind="text: ejer.porcentaje, attr: { id: 'porcent_' + $index()}"></td>
 								  <td data-bind="text: ejer.cant_items, attr: { id: 'item_' + $index()}"></td>
 								  <td>
-									<input type="text" name="txtNota" class="form-control" data-bind="value: resultado, attr: {id: $index()}" onblur="actualizarTabla(id)" />
+									<input type="number" min="0" name="txtNota" class="form-control" data-bind="value: resultado, attr: {id: $index()}" onblur="actualizarTabla(id)" />
 								  </td>
 								</tr>
 								
@@ -524,12 +536,14 @@ function buscarCarga()
 						if(el.options.selectedIndex == 1)
 						{
 							viewModel.alumnos(datos.alumnos);
+							$('#modoBusca').prop("disabled",true);
 							$('#alumnoSelect').css({"display": ''});
 							$('#lblAl').css({"display": ''});
 						}
 						else
 						{
 						viewModel.ejAlumnos(datos.ejAlumnos);
+						$('#modoBusca').prop("disabled",true);
 						$('#ejercicioSelect').css({"display": ''});
 						$('#lblEj').css({"display": ''});
 						$('#txtCantItems').css({"display": ''});
