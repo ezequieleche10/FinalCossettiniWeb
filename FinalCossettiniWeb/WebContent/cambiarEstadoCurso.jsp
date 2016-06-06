@@ -384,6 +384,7 @@ function cambiarEstadoCurso(){
 									 $('#cupoTotal').val(datos.cupo);
 									 $('#cupoInscripto').val(datos.alumnos.length);
 									 viewModel.alumnos(datos.alumnos);
+									 alert("El curso fue cerrado");
 								}
 							else
 								{

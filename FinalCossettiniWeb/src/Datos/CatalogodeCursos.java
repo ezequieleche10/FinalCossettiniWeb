@@ -61,7 +61,8 @@ public class CatalogodeCursos extends DBConexion_1 {
 	            	String nombre = resu.getString("nombre");
 	                int anio = resu.getInt("anio");
 	                String estado = resu.getString("estado");
-	                listaCursos.add(new Curso(id, nombre, anio, estado));
+	                int cupo= resu.getInt("cupo");
+	                listaCursos.add(new Curso(id, nombre, anio, estado,cupo));
                }
             this.Desconectar();
             return listaCursos;
@@ -134,7 +135,8 @@ public class CatalogodeCursos extends DBConexion_1 {
 	            	int anio = resu.getInt("anio");
 	                String estado = resu.getString("estado");
 	                int precio = resu.getInt("precio");
-	                listaCursos.add(new Curso(id, nombre, anio, estado, precio));
+	                int cupo= resu.getInt("cupo");
+	                listaCursos.add(new Curso(id, nombre, anio, estado, precio,cupo));
                }
             this.Desconectar();
             return listaCursos;

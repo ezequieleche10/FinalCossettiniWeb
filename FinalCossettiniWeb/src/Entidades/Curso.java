@@ -74,17 +74,19 @@ public class Curso {
 		this.nombre = nombre;
     	this.descripcion = descripcion;
 	}
-	public Curso(int cod_curso, String nombre, int anio, String estado) {
+	public Curso(int cod_curso, String nombre, int anio, String estado, int cupo) {
 		this.cod_curso = cod_curso;
 		this.nombre = nombre;
     	this.anio = anio;
         this.estado = estado;	
+        this.cupo=cupo;
 	}
-	public Curso(int cod_curso, String nombre, int anio, String estado, int precio) {
+	public Curso(int cod_curso, String nombre, int anio, String estado, int precio, int cupo) {
 		this.cod_curso = cod_curso;
 		this.nombre = nombre;
     	this.anio = anio;
         this.estado = estado;
         this.precio = precio;
+        this.cupo=cupo;
 	}
 }

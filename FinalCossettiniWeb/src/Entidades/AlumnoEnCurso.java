@@ -6,7 +6,23 @@ public class AlumnoEnCurso {
 	    private int dni;
 	    private String apellido;
 	    
-	    public AlumnoEnCurso(String nomAl, String obs) {
+	    public int getDni() {
+			return dni;
+		}
+
+		public void setDni(int dni) {
+			this.dni = dni;
+		}
+
+		public String getApellido() {
+			return apellido;
+		}
+
+		public void setApellido(String apellido) {
+			this.apellido = apellido;
+		}
+
+		public AlumnoEnCurso(String nomAl, String obs) {
 	        this.nombre= nomAl;
 	        this.observacion= obs;
 	        

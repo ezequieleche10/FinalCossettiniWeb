@@ -217,6 +217,7 @@
                                  Listado de Cursos
                                 </header>
                                 <div class="panel-body">
+                                	<label style="color:blue" data-bind="visible: cursos().length == 0">No hay cursos abiertos con cupo</label>
 									<div class="table-responsive">
 					                            <table class="table table-bordered table-hover table-striped">
 					                                <thead>
@@ -233,6 +234,7 @@
 														</tr>
 					                                </thead>
 					                                <tbody data-bind="foreach: cursos">
+					                                	
 					                                    <tr>
 					                                      <td data-bind="text: cod_curso"></td>
 														  <td data-bind="text: nombre"></td>
@@ -251,7 +253,7 @@
 					                            </table>
 					                          </div>  
 									</div>
-									<button type="button" class="btn-xs btn-success" aria-label="Left Align" onclick="cupoCurso();" >Cambiar Cupo Curso</button>
+									<div align="center"><button type="button" class="btn-xs btn-success" aria-label="Left Align" onclick="cupoCurso();">Cambiar Cupo Cursos Abiertos</button></div>
 						</section>
 					</div>
 				
@@ -262,25 +264,25 @@
                                  Inscripción al curso
                                 </header>
                                 <div class="panel-body">
-                                    <form class="form-horizontal tasi-form" onSubmit="return agregarAlumnoACurso();">
+                                    <form class="form-horizontal">
                                      <div class="form-group">
-                                     		<label class="col-sm-2 control-label col-lg-3" for="inputNombre">Id Curso:</label>
+                                     		<label class="col-sm-4 control-label col-lg-4" for="inputNombre">Id Curso:</label>
                                           <div class="col-lg-2">
                                              <input type="text" id="codSeleccionado" readonly class="col-lg-2 form-control"/>
                                            </div>
-                                           <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Precio Curso:</label>
+                                           <label class="col-sm-2 control-label col-lg-2" for="inputNombre">Precio:</label>
                                            <div class="col-lg-4">
                                              <input type="text" id="precioSeleccionado" readonly class="col-lg-2 form-control" />
                                       	   </div>
                                       </div>
                                       <div class="form-group">
-                                           <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Nombre Curso:</label>
-                                           <div class="col-lg-4">
+                                           <label class="col-sm-4 control-label col-lg-4" for="inputNombre">Nombre Curso:</label>
+                                           <div class="col-lg-8">
                                              <input type="text" id="nombreSeleccionado" readonly class="col-lg-2 form-control" />
                                       	   </div>
                                       </div>
                                       <div class="form-group">
-	                                          <label class="col-sm-2 control-label col-lg-4" for="inputSuccess">Seleccione un alumno:</label>
+	                                          <label class="col-sm-4 control-label col-lg-4" for="inputSuccess">Seleccione un alumno:</label>
 	                                          <div class="col-lg-8">
 				                         
                                             <select id="alumnoSelect" class="form-control m-b-10"  data-bind="options: alumnos, 
@@ -292,19 +294,19 @@
                                          	 </div>
 	                                  </div>
 									  <div class="form-group">
-										<label class="col-sm-2 control-label col-lg-4">Observaciones</label>
+										<label class="col-sm-4 control-label col-lg-4">Observaciones</label>
 										<div class="col-lg-8">
 										<textarea id="txtObservaciones" class="form-control" rows="4" required></textarea>
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-lg-2 col-lg-offset-5">
-											<button type='submit' name='search' id='search-btn' class="btn-lg btn-info" data-bind="click: setModalPago()" data-toggle="modal" data-target="#myModalPago">Inscribir</button>
+										<div class="col-lg-3 col-lg-offset-5">
+											<button type='button' name='search' id='search-btn' class="btn-lg btn-info" onclick=" agregarAlumnoACurso()">Inscribir</button>
 											<!-- data-bind="click: setModalPago" data-toggle="modal" data-target="#myModalPago" -->
 										</div> 
 									</div>
-									</form>
 									
+									</form>
                               </div>
                               </section>                             
 				</div>
@@ -327,11 +329,18 @@
 								  </div>
 								  </div>
 								  <div class="form-group">
-								   <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Nuevo Cupo:</label>
+								    <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Cupo Actual:</label>
+								   <div class="col-lg-4">
+									 <input type="number" class="col-lg-2 form-control" readonly data-bind="value: selectedCurso() ?  selectedCurso().cupo  : ''" />
+								   </div>
+								  </div>
+								  <div class="form-group">
+								  <label class="col-sm-2 control-label col-lg-3" for="inputNombre">Nuevo Cupo:</label>
 								   <div class="col-lg-4">
 									 <input type="number" id="txtCupo" required min=0 class="col-lg-2 form-control" />
 								   </div>
-							</div>
+								   
+								   </div>
 							 <div class="form-group">
 							 <div class="col-lg-offset-4">
 								<button type='submit' name='seach' id='search-btn' class="btn-lg btn-info">Cambiar Cupo Curso</button>
@@ -468,6 +477,8 @@
 	
 	function agregarAlumnoACurso()
 	{
+		if(viewModel.selectedAlumno()!= undefined)
+			{
 		var codSeleccionado= $("#codSeleccionado").val();
 		var observaciones=$("#txtObservaciones").val();
 		var ruta= "ServletAlumnoEnCurso";
@@ -483,7 +494,14 @@
 					if(datos.respInfo=="OK"){
 						//setModalPago(JSON.stringify(viewModel.selectedAlumno()));
 						//alert("Se ha agregado el alumno al curso exitosamente");
+						//jdialog desea imprimir comprobante
+						var today= new Date();
+						var day= today.getUTCDate() + "/" + today.getMonth()+"/" + today.getFullYear();
+    					$('#fechaActual').val(day);
+						$('#myModalPago').modal('show');
 						resultado="OK";
+						$('#formInscripcion').css({"display":"none"});
+						$("#txtObservaciones").val("");
 					}
 					else{
 						alert("Ha ocurrido un error, reintente");
@@ -495,7 +513,10 @@
 			    }
 			
 		});
-		return false;
+			}else {
+				alert('Debe seleccionar un alumno');
+				return false;
+			}
 	}
 	
 	
@@ -516,7 +537,7 @@
 						resultado="OK";
 					}
 					else{
-						alert("Ha ocurrido un error, reintente");
+						alert(datos.respInfo);
 					}
 				},
 				error: function(datos) {
@@ -539,15 +560,7 @@ $(document).ready(function() {
     };
 
 	
-	viewModel.setModalPago= function()
-    {	
-		///var nya= alumno.apellido + alumno.nombre;
-    	var today= new Date();
-    	///$('#cod_socio').val(alumno.dni);
-		///$('#lblNombreApe').val(nya);	
-		$('#fechaActual').val(today);	
-	};  
-    	
+
 	viewModel.mostrarPanelCarga= function(curso)
     {
 		$('#lblCurso').val(curso.nombre);
@@ -556,6 +569,31 @@ $(document).ready(function() {
 		$('#codSeleccionado').val(curso.cod_curso);
 		$('#precioSeleccionado').val(curso.precio);
 		$('#nombreSeleccionado').val(curso.nombre);
+		var ruta= "ServletBuscarAlumnosCurso";
+		$.ajax({
+				async: false,
+				url: ruta,
+				type: "POST",
+				data:{curso:JSON.stringify(curso)},
+				dataType: "json",
+				success: function(datos)
+				{ 
+					if(datos.respInfo=="OK")
+						{
+								viewModel.alumnos(datos.alumnos);
+						}
+					else
+						{
+						alert("Ha ocurrido un error, reintente");
+						}
+					
+				},
+				error: function(datos) {
+			        //AJAX request not completed
+			       alert("There was an error");
+			    }
+			
+		});
 	};
 	
 	 ko.applyBindings(viewModel);
@@ -596,35 +634,13 @@ $(document).ready(function() {
 				$('#formInscripcion').css({display: ''});
 			}
 			
-			var ruta= "ServletBuscarAlumnos";
-			$.ajax({
-					async: false,
-					url: ruta,
-					type: "POST",
-					dataType: "json",
-					success: function(datos)
-					{ 
-						if(datos.respInfo=="OK")
-							{
-									viewModel.alumnos(datos.alumnos);
-							}
-						else
-							{
-							alert("Ha ocurrido un error, reintente");
-							}
-						
-					},
-					error: function(datos) {
-				        //AJAX request not completed
-				       alert("There was an error");
-				    }
-				
-			});
+			
 			
 	});
 	
 function cupoCurso()
 {
+	$('#formInscripcion').css({"display":"none"});
 	$('#formCambiarCupo').css({display: ''});
 	var ruta= "ServletBuscarCursos";
 	$.ajax({
@@ -652,6 +668,7 @@ function cupoCurso()
 		
 	});
 }
+
 	</script>
 
 </body>

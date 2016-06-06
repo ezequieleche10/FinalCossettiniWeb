@@ -13,26 +13,23 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import Entidades.Comision;
-import Entidades.Curso;
-import Entidades.Ejercicio;
-import Entidades.Examen;
+import Entidades.Alumno;
 import Entidades.AlumnoEnCurso;
+import Entidades.Curso;
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletCargarNotaxEj
+ * Servlet implementation class ServletBuscarAlumnosCurso
  */
-@WebServlet("/ServletCambiarCupoCurso")
-public class ServletCambiarCupoCurso extends HttpServlet {
+@WebServlet("/ServletBuscarAlumnosCurso")
+public class ServletBuscarAlumnosCurso extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletCambiarCupoCurso() {
+    public ServletBuscarAlumnosCurso() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -49,46 +46,43 @@ public class ServletCambiarCupoCurso extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
 		HttpSession Session=request.getSession();
 		Controlador cont= (Controlador)Session.getAttribute("controlador");
 		Gson gson = new Gson();
+		
 		//recupero el json y lo convierto a entidades
 		Curso curso = gson.fromJson(request.getParameter("curso"), Curso.class);
-		int cupo = gson.fromJson(request.getParameter("cupo"), Integer.class);
-		
-		//preparo la respuesta
 		JsonObject myObj = new JsonObject();
 		response.setContentType("application/json;charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();
 		try{
-			if(cont.alumnosEnCurso(curso).size() > cupo)
-			{
-				myObj.addProperty("success", true);
-				myObj.add("respInfo", gson.toJsonTree("No puede cambiar cupo. Hay más inscriptos."));
-				out.println(myObj.toString());
-
-			}
-			else{
-			cont.cambiarCupoCurso(curso, cupo);
+			String resp="OK";
 			myObj.addProperty("success", true);
-			myObj.add("respInfo", gson.toJsonTree("OK"));
-			out.println(myObj.toString());
+			myObj.add("respInfo", gson.toJsonTree(resp));
+			ArrayList<Alumno> alums= new ArrayList<Alumno>();
+			ArrayList<AlumnoEnCurso> alumnosCurso= new ArrayList<AlumnoEnCurso>();
+			alums=cont.getAlumnos();
+			alumnosCurso=cont.alumnosEnCurso(curso);
+			for(int i=0;i<alumnosCurso.size();++i)
+			{
+			for(int j=0;j<alums.size();++j)
+				{
+				if(alumnosCurso.get(i).getDni() == alums.get(j).getDni()){
+					alums.remove(j);
+				}
+				}
 			}
-
+			myObj.add("alumnos", gson.toJsonTree(alums));
+			out.println(myObj.toString());
+			out.close();
 		}
 		catch(Exception e)
 		{
+			//write some code		} 
 			myObj.addProperty("success", false);
-		}
-		finally
-		{
 			out.close();
-			
 		}
-		
 	}
 
 }
