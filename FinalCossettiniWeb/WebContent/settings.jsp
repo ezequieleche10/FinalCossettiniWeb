@@ -298,7 +298,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEditar" type="button" onclick="altaTipoIngreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEditar" type="button" onclick="return altaTipoIngreso();" class="btn btn-primary">Agregar</button>
         </div>
        
       </div>
@@ -333,7 +333,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgreso" type="button" onclick="altaTipoEgreso()" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEgreso" type="button" onclick="return altaTipoEgreso();" class="btn btn-primary">Agregar</button>
         </div>
        
       </div>
@@ -386,7 +386,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgreso" type="button" onclick="cambiarClave()" class="btn btn-primary" data-dismiss="modal" >Cambiar</button>
+          <button id ="btnEgreso" type="button" onclick="return cambiarClave();" class="btn btn-primary" >Cambiar</button>
         </div>
        
       </div>
@@ -439,7 +439,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgreso" type="button" onclick="cambiarClaveP()" class="btn btn-primary" data-dismiss="modal" >Cambiar</button>
+          <button id ="btnEgreso" type="button" onclick="return cambiarClaveP();" class="btn btn-primary">Cambiar</button>
         </div>
        
       </div>
@@ -476,7 +476,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEgresa" type="button" onclick="cambiarClaveR()" class="btn btn-primary" data-dismiss="modal" >Modificar</button>
+          <button id ="btnEgresa" type="button" onclick="return cambiarClaveR();" class="btn btn-primary">Modificar</button>
         </div>
        
       </div>
@@ -593,6 +593,7 @@ function altaTipoIngreso(){
 	
 	if(tipo=="" || desc==""){
 		alert("Tipo y/o descripcion no pueden ser nulos");
+		return false;
 	}else{
 	var ruta= "ServletAgregarIE";
 	$.ajax({
@@ -633,6 +634,7 @@ function altaTipoEgreso(){
 	
 	if(tipo=="" || desc==""){
 		alert("Tipo y/o descripcion no pueden ser nulos");
+		return false;
 	}else{
 	var ruta= "ServletAgregarIE";
 	$.ajax({
@@ -749,6 +751,8 @@ function recuperarResp(){
 	});
 }
 function cambiarClave(){
+	if($('#txtClave').val() != "" && viewModel.selectedAlumno() != undefined)
+		{
 	var ruta= "ServletCambiarClave";
 	$.ajax({
 			async: false,
@@ -776,8 +780,11 @@ function cambiarClave(){
 		    }
 		
 	});
+		}else{alert("Corrobore clave o alumno elegido");return false;}
 }
 function cambiarClaveP(){
+	if($('#txtClaveP').val()!= "" && viewModel.selectedProfesor() != undefined)
+		{
 	var ruta= "ServletCambiarClave";
 	$.ajax({
 			async: false,
@@ -805,8 +812,11 @@ function cambiarClaveP(){
 		    }
 		
 	});
+		}else{alert("Corrobore clave o profesor elegido");return false;}
 }
 function cambiarClaveR(){
+	if($('#txtClaveR').val()!= "" && viewModel.selectedResp() != undefined)
+	{
 	var ruta= "ServletCambiarClave";
 	$.ajax({
 			async: false,
@@ -834,6 +844,7 @@ function cambiarClaveR(){
 		    }
 		
 	});
+	}else{alert("Corrobore clave o responsable elegido");return false;}
 }
 function removeAll(){
 	$('<div></div>').appendTo('body')
