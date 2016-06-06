@@ -391,6 +391,8 @@ function vistaPreliminar(){
 //ver si llena el monto y la clave correcta el usuario
 	var pass= $('#txtPassword').val();
 	var nuevoMonto=$('#txtNuevoMonto').val();
+	if(pass!= "" && nuevoMonto != "")
+		{
 	var ruta= "ServletListaPreliminar";
 	$.ajax({
 			async: false,
@@ -409,7 +411,7 @@ function vistaPreliminar(){
 					}
 					else
 					{
-					alert("Ha ocurrido un error, reintente logueandose");
+					alert("Los datos no son correctos");
 					}
 				}else{
 					alert("Password incorrecta, reintente nuevamente");
@@ -421,7 +423,7 @@ function vistaPreliminar(){
 		    }
 		
 	});
-	
+		}else {alert("Password o nuevo monto no ingresado/s");}
 }
 function muestraModal(){
 $('#myModalEditar').css({"display": ''});

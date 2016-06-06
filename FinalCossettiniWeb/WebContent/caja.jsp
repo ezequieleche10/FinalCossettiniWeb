@@ -337,7 +337,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEditar" type="button" onclick=" return altaIngreso();" class="btn btn-primary" data-dismiss="modal" >Agregar</button>
+          <button id ="btnEditar" type="button" onclick=" return altaIngreso();" class="btn btn-primary" >Agregar</button>
         </div>
        
       </div>
@@ -608,6 +608,8 @@ function setModalEgresos()
 		});
 }
 function altaIngreso(){
+	if(viewModel.selectedTipoI()!=undefined && $('#txtMontoI').val()!="" && $('#txtObservacionesI').val() !="" )
+	{
 	var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -623,8 +625,7 @@ function altaIngreso(){
     var today = yyyy+'-'+mm+'-'+dd;
 	var ingreso={tipo_ingreso: viewModel.selectedTipoI().tipo_codigo,cod_tipo_ingreso:viewModel.selectedTipoI().codigo,
 			cantidad: canti,observaciones:$('#txtObservacionesI').val(),fecha_ingreso:today};
-	if(viewModel.selectedTipoI=="undefined" && $('#txtMontoI').val()!="" && $('#txtObservacionesI').val() !="" )
-		{
+	
 	var ruta= "ServletAgregarIngreso";
 	$.ajax({
 			async: false,
@@ -663,6 +664,8 @@ function altaIngreso(){
 		return false;}
 }
 function altaEgreso(){
+	if(viewModel.selectedTipoE()!= undefined && $('#txtMontoE').val()!="" && $('#txtObservacionesE').val() !="" )
+	{
 	var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -712,6 +715,7 @@ function altaEgreso(){
 		
 	});
  window.location.href='caja.jsp';
+	}else {alert("Complete todos los campos");return false;}
 }
 function hacerCaja(){
 	//recorro ya qu tengo el viewModel ingersos y egresos
