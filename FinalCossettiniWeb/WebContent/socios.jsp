@@ -300,7 +300,7 @@
                                     <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
                                           <div class="col-lg-10">
-                                             <input type="text" name="txtNombre" id="txtDni" class="form-control" required/>
+                                             <input type="number" name="txtNombre" id="txtDni" class="form-control" required/>
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -471,7 +471,7 @@
 		   <div class="form-group">
              <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
              <div class="col-lg-10">
-             <input type="text" name="txtNombre" class="form-control" id="txtDniE" />
+             <input type="number" name="txtNombre" class="form-control" id="txtDniE" />
              </div>
             </div>
             <div class="form-group">
@@ -508,7 +508,7 @@
         </div>
        <div class="modal-footer">
          
-          <button id ="btnEditar" type="button" onclick="editarSocio()" class="btn btn-primary" data-dismiss="modal" >Editar</button>
+          <button id ="btnEditar" type="button" onclick="return editarSocio();" class="btn btn-primary"  >Editar</button>
         </div>
        
       </div>
@@ -702,6 +702,8 @@ function agregarSocio(){
 }
 function editarSocio(){
 	//recupero elementos y creo el socio con su cargo
+	if($('#txtDniE').val() != "" && $('#txtNombreE').val()!= "" && $('#txtApellidoE').val()!= "" )
+		{
 	viewModel.selectedSocio.dni= $('#txtDniE').val();	
 	viewModel.selectedSocio.nombre=$('#txtNombreE').val();
 	viewModel.selectedSocio.apellido=$('#txtApellidoE').val();
@@ -755,7 +757,7 @@ function editarSocio(){
 		    }
 		
 	});
-
+		}else {alert("Complete todos los campos");return false;}
 }
 function registrarPago(){
 	var importe= $('#importe').val();

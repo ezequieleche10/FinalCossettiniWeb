@@ -310,7 +310,7 @@
                                       <div class="form-group">
                                         <label class="col-sm-2 control-label col-lg-2" for="inputFechaNac">Fecha Nacimiento:</label>
 							            <div class="col-lg-10" >
-							                <input type="text" class="form-control" id="datepicker4" />
+							                <input type="text" class="form-control" id="datepicker4" readonly />
 							            </div>
         								</div>
 									  <div class="form-group">
@@ -367,7 +367,7 @@
          <div class="form-group">
            <label class="col-sm-2 control-label col-lg-2" for="inputFechaNac">Fecha Nacimiento:</label>
            <div class="col-lg-10" >
-               <input type="text" class="form-control" id="datepickerE" />
+               <input type="text" class="form-control" id="datepickerE" readonly />
            </div>
 		</div>
 	  <div class="form-group">
@@ -379,7 +379,7 @@
   	</form>
 		</div>
        <div class="modal-footer">
-          <button id ="btnEgreso" type="button" onclick=" return editarProfesor();" class="btn btn-primary" data-dismiss="modal" >Editar</button>
+          <button id ="btnEgreso" type="button" onclick=" return editarProfesor();" class="btn btn-primary">Editar</button>
         </div>
        
       </div>
@@ -607,6 +607,8 @@ function limpiarPanel(){
 
 function editarProfesor(){
 	//recupero elementos y creo el socio con su cargo
+	if($('#txtNombreE').val() != "" && $('#txtApellidoE').val()!= "" && $('#datepickerE').val()!= "")
+		{
 	viewModel.selectedProfesor.nombre= $('#txtNombreE').val();	
 	viewModel.selectedProfesor.apellido=$('#txtApellidoE').val();
 	viewModel.selectedProfesor.fecha_nac=$('#datepickerE').val();
@@ -637,8 +639,9 @@ function editarProfesor(){
 		       alert("There was an error");
 		    }
 		
-	});
-	return false;
+	});}
+	else {alert("Complete todos los campos");
+	return false;}
 }
 function validaUsuario(){
 	var existe;
