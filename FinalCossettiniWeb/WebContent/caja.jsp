@@ -208,7 +208,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Ver
+                                <i class="fa fa-dashboard"></i> Caja
                             </li>
                         </ol>
                     </div>

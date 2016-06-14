@@ -224,10 +224,10 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Home</a>
+                                <i class="fa fa-dashboard"></i>  <a href="index.jsp">Home</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> 
+                                <i class="fa fa-table">Socios</i> 
                             </li>
                         </ol>
                     </div>

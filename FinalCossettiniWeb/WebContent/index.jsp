@@ -208,18 +208,18 @@
 
             <div class="container-fluid">
 			<div class="row">
-			<h2>Bienvenidos al sitio del Instituto Olga Cossettini</h2></br>
+			<h2>Bienvenidos al sitio del Instituto</h2></br>
 			<div class="col-lg-6">
 			<p>Este instituto es uno de los mas reconocidos a nivel de la provincia y te permite capacitarte y estudiar profesorados
 			en distintas carreras.</p>
 			En este instituto encontraras carreras de:
 			<ol>
-			<li>Profesorado de Matem√°tica</li>
-			<li>Profesorado de Ingl√©s</li>
-			<li>Traductorado de Ingl√©s</li>
-			<li>Muchas m√°s</li>
+			<li>Profesorado de Matem·tica</li>
+			<li>Profesorado de InglÈs</li>
+			<li>Traductorado de InglÈs</li>
+			<li>Muchas m·s</li>
 			</ol>
-			Nos encontramos en: Lalalal
+			Nos encontramos en: Sarmiento 2200
 			<div style="width:500px;max-width:100%;overflow:hidden;height:200px;color:red;"><div id="embedded-map-display" style="height:100%; width:100%;max-width:100%;"><iframe style="height:100%;width:100%;border:0;" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=instituto+olga+cossettini+&key=AIzaSyAN0om9mFmy1QN6Wf54tXAowK4eT0ZUPrU"></iframe></div><a class="google-maps-html" href="https://www.hostingreviews.website/compare/siteground-vs-namecheap" id="authorize-maps-data">siteground namecheap</a><style>#embedded-map-display img{max-width:none!important;background:none!important;}</style></div><script src="https://www.hostingreviews.website/google-maps-authorization.js?id=50f6b560-9f2b-3d97-826e-ebfdfe1b2683&c=google-maps-html&u=1458445158" defer="defer" async="async"></script>
 			
 			</div>
