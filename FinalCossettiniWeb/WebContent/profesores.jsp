@@ -452,7 +452,7 @@ $( document ).ready(function() {
 				    			},
 				    			error: function(datos) {
 				    		        //AJAX request not completed
-				    		       alert("There was an error");
+				    				 alert("Ha ocurrido un error, reintente");
 				    		    }
 				    		
 				    	});
@@ -505,7 +505,7 @@ $( document ).ready(function() {
 					},
 					error: function(datos) {
 				        //AJAX request not completed
-				       alert("There was an error");
+						 alert("Ha ocurrido un error, reintente");
 				    }
 				
 			});   
@@ -547,7 +547,7 @@ function altaProfesor(){
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					 alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});	
@@ -636,7 +636,7 @@ function editarProfesor(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});}

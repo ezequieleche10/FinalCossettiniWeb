@@ -357,7 +357,7 @@ ko.applyBindings(viewModel);
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -419,7 +419,7 @@ function vistaPreliminar(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -488,7 +488,7 @@ function guardarNuevoMonto(){
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					 alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});

@@ -452,13 +452,13 @@ $(document).ready(function() {
 							}
 						else
 							{
-							alert("Ha ocurrido un error, reintente");
+							alert("Ha ocurrido un error, diríjase a ayuda");
 							}
 						
 					},
 					error: function(datos) {
 				        //AJAX request not completed
-				       alert("There was an error");
+				       alert("Ha ocurrido un error, diríjase a ayuda");
 				    }
 				
 			});
@@ -490,13 +490,13 @@ $(document).ready(function() {
 						}
 					else
 						{
-						alert("Ha ocurrido un error, reintente");
+						alert("Ha ocurrido un error, diríjase a ayuda");
 						}
 					
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					alert("Ha ocurrido un error, diríjase a ayuda");
 			    }
 			
 		});
@@ -561,7 +561,7 @@ function buscarCarga()
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					alert("Ha ocurrido un error, diríjase a ayuda");
 			    }
 			
 		});
@@ -622,7 +622,7 @@ function guardarCarga(){
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					alert("Ha ocurrido un error, diríjase a ayuda");
 			    }
 			
 		});
@@ -664,7 +664,7 @@ function guardarCarga(){
 					},
 					error: function(datos) {
 				        //AJAX request not completed
-				       alert("There was an error");
+						alert("Ha ocurrido un error, diríjase a ayuda");
 				    }
 				
 			});
@@ -696,7 +696,7 @@ function cerrarNotas(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				alert("Ha ocurrido un error, diríjase a ayuda");
 		    }
 		
 	});

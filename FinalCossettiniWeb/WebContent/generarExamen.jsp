@@ -423,8 +423,8 @@
 									 <tbody data-bind="foreach: ejercicios">
 										<tr>
                                         <td><input data-bind="value: nombre" type="text" class="form-control"/></td>
-                                        <td><input data-bind="value: cant_items" type="text" class="form-control"/></td>
-                                        <td><input data-bind="value: porcentaje" type="text" class="form-control"/></td>
+                                        <td><input data-bind="value: cant_items" type="number" class="form-control"/></td>
+                                        <td><input data-bind="value: porcentaje" type="number" class="form-control"/></td>
                                         <td><input data-bind="value: descripcion" type="text" class="form-control"/>
 								  		</td>
                                         <td>
@@ -589,7 +589,7 @@
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+			       alert("Ha ocurrido un error, diríjase a ayuda");
 			    }
 			
 		});
@@ -618,13 +618,13 @@
 							}
 						else
 							{
-							alert("Ha ocurrido un error, reintente");
+							alert("Ha ocurrido un error, diríjase a ayuda");
 							}
 						
 					},
 					error: function(datos) {
 				        //AJAX request not completed
-				       alert("There was an error");
+				       alert("Ha ocurrido un error, diríjase a ayuda");
 				    }
 				
 			});
@@ -688,7 +688,7 @@ var comision={nombre:$('#txtNombreComision').val(),descripcion:$('#txtDescripcio
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+		       alert("Ha ocurrido un error, diríjase a ayuda");
 		    }
 		
 	});

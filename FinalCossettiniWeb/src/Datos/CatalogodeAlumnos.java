@@ -30,7 +30,7 @@ public class CatalogodeAlumnos extends DBConexion_1{
         {
         	this.Conectar();
         	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-        	PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM alumno WHERE ingreso_directo=?");
+        	PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM alumno WHERE ingreso_directo=? ORDER BY apellido,nombre DESC");
         	consulta.setString(1, "NO");
              resu = consulta.executeQuery();
              while(resu.next())
@@ -152,7 +152,7 @@ public class CatalogodeAlumnos extends DBConexion_1{
         {
         	this.Conectar();
         	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-        	PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM alumno WHERE ingreso_directo=?");
+        	PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM alumno WHERE ingreso_directo=? ORDER BY apellido,nombre DESC");
         	consulta.setString(1, "SI");
              resu = consulta.executeQuery();
              while(resu.next())
@@ -186,7 +186,7 @@ public class CatalogodeAlumnos extends DBConexion_1{
 			 {
 		        	this.Conectar();
 		        	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-		        	String cons="SELECT * FROM alumno a INNER JOIN carrera ca ON ca.cod_carrera=a.cod_carrera INNER JOIN usuario u on u.dni=a.dni ORDER BY a.apellido,a.nombre";
+		        	String cons="SELECT * FROM alumno a INNER JOIN carrera ca ON ca.cod_carrera=a.cod_carrera INNER JOIN usuario u on u.dni=a.dni ORDER BY a.apellido,a.nombre DESC";
 		        	
 		            PreparedStatement consulta= Cone.prepareStatement(cons);
 		            

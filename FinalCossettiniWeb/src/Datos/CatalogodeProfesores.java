@@ -50,7 +50,7 @@ public class CatalogodeProfesores  extends DBConexion_1 {
     {
         try 
         {    this.Conectar();
-             PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM profesor p INNER JOIN usuario u on u.codigo_profesor=p.cod_profesor  ORDER BY cod_profesor");
+             PreparedStatement consulta= Cone.prepareStatement("SELECT * FROM profesor p INNER JOIN usuario u on u.codigo_profesor=p.cod_profesor  ORDER BY p.apellido,p.nombre DESC");
              ArrayList<Profesor> profes = new ArrayList<Profesor>();
             
             resu = consulta.executeQuery();

@@ -335,7 +335,7 @@ if(anoIngresado!= "")
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+		       alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});

@@ -208,7 +208,7 @@
 
             <div class="container-fluid">
 			<div class="row">
-			<h2>Bienvenidos al sitio del Instituto</h2></br>
+			<h2>Bienvenidos al sitio del Instituto Cossettini</h2></br>
 			<div class="col-lg-6">
 			<p>Este instituto es uno de los mas reconocidos a nivel de la provincia y te permite capacitarte y estudiar profesorados
 			en distintas carreras.</p>
@@ -325,7 +325,7 @@ function guardarClave(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+		       alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -354,7 +354,7 @@ function ayuda()
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+		       alert("Vuelva a registrarse, error");
 		    }
 		
 	});

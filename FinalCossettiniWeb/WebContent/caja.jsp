@@ -501,7 +501,7 @@ $( document ).ready(function() {
 						},
 						error: function(datos) {
 					        //AJAX request not completed
-					       alert("There was an error");
+					       alert("Ha ocurrido un error, reintente");
 					    }
 					
 				});
@@ -573,7 +573,7 @@ function setModalIngresos()
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});
@@ -602,7 +602,7 @@ function setModalEgresos()
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+			       alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});
@@ -655,7 +655,7 @@ function altaIngreso(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -710,7 +710,7 @@ function altaEgreso(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+		       alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});

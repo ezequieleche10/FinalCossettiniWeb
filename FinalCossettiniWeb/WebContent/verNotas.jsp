@@ -427,7 +427,7 @@ $(function () {
    					},
    					error: function(datos) {
    				        //AJAX request not completed
-   				       alert("There was an error");
+   					 alert("Ha ocurrido un error, reintente");
    				    }
    				
    			});
@@ -514,7 +514,7 @@ function buscarNotas(){
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					 alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});
@@ -541,7 +541,7 @@ function validarBotonLimite(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -594,7 +594,7 @@ function buscarCarga()
 				},
 				error: function(datos) {
 			        //AJAX request not completed
-			       alert("There was an error");
+					 alert("Ha ocurrido un error, reintente");
 			    }
 			
 		});
@@ -657,7 +657,7 @@ function modificarNota(){
 					},
 					error: function(datos) {
 				        //AJAX request not completed
-				       alert("There was an error");
+						 alert("Ha ocurrido un error, reintente");
 				    }
 				
 			});

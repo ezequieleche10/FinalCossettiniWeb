@@ -621,7 +621,7 @@ function altaTipoIngreso(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -663,7 +663,7 @@ function altaTipoEgreso(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -691,7 +691,7 @@ function recuperarAlumno(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -718,7 +718,7 @@ function recuperarProfesor(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -745,7 +745,7 @@ function recuperarResp(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -776,7 +776,7 @@ function cambiarClave(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -808,7 +808,7 @@ function cambiarClaveP(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -840,7 +840,7 @@ function cambiarClaveR(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});
@@ -878,7 +878,7 @@ function removeAll(){
 	        			},
 	        			error: function(datos) {
 	        		        //AJAX request not completed
-	        		       alert("There was an error");
+	        				 alert("Ha ocurrido un error, reintente");
 	        		    }
 	        		
 	        	});
@@ -956,7 +956,7 @@ function altaUsuario(){
 			},
 			error: function(datos) {
 		        //AJAX request not completed
-		       alert("There was an error");
+				 alert("Ha ocurrido un error, reintente");
 		    }
 		
 	});

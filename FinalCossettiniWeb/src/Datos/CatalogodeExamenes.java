@@ -189,7 +189,7 @@ public class CatalogodeExamenes extends DBConexion_1{
 		 {
 	        	this.Conectar();
 	        	ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
-	        	String cons="SELECT * FROM alumno_en_examen INNER JOIN alumno ON alumno_en_examen.dni=alumno.dni INNER JOIN carrera ca ON alumno.cod_carrera=ca.cod_carrera WHERE alumno_en_examen.cod_examen = ? ORDER BY alumno.apellido,alumno.nombre";
+	        	String cons="SELECT * FROM alumno_en_examen INNER JOIN alumno ON alumno_en_examen.dni=alumno.dni INNER JOIN carrera ca ON alumno.cod_carrera=ca.cod_carrera WHERE alumno_en_examen.cod_examen = ? ORDER BY alumno.apellido,alumno.nombre DESC";
 	        	
 	            PreparedStatement consulta= Cone.prepareStatement(cons);
 	            consulta.setInt(1, cod_examen);
