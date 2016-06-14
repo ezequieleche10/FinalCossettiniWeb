@@ -300,7 +300,7 @@
                                     <div class="form-group">
                                           <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
                                           <div class="col-lg-10">
-                                             <input type="number" name="txtNombre" id="txtDni" class="form-control" required/>
+                                             <input type="number" name="txtNombre" id="txtDni" min="1000000" max="99999999" class="form-control" required/>
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -471,7 +471,7 @@
 		   <div class="form-group">
              <label class="col-sm-2 control-label col-lg-2" for="txtDni">Dni</label>
              <div class="col-lg-10">
-             <input type="number" name="txtNombre" class="form-control" id="txtDniE" />
+             <input type="number" name="txtNombre" class="form-control" id="txtDniE"  readonly/>
              </div>
             </div>
             <div class="form-group">
@@ -538,9 +538,10 @@ $( document ).ready(function() {
 	    {	var nya= socio.apellido + ' ' + socio.nombre;
 	         $('#importe').val('');
 	    	var today= new Date();
+	    	var day= today.getUTCDate() + "/" + today.getMonth()+"/" + today.getFullYear() + " " + today.getHours()+ ":"+ today.getMinutes()+":" + today.getSeconds();
 	    	$('#cod_socio').val(socio.cod_socio);
 			$('#lblNombreApe').val(nya);	
-			$('#fechaActual').val(today);	
+			$('#fechaActual').val(day);	
 		};
 		
 		viewModel.eliminarSocio= function(socioe)
@@ -671,6 +672,7 @@ function agregarSocio(){
 		}
 		viewModel.cargosI.push(cargo);
 	}
+	var valor=1;
 	var ruta= "ServletAgregarSocio";
 	$.ajax({
 			async: false,
@@ -688,7 +690,8 @@ function agregarSocio(){
 					}
 				else
 					{
-					alert("Ha ocurrido un error, reintente");
+					valor=0;
+					alert(datos.respInfo);
 					}
 				
 			},
@@ -698,8 +701,10 @@ function agregarSocio(){
 		    }
 		
 	});
-	
-	return true;
+	if(valor)
+		return true
+	else 
+		return false;
 }
 function editarSocio(){
 	//recupero elementos y creo el socio con su cargo
@@ -748,7 +753,7 @@ function editarSocio(){
 					}
 				else
 					{
-					alert("Ha ocurrido un error, reintente");
+					alert("Ha ocurrido un error, dni existente");
 					}
 				
 			},

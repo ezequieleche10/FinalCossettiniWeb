@@ -223,7 +223,7 @@ public class CatalogodeCursos extends DBConexion_1 {
     public void cambiarCupoCurso(Curso curso, int cupo) throws Exception
     {
         try 
-        {   
+        {   	
         		this.Conectar();
                 PreparedStatement upd = Cone.prepareStatement("UPDATE curso SET cupo= ? WHERE cod_curso= ?");
              	upd.setInt(1, cupo);

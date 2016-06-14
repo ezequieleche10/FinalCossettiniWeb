@@ -917,8 +917,10 @@ function altaUsuario(){
 		mje= mje + "Apellido no puede ser vacío- "
 		valid=false;
 	}
-	if(dni == ""){
-		mje= mje + "Dni no puede ser vacío- "
+	var n= dni.length;
+
+	if(n<7 || n>8){
+		mje= mje + "Dni debe tener 7 u 8 caracteres- "
 		valid=false;
 	}
 	if(clave == ""){

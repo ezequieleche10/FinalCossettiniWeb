@@ -932,6 +932,13 @@ public class Controlador {
         int anio= Integer.parseInt(fechaActual);
 		cdpad.cerrarPadron(anio);
 	}
+
+	public int buscarSocio(Socio socio) {
+		// TODO Auto-generated method stub
+		
+		CatalogodeSocios cds= new CatalogodeSocios();
+		return cds.buscarSocio(socio);
+	}
 	
 	//
 	

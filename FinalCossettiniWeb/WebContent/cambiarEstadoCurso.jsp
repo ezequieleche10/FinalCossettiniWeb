@@ -249,7 +249,7 @@
                      Lista de Alumnos inscriptos al Curso
                    </header>
                  <div class="panel-body">
-							<label class="col-sm-2 control-label col-lg-3" for="inputNombre">Cupos Totales:</label>
+							<label class="col-sm-2 control-label col-lg-3" for="inputNombre">Cupo Inicial:</label>
                                           <div class="col-lg-2">
                                              <input type="text" id="cupoTotal" readonly class="col-lg-2 form-control"/>
                                            </div>

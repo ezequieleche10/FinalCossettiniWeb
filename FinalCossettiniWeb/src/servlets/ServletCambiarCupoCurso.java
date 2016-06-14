@@ -63,8 +63,15 @@ public class ServletCambiarCupoCurso extends HttpServlet {
 		response.setContentType("application/json;charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();
+		int cantAl=0;
+		try {
+			cantAl = cont.alumnosEnCurso(curso).size();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try{
-			if(cont.alumnosEnCurso(curso).size() > cupo)
+			if(cantAl > cupo)
 			{
 				myObj.addProperty("success", true);
 				myObj.add("respInfo", gson.toJsonTree("No puede cambiar cupo. Hay más inscriptos."));
@@ -72,7 +79,8 @@ public class ServletCambiarCupoCurso extends HttpServlet {
 
 			}
 			else{
-			cont.cambiarCupoCurso(curso, cupo);
+			int nCupo= cupo - cantAl;
+			cont.cambiarCupoCurso(curso, nCupo);
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());

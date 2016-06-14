@@ -194,7 +194,31 @@ public class CatalogodeSocios extends DBConexion_1{
               System.err.println("SQLException: " + ex.getMessage());            
           }
           
-      } 
+      }
+
+	public int buscarSocio(Socio socio) {
+		// TODO Auto-generated method stub
+		
+		try{
+		this.Conectar();
+		int resp=0;
+		String sqlc="SELECT count(*) as cant FROM socio WHERE dni=?";
+    	PreparedStatement consult= Cone.prepareStatement(sqlc);
+    	consult.setInt(1,socio.getDni());
+    	resu=consult.executeQuery();
+    	resu.first();
+    	resp= resu.getInt("cant");
+    	this.Desconectar();
+    	return resp;
+    	}
+		catch(Exception ex)
+		{
+    		return 0;
+		}
+		
+		}
+		
+	 
 }
 
 		

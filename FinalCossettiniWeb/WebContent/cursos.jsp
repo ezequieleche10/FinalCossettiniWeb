@@ -533,7 +533,7 @@
 						//alert("Se ha agregado el alumno al curso exitosamente");
 						//jdialog desea imprimir comprobante
 						var today= new Date();
-						var day= today.getUTCDate() + "/" + today.getMonth()+"/" + today.getFullYear();
+						var day= today.getUTCDate() + "/" + today.getMonth()+"/" + today.getFullYear() + " " + today.getHours()+ ":" + today.getMinutes()+":" + today.getSeconds();
     					$('#fechaActual').val(day);
 						$('#myModalPago').modal('show');
 						resultado="OK";
@@ -572,6 +572,7 @@
 					if(datos.respInfo=="OK"){
 						alert("Se ha cambiado el cupo del curso correctamente");
 						resultado="OK";
+						window.href='cursos.jsp';
 					}
 					else{
 						alert(datos.respInfo);

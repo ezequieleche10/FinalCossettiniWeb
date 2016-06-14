@@ -264,7 +264,7 @@
 			<div class="row">
 			<div class="col-lg-6">
 			<div class="row">
-			<div align="center" class="col-lg-12" style="font-size:12px;">Caja Actual= Ingresos(Generales + Cursos + Cooperadora)-Egresos</div>
+			<div align="center" class="col-lg-12" style="font-size:12px;">Caja Actual= Ingresos(Generales)-Egresos</div>
 			</div>
             <div align="center" class="col-lg-12">
             <button class="btn-sm btn-default" onclick="hacerCaja()">Hacer caja</button>

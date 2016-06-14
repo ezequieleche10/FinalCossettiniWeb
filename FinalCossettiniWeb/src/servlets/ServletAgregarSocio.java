@@ -59,12 +59,19 @@ public class ServletAgregarSocio extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		try{
-			
+			int i= cont.buscarSocio(socio);
+			if(i==0)
+			{
 			cont.agregarSocio(socio, cargos);
 			myObj.addProperty("success", true);
 			myObj.add("respInfo", gson.toJsonTree("OK"));
 			out.println(myObj.toString());
-			
+			}else
+			{
+				myObj.addProperty("success", true);
+				myObj.add("respInfo", gson.toJsonTree("El dni ya existe"));
+				out.println(myObj.toString());	
+			}	
 
 		}
 		catch(Exception e)
