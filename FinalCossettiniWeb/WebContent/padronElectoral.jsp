@@ -167,7 +167,7 @@
                                 <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
                             </li>
 							<li>
-                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>PadrÃ³n Electoral</a>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padrón Electoral</a>
                             </li>
 							
                         </ul>
@@ -215,7 +215,7 @@
 				<hr>
 				<div class="row">
 				<div class="col-lg-12">
-				<div class="col-lg-6">
+				<div class="col-lg-6" data-bind="visible: viewModel.padron().estado === 'pendiente'">
 				<label>Monto mínimo establecido:</label>
 				<label id="lblValuePadron">Value</label>
 				<button class="btn-xs btn-success" onclick="habilitarCambio();"><i class="fa fa-fw fa-cog fa-xs"></i>Cambiar</button>
@@ -243,7 +243,7 @@
                <div class="row">
 				<hr>
 				<div class="col-lg-12">
-				<label><div id="lblInfoPadron">*En la presente tabla se muestran los habilitados para el padrÃ³n con el mÃ­nimo actual</div></label>
+				<label><div id="lblInfoPadron">*En la presente tabla se muestran los habilitados para el padrón con el mínimo actual</div></label>
 			    <div class="form-group pull-right">
 					<input type="text" class="search form-control" placeholder="Filtrar">
 				</div>
@@ -276,7 +276,7 @@
 			   <div class="col-lg-12">
 			   <div align="center">
 			   
-			   <button class="btn-md btn-success pull-right" onclick="generarPadron()">Generar Padrón</button>
+			   <button class="btn-md btn-success pull-right" data-bind="visible: viewModel.padron().estado === 'pendiente' " onclick="generarPadron()">Generar Padrón</button>
 			   <button class="btn-md btn-success pull-right" style="margin-right:2px;" onclick="printData()"><i class="fa fa-fw fa-print fa-lg"></i>Imprimir</button></div>
 			   </div>
 			   </div>
@@ -508,8 +508,11 @@ function generarPadron(){
 	        Generar: function () {
 	            // $(obj).removeAttr('onclick');                                
 	            // $(obj).parents('.Parent').remove();
-				alert("llamada servlet que cambia estado del padron");
-	            $(this).dialog("close");
+	            cerrarloPadron();
+	            viewModel.padron().estado="cerrado";
+				$(this).dialog("close");
+				window.location.reload();
+	            
 	        },
 	        Cancelar: function () {
 	        	$('#myModalEditar').css({"display": 'none'});
@@ -519,6 +522,32 @@ function generarPadron(){
 	    close: function (event, ui) {
 	        $(this).remove();
 	    }
+	});
+}
+function cerrarloPadron(){
+	var ruta= "ServletCerrarPadron";
+	$.ajax({
+			async: false,
+			url: ruta,
+			type: "POST",
+			dataType: "json",
+			success: function(datos)
+			{ 
+				if(datos.respInfo=="OK")
+					{
+					alert("El padron se ha cerrado")
+					}
+				else
+					{
+					alert("Ha ocurrido un error, reintente logueandose");
+					}
+				
+			},
+			error: function(datos) {
+		        //AJAX request not completed
+		       alert("Ha ocurrido un error, reintente logueandose");
+		    }
+		
 	});
 }
 </script>

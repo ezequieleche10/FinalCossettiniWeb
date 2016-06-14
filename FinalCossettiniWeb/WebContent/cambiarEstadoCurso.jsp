@@ -160,7 +160,7 @@
                                 <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
                             </li>
 							<li>
-                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>PadrÃ³n Electoral</a>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padrón Electoral</a>
                             </li>
 							
                         </ul>
@@ -215,9 +215,10 @@
                    <header class="panel-heading">
                      Cerrar Curso
                    </header>
-                 <div class="panel-body">
+                 <div class="panel-body" id="myPanelHide">
                     <form class="form-horizontal tasi-form">
                       <div class="form-group">
+                      <div align="center"><label style="color:red" data-bind="visible: viewModel.cursos().length === 0">No hay cursos a cerrar</label></div>
                                           <label id="lblEj" class="col-sm-2 control-label col-lg-2" for="inputNombre" >Seleccionar Curso</label>
                                           <div class="col-lg-10">
                                             <select id="cursoSelect" class="form-control m-b-10"  data-bind="options: cursos, 
@@ -230,7 +231,7 @@
                                       </div>
                                       
                                       <div class="col-lg-offset-5">
-										<button type='button' name='seach' id='search-btn' onclick="cambiarEstadoCurso();" class="btn-lg btn-info">Cerrar Curso</button>
+										<button type='button' name='seach' id="cerrarCurso" data-bind="visible: cursos().length > 0" onclick="cambiarEstadoCurso();" class="btn-lg btn-info">Cerrar Curso</button>
 										</div>
 				    </form>
 				    </div>
@@ -384,7 +385,9 @@ function cambiarEstadoCurso(){
 									 $('#cupoTotal').val(datos.cupo);
 									 $('#cupoInscripto').val(datos.alumnos.length);
 									 viewModel.alumnos(datos.alumnos);
-									 alert("El curso fue cerrado");
+									 $('#cerrarCurso').prop("disabled",true);
+									 $('#cursoSelect').prop("disabled",true);
+									  alert("El curso fue cerrado");
 								}
 							else
 								{

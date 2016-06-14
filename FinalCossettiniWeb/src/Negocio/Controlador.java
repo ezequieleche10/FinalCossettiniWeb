@@ -563,18 +563,29 @@ public class Controlador {
 
 	public Padron listarPadron() {
 		// TODO Auto-generated method stub
-		CatalogodePadron cdpa= new CatalogodePadron();
-		Padron p = new Padron();
-        String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
-        int anio= Integer.parseInt(fechaActual);
+		
 		try {
+			CatalogodePadron cdpa= new CatalogodePadron();
+			Padron p=new Padron();
+	        String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+	        int anio= Integer.parseInt(fechaActual);
 			p = cdpa.listarPadron(anio);
+			if(p==null){
+				Padron pa= new Padron();
+				pa.setAnio(anio);
+				pa.setMontoMinimo(0.0);
+				pa.setEstado("pendiente");
+				cdpa.crearPadron(pa);
+				p = cdpa.listarPadron(anio);
+			}
 			p.setSociosHab(cdpa.listarSociosHab(p.getMontoMinimo(), anio));
+			return p;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
-		return p;
+		
 	}
 
 	public ArrayList<Socio> listarSociosHab(int cod_padron, Double valorMinimo) throws Exception {
@@ -912,6 +923,14 @@ public class Controlador {
 		}
 		return respu;
 			
+	}
+
+	public void cerrarPadron() {
+		// TODO Auto-generated method stub
+		CatalogodePadron cdpad = new CatalogodePadron();
+		String fechaActual = new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime());
+        int anio= Integer.parseInt(fechaActual);
+		cdpad.cerrarPadron(anio);
 	}
 	
 	//

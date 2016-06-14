@@ -2,6 +2,7 @@ package Datos;
 import Datos.DBConexion_1;
 import Entidades.Cambio;
 import Entidades.Cargo;
+import Entidades.Examen;
 import Entidades.Padron;
 import Entidades.Socio;
 import Entidades.Usuario;
@@ -141,6 +142,44 @@ public class CatalogodePadron extends DBConexion_1{
         
           
       }
+
+	public void crearPadron(Padron p) {
+		// TODO Auto-generated method stub
+		  try 
+		        {	this.Conectar();
+		        	String actu = "INSERT INTO padron (anio, estado, valorMinimo) VALUES (?,?,?)";
+		        	PreparedStatement inse = Cone.prepareStatement(actu);
+		            inse.setInt(1, p.getAnio());
+		            inse.setString(2, p.getEstado());
+		            inse.setDouble(3, p.getMontoMinimo());
+		            inse.executeUpdate();
+		        	 this.Desconectar();
+		           
+		        }
+		        catch (Exception ex)
+		        {
+		            System.err.println("SQLException: " + ex.getMessage());            
+		        }
+		        
+		    }
+
+	public void cerrarPadron(int anio) {
+		// TODO Auto-generated method stub
+		  try
+	         {    this.Conectar();
+	         	  PreparedStatement updP = Cone.prepareStatement("UPDATE padron SET estado=? WHERE anio= ? ");
+	         	  updP.setString(1, "cerrado");
+	         	  updP.setInt(2,anio);
+	         	  updP.executeUpdate();
+	              this.Desconectar();
+	         }
+	         catch (Exception ex)
+	         {
+	             System.err.println("SQLException: " + ex.getMessage());
+	             
+	         }
+	}	
+	
      
       
       

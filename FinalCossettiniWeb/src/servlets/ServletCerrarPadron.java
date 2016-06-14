@@ -14,20 +14,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
 import Negocio.Controlador;
 
 /**
- * Servlet implementation class ServletBuscarPadron
+ * Servlet implementation class ServletCerrarPadron
  */
-@WebServlet("/ServletBuscarPadron")
-public class ServletBuscarPadron extends HttpServlet {
+@WebServlet("/ServletCerrarPadron")
+public class ServletCerrarPadron extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletBuscarPadron() {
+    public ServletCerrarPadron() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,10 +52,10 @@ public class ServletBuscarPadron extends HttpServlet {
 		JsonElement resp =null;
 		try{
 			//write some code
-			
+			cont.cerrarPadron();
 			myObj.addProperty("success", true);
 		    resp = gson.toJsonTree("OK");
-		    myObj.add("padron", gson.toJsonTree(cont.listarPadron()));
+		   
 		}
 		catch(Exception e)
 		{

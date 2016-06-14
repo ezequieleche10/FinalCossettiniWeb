@@ -26,7 +26,29 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<style>
+	@media screen {
+  #printSection {
+      display: none;
+  }
+}
 
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute;
+    left:0;
+    top:0;
+    text-align: justify;
+  }
+}
+	
+	</style>
 </head>
 
 <body>
@@ -160,7 +182,7 @@
                                 <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
                             </li>
 							<li>
-                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>PadrÃ³n Electoral</a>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padrón Electoral</a>
                             </li>
 							
                         </ul>
@@ -468,12 +490,27 @@
 	<script>
 	function printData()
 	{
-	   var divToPrint=document.getElementById("myModalPago");
-	   newWin= window.open("");
-	   newWin.document.write(divToPrint.outerHTML);
-	   newWin.print();
-	   newWin.close();
+		$('#myModalPago').modal('hide');
+		printElement(document.getElementById("printThis"));
+		window.print();
+		 
 	}
+	function printElement(elem) {
+	    var domClone = elem.cloneNode(true);
+	    
+	    var $printSection = document.getElementById("printSection");
+	    
+	    if (!$printSection) {
+	        var $printSection = document.createElement("div");
+	        $printSection.id = "printSection";
+	        document.body.appendChild($printSection);
+	    }
+	    
+	    $printSection.innerHTML = "";
+	    
+	    $printSection.appendChild(domClone);
+	}
+
 	
 	function agregarAlumnoACurso()
 	{

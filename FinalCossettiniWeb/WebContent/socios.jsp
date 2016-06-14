@@ -188,7 +188,7 @@
                                 <a href="caja.jsp"><i class="fa fa-fw fa-sort-numeric-asc fa-lg" style="color:green"></i>Caja</a>
                             </li>
 							<li>
-                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>PadrÃ³n Electoral</a>
+                                <a href="padronElectoral.jsp"><i class="fa fa-fw fa-list-alt fa-lg" style="color:green"></i>Padrón Electoral</a>
                             </li>
 							
                         </ul>
@@ -535,7 +535,8 @@ $( document ).ready(function() {
 	    	
 	    };
 		viewModel.setModalPago= function(socio)
-	    {	var nya= socio.apellido + socio.nombre;
+	    {	var nya= socio.apellido + ' ' + socio.nombre;
+	         $('#importe').val('');
 	    	var today= new Date();
 	    	$('#cod_socio').val(socio.cod_socio);
 			$('#lblNombreApe').val(nya);	
@@ -775,6 +776,7 @@ function registrarPago(){
 			{ 
 				if(datos.respInfo=="OK")
 					{
+					$('#myModalPago').modal('hide');
 					imprimirPago();
 					
 					}
@@ -797,7 +799,7 @@ function registrarPago(){
 }
 function imprimirPago(){
 	$('<div></div>').appendTo('body')
-    .html('<div><h5>Desea imprimir comprobante?</h5></div>')
+    .html('<div><h5>Pago registrado.Desea imprimir comprobante?</h5></div>')
     .dialog({
         modal: true,
         title: 'Imprimir',
